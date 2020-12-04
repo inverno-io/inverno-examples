@@ -1,4 +1,4 @@
-io.winterframework.app.webserver.serverConfiguration {
+io.winterframework.example.web.serverConfiguration {
 	web {
 		ssl_enabled = false
 		server_port = 8080
@@ -12,4 +12,3 @@ io.winterframework.app.webserver.serverConfiguration {
 		}
 	}
 }
-
