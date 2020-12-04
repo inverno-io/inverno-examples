@@ -1,0 +1,102 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>io.winterframework.example</groupId>
+		<artifactId>winter-examples</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>winter-example-web</artifactId>
+
+	<name>io.winterframework.example.web</name>
+	<description>Winter web example</description>
+
+	<properties>
+		<version.winter.modules>1.0.0-SNAPSHOT</version.winter.modules>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.winterframework</groupId>
+			<artifactId>winter-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.winterframework.mod</groupId>
+			<artifactId>winter-commons</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.winterframework.mod</groupId>
+			<artifactId>winter-configuration</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.winterframework.mod</groupId>
+			<artifactId>winter-web</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.11.3</version>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.1</version>
+					<configuration>
+						<annotationProcessorPaths combine.children="append">
+							<path>
+								<groupId>io.winterframework.mod</groupId>
+								<artifactId>winter-configuration</artifactId>
+								<version>${version.winter.modules}</version>
+							</path>
+						</annotationProcessorPaths>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>io.winterframework.example.web.App</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>native</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.graalvm.nativeimage</groupId>
+						<artifactId>native-image-maven-plugin</artifactId>
+						<version>20.1.0</version>
+						<configuration>
+							<buildArgs>--no-server --no-fallback --enable-all-security-services --allow-incomplete-classpath -H:+TraceClassInitialization -H:+ReportExceptionStackTraces</buildArgs>
+							<imageName>${project.artifactId}</imageName>
+						</configuration>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>native-image</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>

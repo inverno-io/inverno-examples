@@ -1,0 +1,64 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>io.winterframework</groupId>
+		<artifactId>winter-parent</artifactId>
+		<version>1.0.2-SNAPSHOT</version>
+	</parent>
+	<groupId>io.winterframework.example</groupId>
+	<artifactId>winter-examples</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	
+	<name>The Winter framework examples</name>
+
+	<properties>
+		<maven.compiler.source>9</maven.compiler.source>
+		<maven.compiler.target>9</maven.compiler.target>
+		<version.winter.modules>1.0.0-SNAPSHOT</version.winter.modules>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.winterframework.mod</groupId>
+				<artifactId>winter-commons</artifactId>
+				<version>${version.winter.modules}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.winterframework.mod</groupId>
+				<artifactId>winter-configuration</artifactId>
+				<version>${version.winter.modules}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.winterframework.mod</groupId>
+				<artifactId>winter-web</artifactId>
+				<version>${version.winter.modules}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.1</version>
+					<configuration>
+						<compilerArgs>
+							<arg>-Awinter.verbose=true</arg>
+							<arg>-Awinter.debug=true</arg>
+						</compilerArgs>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<modules>
+		<module>winter-example-simple</module>
+		<module>winter-example-web</module>
+	</modules>
+</project>

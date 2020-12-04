@@ -1,0 +1,65 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>io.winterframework.example</groupId>
+		<artifactId>winter-examples</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>winter-example-simple</artifactId>
+
+	<name>io.winterframework.example.simple</name>
+	<description>Winter simple example</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>io.winterframework</groupId>
+			<artifactId>winter-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.winterframework.mod</groupId>
+			<artifactId>winter-commons</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.winterframework.mod</groupId>
+			<artifactId>winter-configuration</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.winterframework.mod</groupId>
+			<artifactId>winter-web</artifactId>
+		</dependency>
+	</dependencies>
+	
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.8.1</version>
+					<configuration>
+						<annotationProcessorPaths combine.children="append">
+							<path>
+								<groupId>io.winterframework.mod</groupId>
+								<artifactId>winter-configuration</artifactId>
+								<version>${version.winter.modules}</version>
+							</path>
+						</annotationProcessorPaths>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>io.winterframework.example.simple.App</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
