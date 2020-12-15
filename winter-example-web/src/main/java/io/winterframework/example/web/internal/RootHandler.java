@@ -18,12 +18,12 @@ package io.winterframework.example.web.internal;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.channels.SeekableByteChannel;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.time.LocalTime;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -33,10 +33,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.netty.handler.codec.http.HttpHeaderNames;
+import io.netty.handler.codec.http.HttpHeaderValues;
+import io.netty.util.AsciiString;
 import io.winterframework.core.annotation.Bean;
 import io.winterframework.core.annotation.Bean.Visibility;
-import io.winterframework.example.web.ServerConfiguration;
 import io.winterframework.core.annotation.Wrapper;
+import io.winterframework.example.web.ServerConfiguration;
 import io.winterframework.mod.commons.resource.ResourceException;
 import io.winterframework.mod.commons.resource.ResourceService;
 import io.winterframework.mod.web.Charsets;
@@ -76,13 +79,47 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 	
 	@Override
 	public ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> get() {
-		return configuration0();
+		return plaintext();
+//		return plaintextRouter();
+//		return configuration4();
 	}
 	
-	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> exampleServer() {
+	private static final byte[] STATIC_PLAINTEXT = "Hello, World!".getBytes(Charsets.UTF_8);
+	private static final ByteBuf STATIC_PLAINTEXT_BYTEBUF;
+	private static final int STATIC_PLAINTEXT_LEN = STATIC_PLAINTEXT.length;
+
+	private static final AsciiString STATIC_SERVER = AsciiString.cached("winter");
+	
+	static {
+		ByteBuf tmpBuf = Unpooled.directBuffer(STATIC_PLAINTEXT_LEN);
+		tmpBuf.writeBytes(STATIC_PLAINTEXT);
+		STATIC_PLAINTEXT_BYTEBUF = Unpooled.unreleasableBuffer(tmpBuf);
+	}
+	
+	private static final CharSequence PLAINTEXT_CLHEADER_VALUE = AsciiString.cached(String.valueOf(STATIC_PLAINTEXT_LEN));
+	
+	private static final Mono<ByteBuf> PLAIN_TEXT_MONO = Mono.just(STATIC_PLAINTEXT_BYTEBUF);
+	
+	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> plaintext() {
 		return exchange -> {
-			exchange.response().headers(h -> h.contentType("text/plain")).body().raw().data("This is an example server.\n");
+			exchange.response().headers(h -> h.add(HttpHeaderNames.CONTENT_LENGTH, PLAINTEXT_CLHEADER_VALUE).add(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.TEXT_PLAIN).add(HttpHeaderNames.SERVER, STATIC_SERVER)).body().raw().data(PLAIN_TEXT_MONO.map(ByteBuf::duplicate));
 		};
+	}
+	
+	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> plaintextString() {
+		return exchange -> {
+			exchange.response().headers(h -> h.contentType("text/plain").add("server", "winter")).body().raw().data(PLAIN_TEXT_MONO.map(ByteBuf::duplicate));
+		};
+	}
+	
+	private WebRouter<RequestBody, ResponseBody, WebExchange<RequestBody, ResponseBody>> plaintextRouter() {
+		return Router.web()
+				.route()
+					.path("/plaintext", false)
+					.method(Method.GET)
+					.handler(
+						this.plaintext()
+					);
 	}
 	
 	private WebRouter<RequestBody, ResponseBody, WebExchange<RequestBody, ResponseBody>> configuration0() {
@@ -229,11 +266,12 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 					.add("test", "1235");
 			});
 			
+			Charset requestCharset = exchange.request().headers().<Headers.ContentType>getHeader(Headers.CONTENT_TYPE).map(Headers.ContentType::getCharset).orElse(Charsets.DEFAULT);
 			exchange.request().body().ifPresentOrElse(
 				body ->	body.raw().data().subscribe(
 					buffer -> {
 						System.out.println("=================================");
-				        System.out.println(buffer.toString(Optional.ofNullable(exchange.request().headers().getCharset()).orElse(Charsets.UTF_8)));
+				        System.out.println(buffer.toString(requestCharset));
 				        System.out.println("=================================");
 					},
 					ex -> {
@@ -306,8 +344,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 		return exchange -> exchange.response(
 	)		.headers(headers -> headers
 				.status(200)
-				.contentType("text/plain")
-				.charset(Charsets.UTF_8)
+				.contentType("text/plain;charset=utf-8")
 			)
 			.body().raw()
 			.data(
@@ -324,6 +361,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 	
 	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> multipartEcho() {
 		return exchange -> {
+			Charset requestCharset = exchange.request().headers().<Headers.ContentType>getHeader(Headers.CONTENT_TYPE).map(Headers.ContentType::getCharset).orElse(Charsets.DEFAULT);
 			Flux<ByteBuf> responseData = exchange.request().body()
 				.map(body -> body.multipart().parts().flatMapSequential(part -> {
 					ByteBuf buf = Unpooled.unreleasableBuffer(Unpooled.buffer(256));
@@ -332,11 +370,11 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 					buf.writeCharSequence("name: " + part.getName() + "\n", Charsets.UTF_8);
 					part.getFilename().ifPresent(filename -> buf.writeCharSequence("filename: " + filename + "\n", Charsets.UTF_8));
 					buf.writeCharSequence("content-type: " + part.headers().getContentType() + "\n", Charsets.UTF_8);
-					buf.writeCharSequence("charset: " + part.headers().getCharset() + "\n", Charsets.UTF_8);
+					buf.writeCharSequence("charset: " + requestCharset + "\n", Charsets.UTF_8);
 					buf.writeCharSequence("size: " + part.headers().getSize() + "\n", Charsets.UTF_8);
 					String headers = "headers:\n";
 					
-					headers += part.headers().getAll().entrySet().stream()
+					headers += part.headers().getAllHeader().entrySet().stream()
 						.flatMap(e -> {
 							return e.getValue().stream();
 						})
@@ -356,8 +394,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 			exchange.response()
 				.headers(headers -> headers
 					.status(200)
-					.contentType("text/plain")
-					.charset(Charsets.UTF_8)
+					.contentType("text/plain;charset=utf-8")
 				)
 				.body().raw().data(responseData);
 		};
@@ -405,8 +442,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 						exchange.response()
 							.headers(headers -> headers
 								.status(500)
-								.contentType("text/plain")
-								.charset(Charsets.UTF_8)
+								.contentType("text/plain;charset=utf-8")
 							)
 							.body().empty();
 					},
@@ -414,8 +450,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 						exchange.response()
 							.headers(headers -> headers
 								.status(200)
-								.contentType("text/plain")
-								.charset(Charsets.UTF_8)
+								.contentType("text/plain;charset=utf-8")
 							)
 							.body().empty();
 					}
@@ -428,7 +463,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 		return exchange -> exchange.response()
 			.headers(headers -> headers
 				.status(200)
-				.contentType("text/plain; charset=UTF-8")
+				.contentType("text/plain;charset=UTF-8")
 				.add("test", "1235")
 			)
 			.body().raw().data(
@@ -489,6 +524,8 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 	
 	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> printRequest() {
 		return exchange -> {
+			Charset requestCharset = exchange.request().headers().<Headers.ContentType>getHeader(Headers.CONTENT_TYPE).map(Headers.ContentType::getCharset).orElse(Charsets.DEFAULT);
+			
 			ByteBuf buf = Unpooled.unreleasableBuffer(Unpooled.buffer(256));
 			
 			buf.writeCharSequence("authority: " + exchange.request().headers().getAuthority() + "\n", Charsets.UTF_8);
@@ -496,10 +533,10 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 			buf.writeCharSequence("method: " + exchange.request().headers().getMethod() + "\n", Charsets.UTF_8);
 			buf.writeCharSequence("scheme: " + exchange.request().headers().getScheme() + "\n", Charsets.UTF_8);
 			buf.writeCharSequence("content-type: " + exchange.request().headers().getContentType() + "\n", Charsets.UTF_8);
-			buf.writeCharSequence("charset: " + exchange.request().headers().getCharset() + "\n", Charsets.UTF_8);
+			buf.writeCharSequence("charset: " + requestCharset + "\n", Charsets.UTF_8);
 			buf.writeCharSequence("size: " + exchange.request().headers().getSize() + "\n", Charsets.UTF_8);
 			String headers = "headers:\n";
-			headers += exchange.request().headers().getAll().entrySet().stream()
+			headers += exchange.request().headers().getAllHeader().entrySet().stream()
 				.flatMap(e -> {
 					return e.getValue().stream();
 				})
@@ -522,8 +559,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 			
 			exchange.response().headers(configurator -> configurator
 					.status(200)
-					.contentType("text/plain")
-					.charset(Charsets.DEFAULT)
+					.contentType("text/plain;charset=utf-8")
 				)
 				.body().raw().data(Mono.just(buf));
 		};
@@ -622,10 +658,10 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 		
 		return handler1.map(handler -> {
 			return exchange -> {
-				if(exchange.request().headers().<Headers.ContentType>get(Headers.CONTENT_TYPE).get().getMediaType().equals("application/json")) {
+				if(exchange.request().headers().<Headers.ContentType>getHeader(Headers.CONTENT_TYPE).get().getMediaType().equals("application/json")) {
 					// convert json
 				}
-				else if(exchange.request().headers().<Headers.ContentType>get(Headers.CONTENT_TYPE).get().getMediaType().equals("application/xml")) {
+				else if(exchange.request().headers().<Headers.ContentType>getHeader(Headers.CONTENT_TYPE).get().getMediaType().equals("application/xml")) {
 					// convert xml
 				}
 				

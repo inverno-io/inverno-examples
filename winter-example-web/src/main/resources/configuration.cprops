@@ -2,7 +2,7 @@ io.winterframework.example.web.serverConfiguration {
 	web {
 		ssl_enabled = false
 		server_port = 8080
-		h2c_enabled = true
+		h2c_enabled = false
 		key_store = "src/main/resources/cert.jks"
 		key_store_password = "password"
 		[ profile="https" ] {

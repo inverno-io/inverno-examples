@@ -21,6 +21,9 @@ module io.winterframework.example.web {
 	requires transitive io.winterframework.mod.web;
 	
 	requires com.fasterxml.jackson.databind;
+	requires io.netty.common;
+	requires io.netty.codec.http;
 	
 	exports io.winterframework.example.web;
+	exports io.winterframework.example.web.internal; // required for json serialization
 }
