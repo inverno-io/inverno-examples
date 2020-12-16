@@ -98,11 +98,18 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 	
 	private static final CharSequence PLAINTEXT_CLHEADER_VALUE = AsciiString.cached(String.valueOf(STATIC_PLAINTEXT_LEN));
 	
-	private static final Mono<ByteBuf> PLAIN_TEXT_MONO = Mono.just(STATIC_PLAINTEXT_BYTEBUF);
+	private static class PlaintextSupplier implements Supplier<ByteBuf> {
+		@Override
+		public ByteBuf get() {
+			return STATIC_PLAINTEXT_BYTEBUF.duplicate();
+		}
+	}
+	
+	private static final Mono<ByteBuf> PLAIN_TEXT_MONO = Mono.fromSupplier(new PlaintextSupplier());
 	
 	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> plaintext() {
 		return exchange -> {
-			exchange.response().headers(h -> h.add(HttpHeaderNames.CONTENT_LENGTH, PLAINTEXT_CLHEADER_VALUE).add(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.TEXT_PLAIN).add(HttpHeaderNames.SERVER, STATIC_SERVER)).body().raw().data(PLAIN_TEXT_MONO.map(ByteBuf::duplicate));
+			exchange.response().headers(h -> h.add(HttpHeaderNames.CONTENT_LENGTH, PLAINTEXT_CLHEADER_VALUE).add(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.TEXT_PLAIN).add(HttpHeaderNames.SERVER, STATIC_SERVER)).body().raw().data(PLAIN_TEXT_MONO);
 		};
 	}
 	
