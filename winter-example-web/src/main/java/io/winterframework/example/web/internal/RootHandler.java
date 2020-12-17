@@ -80,6 +80,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 	@Override
 	public ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> get() {
 		return plaintext();
+//		return error_publisher();
 //		return pipelining();
 //		return plaintextRouter();
 //		return configuration4();
@@ -132,10 +133,30 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 	
 	private static int pipelineCounter = 0;
 	
+	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> error_direct() {
+		return exchange -> {
+			throw new RuntimeException("Direct Error");
+		};
+	}
+	
+	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> error_publisher() {
+		return exchange -> {
+			Mono<ByteBuf> data = Mono.error(new RuntimeException("Error publisher"));
+			exchange.response().headers(h -> h.add(Headers.NAME_CONTENT_TYPE, "text/plain")).body().raw().data(data);
+		};
+	}
+	
+	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> error_publisher_async() {
+		return exchange -> {
+			Mono<ByteBuf> data = Mono.just(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Hello pipeline " + (pipelineCounter++), Charsets.DEFAULT))).delayElement(Duration.ofSeconds(2)).map(ign -> {throw new RuntimeException("Error publisher async");});
+			exchange.response().headers(h -> h.add(Headers.NAME_CONTENT_TYPE, "text/plain")).body().raw().data(data);
+		};
+	}
+	
 	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> pipelining() {
 		return exchange -> {
 			Mono<ByteBuf> data = Mono.just(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Hello pipeline " + (pipelineCounter++), Charsets.DEFAULT))).delayElement(Duration.ofSeconds(2));
-			exchange.response().headers(h -> h.add(Headers.CONTENT_TYPE, "text/plain")).body().raw().data(data);
+			exchange.response().headers(h -> h.add(Headers.NAME_CONTENT_TYPE, "text/plain")).body().raw().data(data);
 		};
 	}
 	
@@ -283,7 +304,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 					.add("test", "1235");
 			});
 			
-			Charset requestCharset = exchange.request().headers().<Headers.ContentType>getHeader(Headers.CONTENT_TYPE).map(Headers.ContentType::getCharset).orElse(Charsets.DEFAULT);
+			Charset requestCharset = exchange.request().headers().<Headers.ContentType>getHeader(Headers.NAME_CONTENT_TYPE).map(Headers.ContentType::getCharset).orElse(Charsets.DEFAULT);
 			exchange.request().body().ifPresentOrElse(
 				body ->	body.raw().data().subscribe(
 					buffer -> {
@@ -378,7 +399,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 	
 	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> multipartEcho() {
 		return exchange -> {
-			Charset requestCharset = exchange.request().headers().<Headers.ContentType>getHeader(Headers.CONTENT_TYPE).map(Headers.ContentType::getCharset).orElse(Charsets.DEFAULT);
+			Charset requestCharset = exchange.request().headers().<Headers.ContentType>getHeader(Headers.NAME_CONTENT_TYPE).map(Headers.ContentType::getCharset).orElse(Charsets.DEFAULT);
 			Flux<ByteBuf> responseData = exchange.request().body()
 				.map(body -> body.multipart().parts().flatMapSequential(part -> {
 					ByteBuf buf = Unpooled.unreleasableBuffer(Unpooled.buffer(256));
@@ -541,7 +562,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 	
 	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> printRequest() {
 		return exchange -> {
-			Charset requestCharset = exchange.request().headers().<Headers.ContentType>getHeader(Headers.CONTENT_TYPE).map(Headers.ContentType::getCharset).orElse(Charsets.DEFAULT);
+			Charset requestCharset = exchange.request().headers().<Headers.ContentType>getHeader(Headers.NAME_CONTENT_TYPE).map(Headers.ContentType::getCharset).orElse(Charsets.DEFAULT);
 			
 			ByteBuf buf = Unpooled.unreleasableBuffer(Unpooled.buffer(256));
 			
@@ -675,10 +696,10 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 		
 		return handler1.map(handler -> {
 			return exchange -> {
-				if(exchange.request().headers().<Headers.ContentType>getHeader(Headers.CONTENT_TYPE).get().getMediaType().equals("application/json")) {
+				if(exchange.request().headers().<Headers.ContentType>getHeader(Headers.NAME_CONTENT_TYPE).get().getMediaType().equals("application/json")) {
 					// convert json
 				}
-				else if(exchange.request().headers().<Headers.ContentType>getHeader(Headers.CONTENT_TYPE).get().getMediaType().equals("application/xml")) {
+				else if(exchange.request().headers().<Headers.ContentType>getHeader(Headers.NAME_CONTENT_TYPE).get().getMediaType().equals("application/xml")) {
 					// convert xml
 				}
 				
