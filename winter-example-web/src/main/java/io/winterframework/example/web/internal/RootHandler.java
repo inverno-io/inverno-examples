@@ -80,6 +80,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 	@Override
 	public ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> get() {
 		return plaintext();
+//		return pipelining();
 //		return plaintextRouter();
 //		return configuration4();
 	}
@@ -127,6 +128,15 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 					.handler(
 						this.plaintext()
 					);
+	}
+	
+	private static int pipelineCounter = 0;
+	
+	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> pipelining() {
+		return exchange -> {
+			Mono<ByteBuf> data = Mono.just(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Hello pipeline " + (pipelineCounter++), Charsets.DEFAULT))).delayElement(Duration.ofSeconds(2));
+			exchange.response().headers(h -> h.add(Headers.CONTENT_TYPE, "text/plain")).body().raw().data(data);
+		};
 	}
 	
 	private WebRouter<RequestBody, ResponseBody, WebExchange<RequestBody, ResponseBody>> configuration0() {
