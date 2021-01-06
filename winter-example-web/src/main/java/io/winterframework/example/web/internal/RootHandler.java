@@ -24,6 +24,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.time.LocalTime;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -40,6 +41,7 @@ import io.winterframework.core.annotation.Bean;
 import io.winterframework.core.annotation.Bean.Visibility;
 import io.winterframework.core.annotation.Wrapper;
 import io.winterframework.example.web.ServerConfiguration;
+import io.winterframework.mod.commons.resource.FileResource;
 import io.winterframework.mod.commons.resource.ResourceException;
 import io.winterframework.mod.commons.resource.ResourceService;
 import io.winterframework.mod.web.Charsets;
@@ -79,8 +81,16 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 	
 	@Override
 	public ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> get() {
-		return plaintext();
-//		return error_publisher();
+//		return echo();
+//		return multipartSaveResourceSse();
+//		return multipartEcho();
+		return multipartSaveResource();
+//		return multipartSaveFile();
+//		return plaintext();
+//		return sse();
+//		return setCookie();
+//		return stream();
+//		return trailers_chunked();
 //		return pipelining();
 //		return plaintextRouter();
 //		return configuration4();
@@ -131,7 +141,17 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 					);
 	}
 	
-	private static int pipelineCounter = 0;
+	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> trailers_no_chunked() {
+		return exchange -> {
+			exchange.response().headers(h -> h.add(Headers.NAME_CONTENT_TYPE, "text/plain")).trailers(t -> t.add("test", "Some trailer")).body().raw().data("no trailers");
+		};
+	}
+	
+	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> trailers_chunked() {
+		return exchange -> {
+			exchange.response().headers(h -> h.add(Headers.NAME_CONTENT_TYPE, "text/plain")).trailers(t -> t.add("test", "Some trailer")).body().raw().data(Flux.just("a","b","c").map(s -> Unpooled.unreleasableBuffer(Unpooled.copiedBuffer(s, Charsets.DEFAULT))));
+		};
+	}
 	
 	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> error_direct() {
 		return exchange -> {
@@ -148,14 +168,28 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 	
 	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> error_publisher_async() {
 		return exchange -> {
-			Mono<ByteBuf> data = Mono.just(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Hello pipeline " + (pipelineCounter++), Charsets.DEFAULT))).delayElement(Duration.ofSeconds(2)).map(ign -> {throw new RuntimeException("Error publisher async");});
+			Mono<ByteBuf> data = Mono.just(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Error", Charsets.DEFAULT))).delayElement(Duration.ofSeconds(2)).map(ign -> {throw new RuntimeException("Error publisher async");});
 			exchange.response().headers(h -> h.add(Headers.NAME_CONTENT_TYPE, "text/plain")).body().raw().data(data);
 		};
 	}
 	
+	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> error_publisher_after_head_written() {
+		return exchange -> {
+			Flux<ByteBuf> data = Flux.just("a","b","c").map(s -> {
+				if(s.equals("c"))  {
+					throw new RuntimeException("Error after head written");
+				}
+				return Unpooled.unreleasableBuffer(Unpooled.copiedBuffer(s, Charsets.DEFAULT));
+			});
+			exchange.response().headers(h -> h.add(Headers.NAME_CONTENT_TYPE, "text/plain")).body().raw().data(data);
+		};
+	}
+	
+	private static int pipelineCounter = 0;
+	
 	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> pipelining() {
 		return exchange -> {
-			Mono<ByteBuf> data = Mono.just(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Hello pipeline " + (pipelineCounter++), Charsets.DEFAULT))).delayElement(Duration.ofSeconds(2));
+			Mono<ByteBuf> data = Mono.just(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Pipeline " + (pipelineCounter++), Charsets.DEFAULT))).delayElement(Duration.ofSeconds(2));
 			exchange.response().headers(h -> h.add(Headers.NAME_CONTENT_TYPE, "text/plain")).body().raw().data(data);
 		};
 	}
@@ -258,7 +292,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 		return exchange -> exchange.response()
 			.headers(headers -> headers.status(200).contentType("text/plain"))
 			.body().raw().data(exchange.request().body()
-				.map(body -> body.raw().data().doOnNext(chunk -> chunk.retain()))	
+				.map(body -> body.raw().data())	
 				.orElse(Flux.just(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("=== Empty ===", Charsets.UTF_8))))
 			);
 	}
@@ -390,7 +424,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 					.map(body -> body.urlEncoded()
 						.parameters()
 						.collectList()
-						.map(parameters -> "Received parameters: " + parameters.stream().map(param -> param.getName() + " = " + param.getValue()).collect(Collectors.joining(", ")))
+						.map(parameters -> "Received parameters: " + parameters.stream().map(param -> param.getName() + " = [" + param.getValue() + "]").collect(Collectors.joining(", ")))
 						.map(result -> Unpooled.unreleasableBuffer(Unpooled.copiedBuffer(result, Charsets.UTF_8)))
 					)
 					.orElse(Mono.just(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("=== Empty ===", Charsets.UTF_8))))
@@ -409,7 +443,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 					part.getFilename().ifPresent(filename -> buf.writeCharSequence("filename: " + filename + "\n", Charsets.UTF_8));
 					buf.writeCharSequence("content-type: " + part.headers().getContentType() + "\n", Charsets.UTF_8);
 					buf.writeCharSequence("charset: " + requestCharset + "\n", Charsets.UTF_8);
-					buf.writeCharSequence("size: " + part.headers().getSize() + "\n", Charsets.UTF_8);
+					buf.writeCharSequence("size: " + part.headers().getContentLength() + "\n", Charsets.UTF_8);
 					String headers = "headers:\n";
 					
 					headers += part.headers().getAllHeader().entrySet().stream()
@@ -423,7 +457,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 					
 					return Flux.concat(
 						Mono.<ByteBuf>just(buf),
-						part.data().doOnNext(chunk -> chunk.retain()),
+						part.data(),
 						Mono.<ByteBuf>just(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("]\n================================================================================\r\n", Charsets.UTF_8)))
 					);
 				}))
@@ -438,7 +472,6 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 		};
 	}
 	
-	// TODO FileRegion
 	// TODO we should provide a specific FilePart with adhoc methods to manipulate the File data flux or some utilities to make this simpler (especially regarding error handling, size limits...): a Part to Mono<File> mapper would be interesting as it would allow to chain the flux to the response data
 	// TODO progressive upload can also be done: sse can do the trick but we should see other client side tricks for this as well
 	// TODO it seems the size of the resulting file doesn't match the source why?
@@ -450,9 +483,11 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 						try {
 							SeekableByteChannel byteChannel = Files.newByteChannel(Paths.get("uploads/" + filePart.getFilename().get()), StandardOpenOption.WRITE, StandardOpenOption.CREATE);
 							
+							AtomicInteger size = new AtomicInteger();
+							
 							filePart.data().subscribe(
 								chunk -> {
-									System.out.println("File chunk: " + chunk.readableBytes());
+									size.addAndGet(chunk.readableBytes());
 									try {
 										byteChannel.write(chunk.nioBuffer());
 									} catch (IOException e) {
@@ -463,7 +498,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 									
 								},
 								() -> {
-									System.out.println("Saved file: " + filePart.getFilename().get());
+									System.out.println("Saved file: " + filePart.getFilename().get() + " " + size.get());
 									try {
 										byteChannel.close();
 									} catch (IOException e) {
@@ -497,6 +532,40 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 		);
 	}
 	
+	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> multipartSaveResourceSse() {
+		return exchange -> exchange.request().body().ifPresentOrElse(
+			body -> exchange.response().body().sse().events(body.multipart().parts()
+				.filter(p -> p.getFilename().isPresent())
+				.flatMap(filePart -> Flux.using(
+						() -> new FileResource("uploads/" + filePart.getFilename().get()),
+						tgtFile -> tgtFile.write(filePart.data()).get().buffer(10)
+							.map(chunkSize -> exchange.response().body().sse().create(configurator -> configurator.event("file-upload-progress").data( "" + chunkSize.stream().mapToInt(Integer::intValue).sum())))
+							.mergeWith(Mono.just(exchange.response().body().sse().create(configurator -> configurator.event("file-upload").data(filePart.getFilename().get())))),
+						FileResource::close
+					)
+				)
+			),
+			() -> exchange.response().body().raw().data("==== Empty ====")
+		);
+	}
+	
+	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> multipartSaveResource() {
+		return exchange -> exchange.request().body().ifPresentOrElse(
+			body -> exchange.response().body().raw().data(body.multipart().parts()
+				.filter(p -> p.getFilename().isPresent())
+				.flatMap(filePart -> Flux.using(
+						() -> new FileResource("uploads/" + filePart.getFilename().get()), 
+						tgtFile -> tgtFile.write(filePart.data()).get()
+							.reduce(0, (acc, cur) -> acc + cur)
+							.map(size -> Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Uploaded " + filePart.getFilename().get() + ": " + size + " Bytes\n", Charsets.DEFAULT))), 
+						FileResource::close
+					)
+				)
+			),
+			() -> exchange.response().body().raw().data("==== Empty request ====")
+		);
+	}
+	
 	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> echoParameters() {
 		return exchange -> exchange.response()
 			.headers(headers -> headers
@@ -505,7 +574,6 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 				.add("test", "1235")
 			)
 			.body().raw().data(
-				//Mono.just(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Received parameters: " + request.parameters().getAll().entrySet().stream().map(e -> e.getKey() + "=" + e.getValue().stream().map(Parameter::getValue).collect(Collectors.joining(", "))).collect(Collectors.joining(", ")), Charsets.UTF_8)))
 				Mono.just(Unpooled.copiedBuffer("Received parameters: " + exchange.request().parameters().getAll().entrySet().stream().map(e -> e.getKey() + "=" + e.getValue().stream().map(Parameter::getValue).collect(Collectors.joining(", "))).collect(Collectors.joining(", ")), Charsets.UTF_8))
 			);
 	}
@@ -525,7 +593,25 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 					Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Response D, \r\n", Charsets.UTF_8)),
 					Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Response E \r\n", Charsets.UTF_8))
 				)
-				.delayElements(Duration.ofMillis(500)) 
+				.delayElements(Duration.ofMillis(500))
+			);
+	}
+	
+	private ExchangeHandler<RequestBody, ResponseBody, Exchange<RequestBody, ResponseBody>> streamError() {
+		return exchange -> 
+			exchange.response().headers(headers -> headers
+				.status(200)
+				.contentType("text/plain; charset=\"UTF-8\"")
+				.add("test", "1235")
+			)
+			.body().raw().data(Flux.range(1, 5)
+				.delayElements(Duration.ofMillis(500))
+				.doOnNext(i -> {
+					if(i == 3) {
+						throw new RuntimeException("error");
+					}
+				})
+				.map(i -> Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Response " + i + ", \r\n", Charsets.UTF_8)))
 			);
 	}
 	
@@ -572,7 +658,7 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 			buf.writeCharSequence("scheme: " + exchange.request().headers().getScheme() + "\n", Charsets.UTF_8);
 			buf.writeCharSequence("content-type: " + exchange.request().headers().getContentType() + "\n", Charsets.UTF_8);
 			buf.writeCharSequence("charset: " + requestCharset + "\n", Charsets.UTF_8);
-			buf.writeCharSequence("size: " + exchange.request().headers().getSize() + "\n", Charsets.UTF_8);
+			buf.writeCharSequence("size: " + exchange.request().headers().getContentLength() + "\n", Charsets.UTF_8);
 			String headers = "headers:\n";
 			headers += exchange.request().headers().getAllHeader().entrySet().stream()
 				.flatMap(e -> {
