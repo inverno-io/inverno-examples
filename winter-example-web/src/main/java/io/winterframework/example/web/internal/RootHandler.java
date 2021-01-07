@@ -84,9 +84,9 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 //		return echo();
 //		return multipartSaveResourceSse();
 //		return multipartEcho();
-		return multipartSaveResource();
+//		return multipartSaveResource();
 //		return multipartSaveFile();
-//		return plaintext();
+		return plaintext();
 //		return sse();
 //		return setCookie();
 //		return stream();
@@ -776,10 +776,6 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 			exchange.response().headers(headers -> headers.contentType("application/json")).body().entity(handler0.apply(exchange.request().body().get())); 
 		};
 		
-		/*RequestHandler<JsonRequest, EntityResponseBody<JsonResponse>, Void> handler1 = (request, response) -> {
-			response.headers(headers -> headers.contentType("application/json")).body().entity(handler0.apply(request.body().get())); 
-		};*/
-		
 		return handler1.map(handler -> {
 			return exchange -> {
 				if(exchange.request().headers().<Headers.ContentType>getHeader(Headers.NAME_CONTENT_TYPE).get().getMediaType().equals("application/json")) {
@@ -788,7 +784,6 @@ public class RootHandler implements Supplier<ExchangeHandler<RequestBody, Respon
 				else if(exchange.request().headers().<Headers.ContentType>getHeader(Headers.NAME_CONTENT_TYPE).get().getMediaType().equals("application/xml")) {
 					// convert xml
 				}
-				
 				
 				exchange.response().body().raw().data(exchange.request().body().get().raw().data()
 					.reduce(new ByteArrayOutputStream(), (out, chunk) -> {
