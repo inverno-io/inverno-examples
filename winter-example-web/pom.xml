@@ -23,7 +23,7 @@
 		</dependency>
 		<dependency>
 			<groupId>io.winterframework.mod</groupId>
-			<artifactId>winter-commons</artifactId>
+			<artifactId>winter-boot</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.winterframework.mod</groupId>
@@ -33,6 +33,16 @@
 			<groupId>io.winterframework.mod</groupId>
 			<artifactId>winter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>io.winterframework.mod</groupId>
+			<artifactId>winter-web-router</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-transport-native-epoll</artifactId>
+			<classifier>linux-x86_64</classifier>
+	    </dependency>
 		
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -62,6 +72,7 @@
 					<version>3.0.0</version>
 					<configuration>
 						<mainClass>io.winterframework.example.web.App</mainClass>
+						<commandlineArgs>-Dio.netty.leakDetectionLevel=paranoid -Dio.netty.leakDetection.targetRecords=20</commandlineArgs>
 					</configuration>
 				</plugin>
 			</plugins>

@@ -24,7 +24,12 @@
 		<dependencies>
 			<dependency>
 				<groupId>io.winterframework.mod</groupId>
-				<artifactId>winter-commons</artifactId>
+				<artifactId>winter-base</artifactId>
+				<version>${version.winter.modules}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.winterframework.mod</groupId>
+				<artifactId>winter-boot</artifactId>
 				<version>${version.winter.modules}</version>
 			</dependency>
 			<dependency>
@@ -35,6 +40,11 @@
 			<dependency>
 				<groupId>io.winterframework.mod</groupId>
 				<artifactId>winter-web</artifactId>
+				<version>${version.winter.modules}</version>
+			</dependency>
+			<dependency>
+				<groupId>io.winterframework.mod</groupId>
+				<artifactId>winter-web-router</artifactId>
 				<version>${version.winter.modules}</version>
 			</dependency>
 		</dependencies>

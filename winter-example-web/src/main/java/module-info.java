@@ -13,17 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+ * 
+ * @author jkuhn
+ *
+ */
 @io.winterframework.core.annotation.Module
+
+@io.winterframework.core.annotation.Wire(beans="io.winterframework.example.web:jsonHandler", into="io.winterframework.mod.web:rootHandler")
+@io.winterframework.core.annotation.Wire(beans="io.winterframework.mod.boot:jsonByteBufConverter", into="io.winterframework.example.web:jsonHandler:jsonConverter")
 module io.winterframework.example.web {
 	requires io.winterframework.core;
-	requires io.winterframework.mod.commons;
-	requires io.winterframework.mod.configuration;
-	requires transitive io.winterframework.mod.web;
+
+	requires io.winterframework.mod.boot;
+	
+	requires io.winterframework.mod.web.router;
+	requires io.winterframework.mod.web;
 	
 	requires com.fasterxml.jackson.databind;
 	requires io.netty.common;
 	requires io.netty.codec.http;
 	
 	exports io.winterframework.example.web;
-	exports io.winterframework.example.web.internal; // required for json serialization
+	exports io.winterframework.example.web.dto;
 }

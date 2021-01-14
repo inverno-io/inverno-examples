@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Jeremy KUHN
+ * Copyright 2021 Jeremy KUHN
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.winterframework.example.web.dto;
 
 /**
- * 
  * @author jkuhn
  *
  */
-@io.winterframework.core.annotation.Module
-module io.winterframework.example.simple {
-	requires io.winterframework.core;
-	requires io.winterframework.mod.boot;
+public class Message {
+
+	private String message;
 	
-	exports io.winterframework.example.simple;
+	public Message() {
+	}
+	
+	public Message(String message) {
+		this.message = message;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
 }

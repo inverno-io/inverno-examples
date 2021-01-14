@@ -19,7 +19,7 @@
 		</dependency>
 		<dependency>
 			<groupId>io.winterframework.mod</groupId>
-			<artifactId>winter-commons</artifactId>
+			<artifactId>winter-boot</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.winterframework.mod</groupId>
