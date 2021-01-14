@@ -59,9 +59,9 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 	@Override
 	public void accept(WebRouter<WebExchange> router) {
 		router
-			.route().path("/echo").method(Method.POST).handler(this::echo)
 			.route().path("/plaintext").method(Method.GET).handler(this::plaintext)
 			.route().path("/json").method(Method.GET).produces(MediaTypes.APPLICATION_JSON).handler(this::json)
+			.route().path("/echo").method(Method.POST).handler(this::echo)
 			.route().path("/json").method(Method.POST).consumes(MediaTypes.APPLICATION_JSON).handler(this::readJson)
 			.route().path("/json.rw").method(Method.POST).consumes(MediaTypes.APPLICATION_JSON).produces(MediaTypes.APPLICATION_JSON).handler(this::readWriteJson)
 			.route().path("/static/{path:.*}").method(Method.GET).handler(new StaticHandler(this.resourceService.get(this.configuration.web_root().toUri())));
@@ -141,5 +141,4 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 					.doOnNext(p -> p.setFirstname("Bob"))
 			);
 	}
-	
 }
