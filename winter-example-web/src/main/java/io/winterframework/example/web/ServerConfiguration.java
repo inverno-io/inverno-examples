@@ -20,7 +20,7 @@ import java.nio.file.Paths;
 
 import io.winterframework.core.annotation.NestedBean;
 import io.winterframework.mod.configuration.Configuration;
-import io.winterframework.mod.web.WebConfiguration;
+import io.winterframework.mod.web.router.WebRouterConfiguration;
 
 /**
  * @author jkuhn
@@ -30,8 +30,8 @@ import io.winterframework.mod.web.WebConfiguration;
 public interface ServerConfiguration {
 
 	@NestedBean
-	WebConfiguration web();
-	
+	WebRouterConfiguration web_router();
+
 	default Path web_root() {
 		return Paths.get("web-root/");
 	}

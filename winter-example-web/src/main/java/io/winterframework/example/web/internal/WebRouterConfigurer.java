@@ -24,8 +24,6 @@ import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.util.AsciiString;
-import io.winterframework.core.annotation.Bean;
-import io.winterframework.core.annotation.Bean.Visibility;
 import io.winterframework.example.web.ServerConfiguration;
 import io.winterframework.example.web.dto.Message;
 import io.winterframework.example.web.dto.Person;

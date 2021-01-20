@@ -29,10 +29,10 @@
 			<groupId>io.winterframework.mod</groupId>
 			<artifactId>winter-configuration</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.winterframework.mod</groupId>
-			<artifactId>winter-web</artifactId>
-		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>io.winterframework.mod</groupId> -->
+<!-- 			<artifactId>winter-web</artifactId> -->
+<!-- 		</dependency> -->
 		<dependency>
 			<groupId>io.winterframework.mod</groupId>
 			<artifactId>winter-web-router</artifactId>
