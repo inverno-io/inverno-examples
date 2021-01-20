@@ -23,7 +23,7 @@ import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.util.AsciiString;
 import io.winterframework.core.annotation.Bean;
-import io.winterframework.mod.web.Charsets;
+import io.winterframework.mod.base.Charsets;
 import io.winterframework.mod.web.WebException;
 import io.winterframework.mod.web.server.Exchange;
 import io.winterframework.mod.web.server.ExchangeHandler;

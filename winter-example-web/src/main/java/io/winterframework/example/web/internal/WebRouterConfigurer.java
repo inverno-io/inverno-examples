@@ -15,6 +15,7 @@
  */
 package io.winterframework.example.web.internal;
 
+import java.time.Duration;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -28,9 +29,9 @@ import io.winterframework.core.annotation.Bean.Visibility;
 import io.winterframework.example.web.ServerConfiguration;
 import io.winterframework.example.web.dto.Message;
 import io.winterframework.example.web.dto.Person;
+import io.winterframework.mod.base.Charsets;
 import io.winterframework.mod.base.resource.MediaTypes;
 import io.winterframework.mod.base.resource.ResourceService;
-import io.winterframework.mod.web.Charsets;
 import io.winterframework.mod.web.Method;
 import io.winterframework.mod.web.WebException;
 import io.winterframework.mod.web.router.StaticHandler;
@@ -44,7 +45,7 @@ import reactor.core.publisher.Mono;
  * @author jkuhn
  *
  */
-@Bean(visibility = Visibility.PRIVATE)
+//@Bean(visibility = Visibility.PRIVATE)
 public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 	
 	private ServerConfiguration configuration;
@@ -64,6 +65,7 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 			.route().path("/echo").method(Method.POST).handler(this::echo)
 			.route().path("/json").method(Method.POST).consumes(MediaTypes.APPLICATION_JSON).handler(this::readJson)
 			.route().path("/json.rw").method(Method.POST).consumes(MediaTypes.APPLICATION_JSON).produces(MediaTypes.APPLICATION_JSON).handler(this::readWriteJson)
+			.route().path("/stream").method(Method.GET).handler(this::stream)
 			.route().path("/static/{path:.*}").method(Method.GET).handler(new StaticHandler(this.resourceService.get(this.configuration.web_root().toUri())));
 	}
 	
@@ -139,6 +141,25 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 					.decoder(Person.class)
 					.one()
 					.doOnNext(p -> p.setFirstname("Bob"))
+			);
+	}
+	
+	private void stream(Exchange exchange) {
+		exchange.response()
+			.headers(headers -> headers
+				.status(200)
+				.contentType("text/plain; charset=\"UTF-8\"")
+				.add("test", "1235")
+			)
+			.body().raw().data(
+				Flux.just(
+					Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Response A, \r\n", Charsets.UTF_8)),
+					Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Response B, \r\n", Charsets.UTF_8)),
+					Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Response C, \r\n", Charsets.UTF_8)),
+					Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Response D, \r\n", Charsets.UTF_8)),
+					Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Response E \r\n", Charsets.UTF_8))
+				)
+				.delayElements(Duration.ofMillis(1000))
 			);
 	}
 }

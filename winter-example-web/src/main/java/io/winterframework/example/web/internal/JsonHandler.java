@@ -23,7 +23,7 @@ import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.util.AsciiString;
 import io.winterframework.core.annotation.Bean;
 import io.winterframework.example.web.dto.Message;
-import io.winterframework.mod.base.converter.Converter;
+import io.winterframework.mod.base.converter.ReactiveConverter;
 import io.winterframework.mod.web.WebException;
 import io.winterframework.mod.web.server.Exchange;
 import io.winterframework.mod.web.server.ExchangeHandler;
@@ -40,9 +40,9 @@ public class JsonHandler  implements ExchangeHandler<Exchange> {
 	
 	private static final AsciiString STATIC_SERVER = AsciiString.cached("winter");
 	
-	private Converter<ByteBuf, Object> jsonConverter;
+	private ReactiveConverter<ByteBuf, Object> jsonConverter;
 	
-	public JsonHandler(Converter<ByteBuf, Object> jsonConverter) {
+	public JsonHandler(ReactiveConverter<ByteBuf, Object> jsonConverter) {
 		this.jsonConverter = jsonConverter;
 	}
 	
