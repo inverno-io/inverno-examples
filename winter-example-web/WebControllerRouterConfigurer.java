@@ -15,18 +15,25 @@
  */
 package io.winterframework.example.web.internal;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
+import io.netty.buffer.Unpooled;
 import io.winterframework.core.annotation.Bean;
 import io.winterframework.core.annotation.Bean.Visibility;
 import io.winterframework.example.web.dto.Message;
 import io.winterframework.mod.base.resource.MediaTypes;
 import io.winterframework.mod.web.Method;
+import io.winterframework.mod.web.Parameter;
+import io.winterframework.mod.web.router.MissingRequiredParameterException;
 import io.winterframework.mod.web.router.WebExchange;
 import io.winterframework.mod.web.router.WebRouter;
+import io.winterframework.mod.web.router.annotation.QueryParam;
 import io.winterframework.mod.web.router.annotation.WebRoute;
 import io.winterframework.mod.web.router.annotation.WebRouterConfigurer;
+import reactor.core.publisher.Flux;
 
 /**
  * @author jkuhn
@@ -44,6 +51,8 @@ import io.winterframework.mod.web.router.annotation.WebRouterConfigurer;
 	@WebRoute(path = "/get/plaintext7", method = Method.GET, produces = MediaTypes.TEXT_PLAIN),
 	@WebRoute(path = "/get/plaintext/queryParam1", method = Method.GET, produces = MediaTypes.TEXT_PLAIN),
 	@WebRoute(path = "/get/plaintext/queryParam2", method = Method.GET, produces = MediaTypes.TEXT_PLAIN),
+	@WebRoute(path = "/get/plaintext/queryParam3", method = Method.GET, produces = MediaTypes.TEXT_PLAIN),
+	@WebRoute(path = "/get/plaintext/queryParam4", method = Method.GET, produces = MediaTypes.TEXT_PLAIN),
 	@WebRoute(path = "/get/plaintext/pathParam1/{pathParam}", method = Method.GET, produces = MediaTypes.TEXT_PLAIN),
 	@WebRoute(path = "/get/plaintext/pathParam2/{pathParam}", method = Method.GET, produces = MediaTypes.TEXT_PLAIN),
 	@WebRoute(path = "/get/plaintext/headerParam1", method = Method.GET, produces = MediaTypes.TEXT_PLAIN),
@@ -72,12 +81,19 @@ import io.winterframework.mod.web.router.annotation.WebRouterConfigurer;
 	@WebRoute(path = "/post/json4", method = Method.POST, consumes = MediaTypes.APPLICATION_JSON, produces = MediaTypes.APPLICATION_JSON),
 	@WebRoute(path = "/post/json5", method = Method.POST, consumes = MediaTypes.APPLICATION_JSON, produces = MediaTypes.APPLICATION_JSON),
 	@WebRoute(path = "/post/json6", method = Method.POST, consumes = MediaTypes.APPLICATION_JSON, produces = MediaTypes.APPLICATION_JSON),
-	@WebRoute(path = "/post/json7", method = Method.POST, consumes = MediaTypes.APPLICATION_JSON, produces = MediaTypes.APPLICATION_JSON)
+	@WebRoute(path = "/post/json7", method = Method.POST, consumes = MediaTypes.APPLICATION_JSON, produces = MediaTypes.APPLICATION_JSON),
+	@WebRoute(path = "/post/form1", method = Method.POST, consumes = MediaTypes.APPLICATION_X_WWW_FORM_URLENCODED, produces = MediaTypes.TEXT_PLAIN),
+	@WebRoute(path = "/post/form2", method = Method.POST, consumes = MediaTypes.APPLICATION_X_WWW_FORM_URLENCODED, produces = MediaTypes.TEXT_PLAIN),
+	@WebRoute(path = "/post/multipart1", method = Method.POST, consumes = MediaTypes.APPLICATION_X_WWW_FORM_URLENCODED, produces = MediaTypes.TEXT_PLAIN)
 })
-@Bean(visibility = Visibility.PRIVATE)
+//@Bean(visibility = Visibility.PRIVATE)
 public class WebControllerRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 
-	private WebController controller = new WebController();
+	private WebController controller;
+	
+	public WebControllerRouterConfigurer(WebController controller) {
+		this.controller = controller;
+	}
 	
 	@Override
 	public void accept(WebRouter<WebExchange> router) {
@@ -100,7 +116,7 @@ public class WebControllerRouterConfigurer implements Consumer<WebRouter<WebExch
 			})
 			// curl --insecure -iv 'http://127.0.0.1:8080/get/plaintext3'
 			.route().path("/get/plaintext3").method(Method.GET).produces(MediaTypes.TEXT_PLAIN).handler(exchange -> {
-				exchange.response().body().encoder().data(this.controller.get_plaintext3());
+				exchange.response().body().raw().data(this.controller.get_plaintext3());
 			})
 			// curl --insecure -iv 'http://127.0.0.1:8080/get/plaintext4'
 			.route().path("/get/plaintext4").method(Method.GET).produces(MediaTypes.TEXT_PLAIN).handler(exchange -> {
@@ -130,8 +146,15 @@ public class WebControllerRouterConfigurer implements Consumer<WebRouter<WebExch
 			})
 			// curl --insecure -iv 'http://127.0.0.1:8080/get/plaintext/queryParam3?queryParam=12,34,56&queryParam=78,9'
 			.route().path("/get/plaintext/queryParam3").method(Method.GET).produces(MediaTypes.TEXT_PLAIN).handler(exchange -> {
-				// TODO required? default?
-				exchange.response().body().encoder().data(this.controller.get_plaintext_queryParam3(exchange.request().queryParameters().getAll("queryParam").stream().flatMap(param -> param.asListOf(Integer.class).stream()).collect(Collectors.toList())));
+				exchange.response().body().encoder().data(this.controller.get_plaintext_queryParam3(Optional.of(exchange.request().queryParameters().getAll("queryParam").stream()
+						.flatMap(param -> param.asListOf(Integer.class).stream())
+						.collect(Collectors.toList())).filter(l -> !l.isEmpty()).orElseThrow(() -> new MissingRequiredParameterException("queryParam"))));
+			})
+			// curl --insecure -iv 'http://127.0.0.1:8080/get/plaintext/queryParam4?queryParam=12,34,56&queryParam=78,9'
+			.route().path("/get/plaintext/queryParam4").method(Method.GET).produces(MediaTypes.TEXT_PLAIN).handler(exchange -> {
+				exchange.response().body().encoder().data(this.controller.get_plaintext_queryParam4(Optional.of(exchange.request().queryParameters().getAll("queryParam").stream()
+						.flatMap(param -> param.asListOf(Integer.class).stream())
+						.collect(Collectors.toList())).filter(l -> !l.isEmpty())));
 			})
 			// curl --insecure -iv 'http://127.0.0.1:8080/get/plaintext/pathParam1/abcdef'
 			.route().path("/get/plaintext/pathParam1/{pathParam}").method(Method.GET).produces(MediaTypes.TEXT_PLAIN).handler(exchange -> {
@@ -257,6 +280,35 @@ public class WebControllerRouterConfigurer implements Consumer<WebRouter<WebExch
 			.route().path("/post/json7").method(Method.POST).consumes(MediaTypes.APPLICATION_JSON).produces(MediaTypes.APPLICATION_JSON).handler(exchange -> {
 				exchange.response().body().encoder().data(this.controller.post_json7(exchange.request().body().get().decoder(Message.class).many()));
 			})
+			// curl --insecure -iv --http1.1 -d 'formParam1=tata' -X POST http://127.0.0.1:8080/post/form1
+			.route().path("/post/form1").method(Method.POST).consumes(MediaTypes.APPLICATION_X_WWW_FORM_URLENCODED).produces(MediaTypes.TEXT_PLAIN).handler(exchange -> {
+				
+				
+				Flux.from(exchange.request().body().get().urlEncoded().parameters())
+				.collectMultimap(Parameter::getName);
+				
+				
+				exchange.response().body().encoder().data(
+					Flux.from(exchange.request().body().get().urlEncoded().parameters())
+						.collectMultimap(Parameter::getName)
+						.map(parameters -> this.controller.post_form1(parameters.get("formParam1").stream().findFirst().map(parameter -> parameter.asString()).orElseThrow(() -> new MissingRequiredParameterException("formParam1"))))
+				);
+			})
+			// curl --insecure -iv --http1.1 -d 'formParam1=tata&formParam2=123456' -X POST http://127.0.0.1:8080/post/form2
+			.route().path("/post/form2").method(Method.POST).consumes(MediaTypes.APPLICATION_X_WWW_FORM_URLENCODED).produces(MediaTypes.TEXT_PLAIN).handler(exchange -> {
+				exchange.response().body().encoder().data(Flux.from(exchange.request().body().get().urlEncoded().parameters()).collectMultimap(Parameter::getName).map(formParameters -> this.controller.post_form2(formParameters.get("formParam1").stream().findFirst().map(parameter -> parameter.as(String.class)).orElseThrow(() -> new MissingRequiredParameterException("formParam1")), Optional.of(formParameters.get("formParam2").stream().flatMap(parameter -> parameter.asListOf(Integer.class).stream()).collect(Collectors.toList())).filter(l -> !l.isEmpty()).orElseThrow(() -> new MissingRequiredParameterException("formParam2")))));
+			})
+			// curl --insecure -iv --http1.1 --form 'multipartParam1=abcd' --form 'multipartParam2=123456' --form 'multipartParam3=TOTO' -X POST http://127.0.0.1:8080/post/multipart1
+			.route().path("/post/multipart1").method(Method.POST).consumes(MediaTypes.MULTIPART_FORM_DATA).produces(MediaTypes.TEXT_PLAIN).handler(exchange -> {
+				exchange.response().body().encoder().data(this.controller.post_multipart1(Flux.from(exchange.request().body().get().multipart().parts())));
+			})
 			;
+		
+//		@WebRoute(path = "/post/multipart1", method = Method.POST, consumes = MediaTypes.APPLICATION_X_WWW_FORM_URLENCODED, produces = MediaTypes.TEXT_PLAIN)
+//		public Flux<String> post_multipart2(@Body Flux<Part> multipart) {
+//			// TODO here we must release the bytebuf of each part
+//			// TODO we must be able to decode part raw data just like body raw data 
+//			return multipart.flatMap(part -> Flux.from(part.data()).doOnNext(ByteBuf::release).then(Mono.just("Received: " + part.getName())));
+//		}
 	}
 }

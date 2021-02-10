@@ -67,7 +67,7 @@ public class PlaintextHandler implements ExchangeHandler<Exchange> {
 				.add(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.TEXT_PLAIN)
 				.add(HttpHeaderNames.SERVER, STATIC_SERVER)
 			)
-			.body().raw().data(PLAIN_TEXT_MONO);
+			.body().raw().stream(PLAIN_TEXT_MONO);
 	}
 
 }

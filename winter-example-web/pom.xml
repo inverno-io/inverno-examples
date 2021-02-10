@@ -29,10 +29,6 @@
 			<groupId>io.winterframework.mod</groupId>
 			<artifactId>winter-configuration</artifactId>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>io.winterframework.mod</groupId> -->
-<!-- 			<artifactId>winter-web</artifactId> -->
-<!-- 		</dependency> -->
 		<dependency>
 			<groupId>io.winterframework.mod</groupId>
 			<artifactId>winter-web-router</artifactId>
@@ -61,6 +57,16 @@
 							<path>
 								<groupId>io.winterframework.mod</groupId>
 								<artifactId>winter-configuration</artifactId>
+								<version>${version.winter.modules}</version>
+							</path>
+							<path>
+								<groupId>io.winterframework.mod</groupId>
+								<artifactId>winter-web-router</artifactId>
+								<version>${version.winter.modules}</version>
+							</path>
+							<path> 
+								<groupId>io.winterframework.mod</groupId>
+								<artifactId>winter-web</artifactId>
 								<version>${version.winter.modules}</version>
 							</path>
 						</annotationProcessorPaths>

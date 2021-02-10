@@ -17,10 +17,13 @@ package io.winterframework.example.web.internal;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
+import io.winterframework.core.annotation.Bean;
+import io.winterframework.core.annotation.Bean.Visibility;
 import io.winterframework.example.web.dto.Message;
 import io.winterframework.mod.base.Charsets;
 import io.winterframework.mod.base.resource.MediaTypes;
@@ -29,10 +32,12 @@ import io.winterframework.mod.web.Status;
 import io.winterframework.mod.web.router.WebExchange;
 import io.winterframework.mod.web.router.annotation.Body;
 import io.winterframework.mod.web.router.annotation.CookieParam;
+import io.winterframework.mod.web.router.annotation.FormParam;
 import io.winterframework.mod.web.router.annotation.HeaderParam;
 import io.winterframework.mod.web.router.annotation.PathParam;
 import io.winterframework.mod.web.router.annotation.QueryParam;
 import io.winterframework.mod.web.router.annotation.WebRoute;
+import io.winterframework.mod.web.server.Part;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -40,10 +45,11 @@ import reactor.core.publisher.Mono;
  * @author jkuhn
  *
  */
+@Bean(visibility = Visibility.PRIVATE)
 @io.winterframework.mod.web.router.annotation.WebController
 public class WebController {
 
-	@WebRoute(path = "/")
+	@WebRoute("/")
 	public String root() {
 		return "Hello, World!";
 	}
@@ -51,6 +57,11 @@ public class WebController {
 	@WebRoute(path = "/get", method = Method.GET)
 	public String get() {
 		return "Hello, World!";
+	}
+	
+	@WebRoute(path = "/get/int1", method = Method.GET, produces = MediaTypes.TEXT_PLAIN)
+	public int get_int1() {
+		return 123;
 	}
 	
 	@WebRoute(path = "/get/plaintext1", method = Method.GET, produces = MediaTypes.TEXT_PLAIN)
@@ -75,7 +86,7 @@ public class WebController {
 	
 	// There's a choice to make here: chunked or not...
 	// - if not we have to concat all Strings but since we actually consider primitives, we should fist convert primitive to ByteBuf and concat the resulting list of Bytebuf
-	// => we must rely on a body encoder for TEXT/PLAIN media type  
+	// => we must rely on a body encoder for TEXT/PLAIN media type, therefore no chunk unless the body encoder say so
 	@WebRoute(path = "/get/plaintext5", method = Method.GET, produces = MediaTypes.TEXT_PLAIN)
 	public List<String> get_plaintext5() {
 		return List.of("Hello", " World!");
@@ -83,7 +94,7 @@ public class WebController {
 	
 	// There's a choice to make here: chunked or not...
 	// - if not we have to concat all ByteBuf...
-	// => we must rely on a body encoder for TEXT/PLAIN media type
+	// => we must rely on a body encoder for TEXT/PLAIN media type, therefore no chunk unless the body encoder say so
 	@WebRoute(path = "/get/plaintext6", method = Method.GET, produces = MediaTypes.TEXT_PLAIN)
 	public List<ByteBuf> get_plaintext6() {
 		return List.of(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Hello", Charsets.DEFAULT)), Unpooled.unreleasableBuffer(Unpooled.copiedBuffer(" World!", Charsets.DEFAULT)));
@@ -107,6 +118,11 @@ public class WebController {
 	
 	@WebRoute(path = "/get/plaintext/queryParam3", method = Method.GET, produces = MediaTypes.TEXT_PLAIN)
 	public String get_plaintext_queryParam3(@QueryParam List<Integer> queryParam) {
+		return "Query param: " + queryParam.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
+	}
+	
+	@WebRoute(path = "/get/plaintext/queryParam4", method = Method.GET, produces = MediaTypes.TEXT_PLAIN)
+	public String get_plaintext_queryParam4(@QueryParam Optional<List<Integer>> queryParam) {
 		return "Query param: " + queryParam.stream().map(i -> i.toString()).collect(Collectors.joining(", "));
 	}
 	
@@ -185,6 +201,11 @@ public class WebController {
 		exchange.response().headers(h -> h.status(201).add("test", "test"));
 	}
 	
+	@WebRoute(path = "/get/void3", method = Method.GET)
+	public void get_void3(@Body String body) {
+		System.out.println("Received body: " + body);
+	}
+	
 	// In case we only have one argument, we could say @Body is optional since we can assume the argument is the body by convention
 	@WebRoute(path = "/post/plaintext1", method = Method.POST, consumes = MediaTypes.TEXT_PLAIN, produces = MediaTypes.TEXT_PLAIN)
 	public String post_plaintext1(@Body String body) {
@@ -256,5 +277,28 @@ public class WebController {
 	@WebRoute(path = "/post/json7", method = Method.POST, consumes = MediaTypes.APPLICATION_JSON, produces = MediaTypes.APPLICATION_JSON)
 	public Flux<Message> post_json7(@Body Flux<Message> body) {
 		return body.map(m -> new Message("Received: " + m.getMessage()));
+	}
+	
+	@WebRoute(path = "/post/form1", method = Method.POST, consumes = MediaTypes.APPLICATION_X_WWW_FORM_URLENCODED, produces = MediaTypes.TEXT_PLAIN)
+	public String post_form1(@FormParam String formParam1) {
+		return "Received: " + formParam1;
+	}
+	
+	@WebRoute(path = "/post/form2", method = Method.POST, consumes = MediaTypes.APPLICATION_X_WWW_FORM_URLENCODED, produces = MediaTypes.TEXT_PLAIN)
+	public String post_form2(@FormParam String formParam1, @FormParam List<Integer> formParam2) {
+		return "Received: " + formParam1 + ", " + formParam2;
+	}
+	
+	@WebRoute(path = "/post/multipart1", method = Method.POST, consumes = MediaTypes.APPLICATION_X_WWW_FORM_URLENCODED, produces = MediaTypes.TEXT_PLAIN)
+	public Flux<String> post_multipart1(@Body Flux<Part> multipart) {
+		// here we must release the bytebuf of each part ===> THIS IS ACTUALLY ALREADY HANDLED: the handler is called first so if it doesn't subscribe to the part data there's no sink and no bytebuf is retained 
+		// TODO we must be able to decode part raw data just like body raw data 
+//		return multipart.flatMap(part -> Flux.from(part.data()).doOnNext(ByteBuf::release).then(Mono.just("Received: " + part.getName() + "\n")));
+		return multipart.map(part -> "Received: " + part.getName() + "\n");
+	}
+	
+	@WebRoute(path = "/post/complex1/{pparam1}", method = Method.POST, consumes = MediaTypes.APPLICATION_JSON, produces = MediaTypes.TEXT_PLAIN)
+	public String post_complex1(@QueryParam List<String> qparam1, @QueryParam int qparam2, @HeaderParam Optional<String> hparam1, @CookieParam String cparam1, @PathParam String pparam1, @Body Message body) {
+		return "Received complex post";
 	}
 }

@@ -22,6 +22,8 @@
 @io.winterframework.core.annotation.Module
 
 @io.winterframework.core.annotation.Wire(beans="io.winterframework.mod.boot:jsonByteBufConverter", into="io.winterframework.example.web:jsonHandler:jsonConverter")
+
+@io.winterframework.core.annotation.Wire(beans="io.winterframework.example.web:webRouterConfigurer", into="io.winterframework.mod.web.router:WebRouterConfigurer")
 module io.winterframework.example.web {
 	requires io.winterframework.core;
 

@@ -15,21 +15,28 @@
  */
 package io.winterframework.example.web.internal;
 
+import java.lang.reflect.Type;
 import java.time.Duration;
+import java.time.LocalTime;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.util.AsciiString;
+import io.winterframework.core.annotation.Bean;
+import io.winterframework.core.annotation.Bean.Visibility;
 import io.winterframework.example.web.ServerConfiguration;
 import io.winterframework.example.web.dto.Message;
 import io.winterframework.example.web.dto.Person;
 import io.winterframework.mod.base.Charsets;
 import io.winterframework.mod.base.resource.MediaTypes;
 import io.winterframework.mod.base.resource.ResourceService;
+import io.winterframework.mod.web.InternalServerErrorException;
 import io.winterframework.mod.web.Method;
 import io.winterframework.mod.web.WebException;
 import io.winterframework.mod.web.router.StaticHandler;
@@ -43,7 +50,7 @@ import reactor.core.publisher.Mono;
  * @author jkuhn
  *
  */
-//@Bean(visibility = Visibility.PRIVATE)
+//@Bean( visibility = Visibility.PRIVATE)
 public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 	
 	private ServerConfiguration configuration;
@@ -64,7 +71,9 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 			.route().path("/json").method(Method.POST).consumes(MediaTypes.APPLICATION_JSON).handler(this::readJson)
 			.route().path("/json.rw").method(Method.POST).consumes(MediaTypes.APPLICATION_JSON).produces(MediaTypes.APPLICATION_JSON).handler(this::readWriteJson)
 			.route().path("/stream").method(Method.GET).handler(this::stream)
-			.route().path("/static/{path:.*}").method(Method.GET).handler(new StaticHandler(this.resourceService.get(this.configuration.web_root().toUri())));
+			.route().path("/static/{path:.*}").method(Method.GET).handler(new StaticHandler(this.resourceService.get(this.configuration.web_root().toUri())))
+			.route().path("/queryParams").method(Method.GET).handler(this::queryParams)
+			.route().path("/jsonMap").method(Method.POST).consumes(MediaTypes.APPLICATION_JSON).produces(MediaTypes.TEXT_PLAIN).handler(this::jsonMap);
 	}
 	
 	private static final byte[] STATIC_PLAINTEXT = "Hello, World!".getBytes(Charsets.UTF_8);
@@ -97,11 +106,11 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 				.add(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.TEXT_PLAIN)
 				.add(HttpHeaderNames.SERVER, STATIC_SERVER)
 			)
-			.body().raw().data(PLAIN_TEXT_MONO);
+			.body().raw().stream(PLAIN_TEXT_MONO);
 	}
 	
 	private void json(WebExchange exchange) throws WebException {
-		exchange.response().body().encoder().data(new Message("Hello, World!"));
+		exchange.response().body().encoder().value(new Message("Hello, World!"));
 	}
 	
 	private void echo(Exchange exchange) {
@@ -109,9 +118,9 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 			.headers(headers -> headers.status(200).contentType("text/plain"))
 			.body()
 				.raw()
-				.data(
+				.stream(
 					exchange.request().body()
-						.map(body -> body.raw().data())	
+						.map(body -> body.raw().stream())	
 						.orElse(Flux.just(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("=== Empty ===", Charsets.UTF_8))))
 			);
 	}
@@ -123,7 +132,7 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 			)
 			.body()
 				.raw()
-				.data(
+				.stream(
 					exchange.request().body().get()
 						.decoder(Person.class)
 						.one()
@@ -134,7 +143,7 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 	private void readWriteJson(WebExchange exchange) {
 		exchange.response().body()
 			.encoder()
-			.data(
+			.value(
 				exchange.request().body().get()
 					.decoder(Person.class)
 					.one()
@@ -149,7 +158,7 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 				.contentType("text/plain; charset=\"UTF-8\"")
 				.add("test", "1235")
 			)
-			.body().raw().data(
+			.body().raw().stream(
 				Flux.just(
 					Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Response A, \r\n", Charsets.UTF_8)),
 					Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Response B, \r\n", Charsets.UTF_8)),
@@ -159,5 +168,59 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 				)
 				.delayElements(Duration.ofMillis(1000))
 			);
+	}
+	
+	private Map<String, Person> mapStringPerson;
+
+	@SuppressWarnings("unchecked")
+	private void jsonMap(WebExchange exchange) {
+		try {
+			Type mapStringPersonType = this.getClass().getDeclaredField("mapStringPerson").getGenericType();
+			
+			exchange.response().body()
+				.encoder()
+				.value(exchange.request().body().get().decoder(mapStringPersonType).one().map(obj -> {
+					return ((Map<String, Person>)obj).entrySet().stream().map(e -> e.getKey() + " -> " + e.getValue().getAge()).collect(Collectors.joining(", "));
+				}));
+		} catch (NoSuchFieldException | SecurityException e) {
+			throw new InternalServerErrorException(e);
+		}
+	}
+	
+	private void queryParams(WebExchange exchange) {
+		exchange.response().body()
+			.raw()
+			.value(
+				Unpooled.unreleasableBuffer(Unpooled.copiedBuffer(exchange.request().queryParameters().getAll("queryParam").stream().map(parameter -> parameter.asString()).collect(Collectors.joining("|")), Charsets.DEFAULT))
+			);
+	}
+	
+	private void sse(WebExchange exchange) {
+		
+//		exchange.response().body().sse2().from(
+//			(events, data) -> Flux.interval(Duration.ofSeconds(1))
+//				.map(seq -> events.apply(
+//						event -> event
+//							.id(Long.toString(seq))
+//							.event("periodic-event")
+//							.comment("some comment \n on mutliple lines")
+//							.value(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("SSE - " + LocalTime.now().toString() + "\r\n", Charsets.UTF_8)))
+//					)
+//				)
+//				.doOnNext(evt -> System.out.println("Emit sse"))
+//		);
+		
+		exchange.response().body().<Message>sseEncoder(MediaTypes.APPLICATION_JSON, Message.class).from(
+			(events, data) -> Flux.interval(Duration.ofSeconds(1))
+				.map(seq -> events.create(
+						event -> event
+							.id(Long.toString(seq))
+							.event("periodic-event")
+							.comment("some comment \n on mutliple lines")
+							.value(new Message("SSE - " + LocalTime.now().toString() + "\r\n"))
+					)
+				)
+				.doOnNext(evt -> System.out.println("Emit sse"))
+		);
 	}
 }

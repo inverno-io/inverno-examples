@@ -58,6 +58,6 @@ public class JsonHandler  implements ExchangeHandler<Exchange> {
 		exchange.response().headers(h -> h
 				.add(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.TEXT_PLAIN)
 				.add(HttpHeaderNames.SERVER, STATIC_SERVER)
-			).body().raw().data(this.jsonConverter.encodeOne(JSON_MONO));
+			).body().raw().stream(this.jsonConverter.encodeOne(JSON_MONO));
 	}
 }

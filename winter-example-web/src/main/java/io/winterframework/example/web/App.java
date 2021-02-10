@@ -41,13 +41,15 @@ public class App {
 	 * @param args
 	 * @throws IOException 
 	 * @throws IllegalStateException 
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
 	 */
-	public static void main(String[] args) throws IllegalStateException, IOException {
+	public static void main(String[] args) throws IllegalStateException, IOException, NoSuchMethodException, SecurityException {
 		Application.with(new Web.Builder()
 			.setAppConfigurationSource(new ApplicationConfigurationSource(App.class.getModule(), args))
 			.setConfigurationParameters(List.of(Parameter.of("profile", System.getProperty("profile", "default"))))
 //			.setRootHandler(configuration0())
 //			.setErrorHandler(error())
 		).run();
-	}
+	}	
 }
