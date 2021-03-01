@@ -29,15 +29,29 @@ import io.winterframework.mod.web.router.annotation.WebRoute;
  */
 public interface GenericMessageController<A> {
 
-	@WebRoute( path = "", method = Method.POST, produces = MediaTypes.APPLICATION_JSON)
+	@WebRoute( path = "", method = Method.POST, consumes = MediaTypes.APPLICATION_JSON)
 	void createMessage(@Body GenericMessage<A> message, WebExchange exchange);
 	
 	@WebRoute( path = "{id}", method = Method.GET, produces = MediaTypes.APPLICATION_JSON)
 	GenericMessage<A> getMessage(@PathParam int id);
 	
-	@WebRoute( path = "{id}", method = Method.PUT, produces = MediaTypes.APPLICATION_JSON)
+	/**
+	 * <p>Updates the message with the specified id.</p>
+	 * 
+	 * @param id The message id.
+	 * @param message The updated message
+	 * @return The updated message
+	 */
+	@WebRoute( path = "{id}", method = Method.PUT, produces = MediaTypes.APPLICATION_JSON, consumes = MediaTypes.APPLICATION_JSON)
 	GenericMessage<A> updateMessage(@PathParam int id, @Body GenericMessage<A> message);
 	
+	/**
+	 * <p>Deletes the message with the specified id.</p>
+	 * 
+	 * @param id The message id to delete
+	 * 
+	 * @return {@winter.web.status 200} the message has been deleted
+	 */
 	@WebRoute( path = "{id}", method = Method.DELETE)
 	void deleteMessage(@PathParam int id);
 }

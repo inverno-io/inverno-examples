@@ -28,8 +28,6 @@ import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.HttpHeaderNames;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.util.AsciiString;
-import io.winterframework.core.annotation.Bean;
-import io.winterframework.core.annotation.Bean.Visibility;
 import io.winterframework.example.web.ServerConfiguration;
 import io.winterframework.example.web.dto.Message;
 import io.winterframework.example.web.dto.Person;
@@ -71,7 +69,7 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 			.route().path("/json").method(Method.POST).consumes(MediaTypes.APPLICATION_JSON).handler(this::readJson)
 			.route().path("/json.rw").method(Method.POST).consumes(MediaTypes.APPLICATION_JSON).produces(MediaTypes.APPLICATION_JSON).handler(this::readWriteJson)
 			.route().path("/stream").method(Method.GET).handler(this::stream)
-			.route().path("/static/{path:.*}").method(Method.GET).handler(new StaticHandler(this.resourceService.get(this.configuration.web_root().toUri())))
+			.route().path("/static/{path:.*}").method(Method.GET).handler(new StaticHandler(this.resourceService.getResource(this.configuration.web_root().toUri())))
 			.route().path("/queryParams").method(Method.GET).handler(this::queryParams)
 			.route().path("/jsonMap").method(Method.POST).consumes(MediaTypes.APPLICATION_JSON).produces(MediaTypes.TEXT_PLAIN).handler(this::jsonMap);
 	}

@@ -32,12 +32,15 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.winterframework.core.annotation.Bean;
 import io.winterframework.core.annotation.Bean.Visibility;
+import io.winterframework.example.web.ServerConfiguration;
 import io.winterframework.example.web.dto.GenericMessage;
 import io.winterframework.example.web.dto.IntegerMessage;
 import io.winterframework.example.web.dto.Message;
 import io.winterframework.example.web.dto.StringMessage;
 import io.winterframework.mod.base.Charsets;
 import io.winterframework.mod.base.resource.MediaTypes;
+import io.winterframework.mod.base.resource.Resource;
+import io.winterframework.mod.base.resource.ResourceService;
 import io.winterframework.mod.web.Method;
 import io.winterframework.mod.web.router.WebPart;
 import io.winterframework.mod.web.router.WebResponseBody;
@@ -56,17 +59,30 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
+ * <p>This is a simple controller.</p>
+ * 
  * @author jkuhn
- *
+ * 
+ * @winter.tag tata titi
+ * 
  */
 @Bean(visibility = Visibility.PRIVATE)
 @WebController
 public class TestWebController {
 	
+	private final ServerConfiguration configuration;
+	
+	private final ResourceService resourceService;
+	
+	public TestWebController(ServerConfiguration configuration, ResourceService resourceService) {
+		this.configuration = configuration;
+		this.resourceService = resourceService;
+	}
+	
 	public boolean get_void;
 	
 	// curl --insecure -iv 'http://127.0.0.1:8080/get_void'
-	@WebRoute(path = "/get_void", method = Method.GET)
+	@WebRoute(path = "get_void", method = Method.GET)
 	public void get_void() {
 		this.get_void = true;
 	}
@@ -78,6 +94,15 @@ public class TestWebController {
 	public ByteBuf get_raw() {
 		this.get_raw = true;
 		return Unpooled.copiedBuffer("get_raw", Charsets.DEFAULT);
+	}
+	
+	public boolean get_raw_slash;
+	
+	// curl --insecure -iv 'http://127.0.0.1:8080/get_raw/'
+	@WebRoute(path = "/get_raw/", method = Method.GET)
+	public ByteBuf get_raw_slash() {
+		this.get_raw_slash = true;
+		return Unpooled.copiedBuffer("get_raw_slash", Charsets.DEFAULT);
 	}
 	
 	public boolean get_raw_pub;
@@ -1219,6 +1244,14 @@ public class TestWebController {
 				)
 			)
 			.doOnNext(evt -> System.out.println("Emit sse"));
+	}
+	
+	public boolean get_resource;
+	
+	// curl --insecure -iv 'http://127.0.0.1:8080/get_resource'
+	@WebRoute(path = "/get_resource", method = Method.GET)
+	public Resource get_resource() {
+		return this.resourceService.getResource(this.configuration.web_root().toUri()).resolve("get_resource.txt");
 	}
 	
 	// TODO inheritance

@@ -15,9 +15,16 @@
  */
 
 /**
+ * <p>This is an example application to demonstrate Winter Web router module <a href="test.html" title="toto">test link</a>.</p>
  * 
- * @author jkuhn
- *
+ * <p>It especially shows how to create {@link io.winterframework.mod.web.router.annotation.WebController WebController} beans.</p>
+ * 
+ * <p><img src="toto.png" alt="toto alt" title="toto title"/></p>
+ * 
+ * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
+ * 
+ * @version 1.2.3
+ * 
  */
 @io.winterframework.core.annotation.Module
 

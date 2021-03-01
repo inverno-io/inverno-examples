@@ -12,5 +12,7 @@ io.winterframework.example.web.serverConfiguration {
 				server_port = 8443
 			}
 		}
+		enable_open_api = true
+		enable_webjars = true
 	}
 }

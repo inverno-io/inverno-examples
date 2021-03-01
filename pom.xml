@@ -60,6 +60,8 @@
 						<compilerArgs>
 							<arg>-Awinter.verbose=true</arg>
 							<arg>-Awinter.debug=true</arg>
+							<arg>-Awinter.generateDescriptor=true</arg>
+							<arg>-Awinter.web.generateOpenApiDefinition=true</arg>
 						</compilerArgs>
 					</configuration>
 				</plugin>

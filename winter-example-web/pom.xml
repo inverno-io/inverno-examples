@@ -15,7 +15,7 @@
 	<properties>
 		<version.winter.modules>1.0.0-SNAPSHOT</version.winter.modules>
 	</properties>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>io.winterframework</groupId>
@@ -44,6 +44,18 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>swagger-ui</artifactId>
+			<version>3.43.0</version>
+		</dependency>
+		<dependency>
+  <groupId>org.webjars</groupId>
+  <artifactId>highcharts</artifactId>
+  <version>8.2.2</version>
+</dependency>
+		
 	</dependencies>
 	
 	<build>
