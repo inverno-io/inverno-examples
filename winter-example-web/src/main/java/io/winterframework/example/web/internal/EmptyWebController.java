@@ -16,7 +16,7 @@
 package io.winterframework.example.web.internal;
 
 import io.winterframework.core.annotation.Bean;
-import io.winterframework.mod.web.router.annotation.WebController;
+import io.winterframework.mod.web.annotation.WebController;
 
 /**
  * @author jkuhn

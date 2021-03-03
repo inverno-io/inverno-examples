@@ -24,9 +24,9 @@ import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.util.AsciiString;
 import io.winterframework.core.annotation.Bean;
 import io.winterframework.mod.base.Charsets;
-import io.winterframework.mod.web.WebException;
-import io.winterframework.mod.web.server.Exchange;
-import io.winterframework.mod.web.server.ExchangeHandler;
+import io.winterframework.mod.http.base.WebException;
+import io.winterframework.mod.http.server.Exchange;
+import io.winterframework.mod.http.server.ExchangeHandler;
 import reactor.core.publisher.Mono;
 
 /**

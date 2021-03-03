@@ -16,12 +16,12 @@
 package io.winterframework.example.web.internal;
 
 import io.winterframework.core.annotation.Bean;
-import io.winterframework.mod.web.Method;
-import io.winterframework.mod.web.router.WebExchange;
-import io.winterframework.mod.web.router.WebRouter;
-import io.winterframework.mod.web.router.WebRouterConfigurer;
-import io.winterframework.mod.web.router.annotation.WebRoute;
-import io.winterframework.mod.web.router.annotation.WebRoutes;
+import io.winterframework.mod.http.base.Method;
+import io.winterframework.mod.web.WebExchange;
+import io.winterframework.mod.web.WebRouter;
+import io.winterframework.mod.web.WebRouterConfigurer;
+import io.winterframework.mod.web.annotation.WebRoute;
+import io.winterframework.mod.web.annotation.WebRoutes;
 
 /**
  * @author jkuhn

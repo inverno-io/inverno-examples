@@ -3,11 +3,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>io.winterframework.example</groupId>
-		<artifactId>winter-examples</artifactId>
+		<groupId>io.winterframework</groupId>
+		<artifactId>winter-examples-root</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
+	
+	<groupId>io.winterframework.example</groupId>
 	<artifactId>winter-example-web</artifactId>
+	<packaging>jar</packaging>
 
 	<name>io.winterframework.example.web</name>
 	<description>Winter web example</description>
@@ -31,7 +34,7 @@
 		</dependency>
 		<dependency>
 			<groupId>io.winterframework.mod</groupId>
-			<artifactId>winter-web-router</artifactId>
+			<artifactId>winter-web</artifactId>
 		</dependency>
 		
 		<dependency>
@@ -50,40 +53,11 @@
 			<artifactId>swagger-ui</artifactId>
 			<version>3.43.0</version>
 		</dependency>
-		<dependency>
-  <groupId>org.webjars</groupId>
-  <artifactId>highcharts</artifactId>
-  <version>8.2.2</version>
-</dependency>
-		
 	</dependencies>
 	
 	<build>
 		<pluginManagement>
 			<plugins>
-				<plugin>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>3.8.1</version>
-					<configuration>
-						<annotationProcessorPaths combine.children="append">
-							<path>
-								<groupId>io.winterframework.mod</groupId>
-								<artifactId>winter-configuration</artifactId>
-								<version>${version.winter.modules}</version>
-							</path>
-							<path>
-								<groupId>io.winterframework.mod</groupId>
-								<artifactId>winter-web-router</artifactId>
-								<version>${version.winter.modules}</version>
-							</path>
-							<path> 
-								<groupId>io.winterframework.mod</groupId>
-								<artifactId>winter-web</artifactId>
-								<version>${version.winter.modules}</version>
-							</path>
-						</annotationProcessorPaths>
-					</configuration>
-				</plugin>
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>exec-maven-plugin</artifactId>

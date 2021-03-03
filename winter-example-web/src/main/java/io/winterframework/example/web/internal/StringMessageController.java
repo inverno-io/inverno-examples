@@ -23,14 +23,14 @@ import io.winterframework.core.annotation.Bean;
 import io.winterframework.example.web.dto.GenericMessage;
 import io.winterframework.mod.base.net.URIs;
 import io.winterframework.mod.base.resource.MediaTypes;
-import io.winterframework.mod.web.Method;
-import io.winterframework.mod.web.NotFoundException;
-import io.winterframework.mod.web.Status;
-import io.winterframework.mod.web.header.Headers;
-import io.winterframework.mod.web.router.WebExchange;
-import io.winterframework.mod.web.router.annotation.FormParam;
-import io.winterframework.mod.web.router.annotation.WebController;
-import io.winterframework.mod.web.router.annotation.WebRoute;
+import io.winterframework.mod.http.base.Method;
+import io.winterframework.mod.http.base.NotFoundException;
+import io.winterframework.mod.http.base.Status;
+import io.winterframework.mod.http.base.header.Headers;
+import io.winterframework.mod.web.WebExchange;
+import io.winterframework.mod.web.annotation.FormParam;
+import io.winterframework.mod.web.annotation.WebController;
+import io.winterframework.mod.web.annotation.WebRoute;
 
 /**
  * @author jkuhn
@@ -60,7 +60,7 @@ public class StringMessageController  implements GenericMessageController<String
 	public void createMessage(GenericMessage<String> message, WebExchange exchange) {
 		message.setId(this.index.getAndIncrement());
 		this.data.put(message.getId(), message);
-		exchange.response().headers().status(Status.CREATED).add(Headers.NAME_LOCATION, URIs.uri(exchange.request().headers().getPath()).segment(Integer.toString(message.getId())).buildPath());
+		exchange.response().headers().status(Status.CREATED).add(Headers.NAME_LOCATION, URIs.uri(exchange.request().getPathAbsolute()).segment(Integer.toString(message.getId())).buildPath());
 	}
 
 	// curl -iv http://127.0.0.1:8080/message/string/0
@@ -112,6 +112,6 @@ public class StringMessageController  implements GenericMessageController<String
 	public void createMessage(@FormParam String param1, @FormParam String param2, WebExchange exchange) {
 		GenericMessage<String> message = new GenericMessage<String>(this.index.getAndIncrement(), param1 + param2);
 		this.data.put(message.getId(), message);
-		exchange.response().headers().status(Status.CREATED).add(Headers.NAME_LOCATION, URIs.uri(exchange.request().headers().getPath()).segment(Integer.toString(message.getId())).buildPath());
+		exchange.response().headers().status(Status.CREATED).add(Headers.NAME_LOCATION, URIs.uri(exchange.request().getPathAbsolute()).segment(Integer.toString(message.getId())).buildPath());
 	}
 }

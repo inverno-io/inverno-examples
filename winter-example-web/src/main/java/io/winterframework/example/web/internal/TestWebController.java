@@ -41,20 +41,20 @@ import io.winterframework.mod.base.Charsets;
 import io.winterframework.mod.base.resource.MediaTypes;
 import io.winterframework.mod.base.resource.Resource;
 import io.winterframework.mod.base.resource.ResourceService;
-import io.winterframework.mod.web.Method;
-import io.winterframework.mod.web.router.WebPart;
-import io.winterframework.mod.web.router.WebResponseBody;
-import io.winterframework.mod.web.router.annotation.Body;
-import io.winterframework.mod.web.router.annotation.CookieParam;
-import io.winterframework.mod.web.router.annotation.FormParam;
-import io.winterframework.mod.web.router.annotation.HeaderParam;
-import io.winterframework.mod.web.router.annotation.PathParam;
-import io.winterframework.mod.web.router.annotation.QueryParam;
-import io.winterframework.mod.web.router.annotation.SseEventFactory;
-import io.winterframework.mod.web.router.annotation.WebController;
-import io.winterframework.mod.web.router.annotation.WebRoute;
-import io.winterframework.mod.web.server.Part;
-import io.winterframework.mod.web.server.ResponseBody;
+import io.winterframework.mod.http.base.Method;
+import io.winterframework.mod.http.server.Part;
+import io.winterframework.mod.http.server.ResponseBody;
+import io.winterframework.mod.web.WebPart;
+import io.winterframework.mod.web.WebResponseBody;
+import io.winterframework.mod.web.annotation.Body;
+import io.winterframework.mod.web.annotation.CookieParam;
+import io.winterframework.mod.web.annotation.FormParam;
+import io.winterframework.mod.web.annotation.HeaderParam;
+import io.winterframework.mod.web.annotation.PathParam;
+import io.winterframework.mod.web.annotation.QueryParam;
+import io.winterframework.mod.web.annotation.SseEventFactory;
+import io.winterframework.mod.web.annotation.WebController;
+import io.winterframework.mod.web.annotation.WebRoute;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -125,7 +125,7 @@ public class TestWebController {
 	
 	public boolean get_raw_flux;
 	
-	// curl --insecure -iv http://127.0.0.1:8080/get_raw/flux
+	// curl --insecure -iv 'http://127.0.0.1:8080/get_raw/flux'
 	@WebRoute(path = "/get_raw/flux", method = Method.GET)
 	public Mono<ByteBuf> get_raw_flux() {
 		this.get_raw_flux = true;

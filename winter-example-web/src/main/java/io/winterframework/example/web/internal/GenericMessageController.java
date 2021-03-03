@@ -17,11 +17,11 @@ package io.winterframework.example.web.internal;
 
 import io.winterframework.example.web.dto.GenericMessage;
 import io.winterframework.mod.base.resource.MediaTypes;
-import io.winterframework.mod.web.Method;
-import io.winterframework.mod.web.router.WebExchange;
-import io.winterframework.mod.web.router.annotation.Body;
-import io.winterframework.mod.web.router.annotation.PathParam;
-import io.winterframework.mod.web.router.annotation.WebRoute;
+import io.winterframework.mod.http.base.Method;
+import io.winterframework.mod.web.WebExchange;
+import io.winterframework.mod.web.annotation.Body;
+import io.winterframework.mod.web.annotation.PathParam;
+import io.winterframework.mod.web.annotation.WebRoute;
 
 /**
  * @author jkuhn

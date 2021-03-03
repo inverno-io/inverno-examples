@@ -17,7 +17,7 @@
 /**
  * <p>This is an example application to demonstrate Winter Web router module <a href="test.html" title="toto">test link</a>.</p>
  * 
- * <p>It especially shows how to create {@link io.winterframework.mod.web.router.annotation.WebController WebController} beans.</p>
+ * <p>It especially shows how to create {@link io.winterframework.mod.web.annotation.WebController WebController} beans.</p>
  * 
  * <p><img src="toto.png" alt="toto alt" title="toto title"/></p>
  * 
@@ -30,13 +30,13 @@
 
 @io.winterframework.core.annotation.Wire(beans="io.winterframework.mod.boot:jsonByteBufConverter", into="io.winterframework.example.web:jsonHandler:jsonConverter")
 
-@io.winterframework.core.annotation.Wire(beans="io.winterframework.example.web:webRouterConfigurer", into="io.winterframework.mod.web.router:WebRouterConfigurer")
+@io.winterframework.core.annotation.Wire(beans="io.winterframework.example.web:webRouterConfigurer", into="io.winterframework.mod.web:WebRouterConfigurer")
 module io.winterframework.example.web {
 	requires io.winterframework.core;
 
 	requires io.winterframework.mod.boot;
 	
-	requires io.winterframework.mod.web.router;
+	requires io.winterframework.mod.web;
 	
 	requires com.fasterxml.jackson.databind;
 	requires io.netty.common;
