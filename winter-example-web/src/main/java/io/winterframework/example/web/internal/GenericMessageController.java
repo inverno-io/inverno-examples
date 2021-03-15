@@ -24,7 +24,7 @@ import io.winterframework.mod.web.annotation.PathParam;
 import io.winterframework.mod.web.annotation.WebRoute;
 
 /**
- * @author jkuhn
+ * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  *
  */
 public interface GenericMessageController<A> {

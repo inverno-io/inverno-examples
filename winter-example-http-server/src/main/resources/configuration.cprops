@@ -1,0 +1,14 @@
+io.winterframework.example.http.server.appConfiguration {
+	http_server { 
+		ssl_enabled = false
+		server_port = 8080
+		h2c_enabled = false
+		key_store = "module://io.winterframework.example.http.server/cert.jks"
+		key_store_password = "password"
+		[ profile="https" ] {
+			h2c_enabled = false
+			ssl_enabled = true
+			server_port = 8443
+		}
+	}
+}

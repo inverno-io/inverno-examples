@@ -13,24 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.winterframework.example.web.internal;
-
-import io.winterframework.core.annotation.Bean;
-import io.winterframework.mod.web.annotation.WebController;
 
 /**
- * @author jkuhn
+ * @author <a href="jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  *
  */
-@Bean
-@WebController
-public class EmptyWebController {
+@io.winterframework.core.annotation.Module
+module io.winterframework.example.http.server {
+	requires io.winterframework.core;
 
-	/**
-	 * 
-	 */
-	public EmptyWebController() {
-		// TODO Auto-generated constructor stub
-	}
-
+	requires io.winterframework.mod.boot;
+	requires io.winterframework.mod.http.server;
+	
+	requires io.netty.common;
+	requires io.netty.codec.http;
 }

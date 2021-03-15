@@ -16,7 +16,7 @@
 
 /**
  * 
- * @author jkuhn
+ * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  *
  */
 @io.winterframework.core.annotation.Module

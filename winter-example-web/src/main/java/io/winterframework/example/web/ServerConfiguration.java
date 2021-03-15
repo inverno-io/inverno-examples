@@ -23,14 +23,14 @@ import io.winterframework.mod.configuration.Configuration;
 import io.winterframework.mod.web.WebConfiguration;
 
 /**
- * @author jkuhn
+ * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  *
  */
 @Configuration
 public interface ServerConfiguration {
 
 	@NestedBean
-	WebConfiguration web_router();
+	WebConfiguration web();
 
 	default Path web_root() {
 		return Paths.get("web-root/");

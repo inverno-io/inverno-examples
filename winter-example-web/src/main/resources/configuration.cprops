@@ -1,6 +1,6 @@
 io.winterframework.example.web.serverConfiguration {
-	web_router {
-		web { 
+	web {
+		http_server { 
 			ssl_enabled = false
 			server_port = 8080
 			h2c_enabled = false

@@ -33,7 +33,7 @@ import io.winterframework.mod.web.annotation.WebController;
 import io.winterframework.mod.web.annotation.WebRoute;
 
 /**
- * @author jkuhn
+ * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  *
  */
 @Bean

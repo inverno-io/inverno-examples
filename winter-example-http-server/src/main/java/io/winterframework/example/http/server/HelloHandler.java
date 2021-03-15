@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.winterframework.example.web.internal;
+package io.winterframework.example.http.server;
 
 import java.util.function.Supplier;
 
@@ -30,11 +30,13 @@ import io.winterframework.mod.http.server.ExchangeHandler;
 import reactor.core.publisher.Mono;
 
 /**
- * @author jkuhn
+ * <p>Optimized Hello world for benchmarking</p>
+ * 
+ * @author <a href="jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  *
  */
 @Bean
-public class PlaintextHandler implements ExchangeHandler<Exchange> {
+public class HelloHandler implements ExchangeHandler<Exchange> {
 
 	private static final byte[] STATIC_PLAINTEXT = "Hello, World!".getBytes(Charsets.UTF_8);
 	private static final ByteBuf STATIC_PLAINTEXT_BYTEBUF;
@@ -58,16 +60,9 @@ public class PlaintextHandler implements ExchangeHandler<Exchange> {
 	}
 	
 	private static final Mono<ByteBuf> PLAIN_TEXT_MONO = Mono.fromSupplier(new PlaintextSupplier());
-
+	
 	@Override
 	public void handle(Exchange exchange) throws WebException {
-		exchange.response()
-			.headers(h -> h
-				.add(HttpHeaderNames.CONTENT_LENGTH, PLAINTEXT_CLHEADER_VALUE)
-				.add(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.TEXT_PLAIN)
-				.add(HttpHeaderNames.SERVER, STATIC_SERVER)
-			)
-			.body().raw().stream(PLAIN_TEXT_MONO);
+		exchange.response().headers(h -> h.add(HttpHeaderNames.CONTENT_LENGTH, PLAINTEXT_CLHEADER_VALUE).add(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.TEXT_PLAIN).add(HttpHeaderNames.SERVER, STATIC_SERVER)).body().raw().stream(PLAIN_TEXT_MONO);
 	}
-
 }

@@ -45,7 +45,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
- * @author jkuhn
+ * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  *
  */
 //@Bean( visibility = Visibility.PRIVATE)
@@ -207,6 +207,17 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 //				)
 //				.doOnNext(evt -> System.out.println("Emit sse"))
 //		);
+		
+		exchange.response().body().sse().from(
+			(events, data) -> Flux.interval(Duration.ofSeconds(1))
+				.map(seq -> events.create(event -> event
+						.id(Long.toString(seq))
+						.event("seq")
+						.value(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Event #" + seq, Charsets.DEFAULT)))
+					)
+				)
+		);
+		
 		
 		exchange.response().body().<Message>sseEncoder(MediaTypes.APPLICATION_JSON, Message.class).from(
 			(events, data) -> Flux.interval(Duration.ofSeconds(1))

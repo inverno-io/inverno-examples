@@ -42,6 +42,7 @@ import io.winterframework.mod.base.resource.MediaTypes;
 import io.winterframework.mod.base.resource.Resource;
 import io.winterframework.mod.base.resource.ResourceService;
 import io.winterframework.mod.http.base.Method;
+import io.winterframework.mod.http.base.Parameter;
 import io.winterframework.mod.http.server.Part;
 import io.winterframework.mod.http.server.ResponseBody;
 import io.winterframework.mod.web.WebPart;
@@ -59,9 +60,11 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
- * <p>This is a simple controller.</p>
+ * <p>
+ * This is a testing controller.
+ * </p>
  * 
- * @author jkuhn
+ * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  * 
  * @winter.tag tata titi
  * 
@@ -1258,4 +1261,8 @@ public class TestWebController {
 	
 	// TODO mix everything
 	
+	@WebRoute(path = "/test", method = Method.POST, produces = MediaTypes.TEXT_PLAIN, consumes = MediaTypes.APPLICATION_X_WWW_FORM_URLENCODED)
+	public Flux<String> test(@Body Flux<Parameter> data) {
+		return data.map(p -> p.getValue() + "|");
+	}
 }

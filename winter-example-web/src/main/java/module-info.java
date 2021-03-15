@@ -15,22 +15,17 @@
  */
 
 /**
- * <p>This is an example application to demonstrate Winter Web router module <a href="test.html" title="toto">test link</a>.</p>
+ * <p>This is an example application to demonstrate Winter Web module.</p>
  * 
  * <p>It especially shows how to create {@link io.winterframework.mod.web.annotation.WebController WebController} beans.</p>
- * 
- * <p><img src="toto.png" alt="toto alt" title="toto title"/></p>
  * 
  * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  * 
  * @version 1.2.3
- * 
  */
 @io.winterframework.core.annotation.Module
 
-@io.winterframework.core.annotation.Wire(beans="io.winterframework.mod.boot:jsonByteBufConverter", into="io.winterframework.example.web:jsonHandler:jsonConverter")
-
-@io.winterframework.core.annotation.Wire(beans="io.winterframework.example.web:webRouterConfigurer", into="io.winterframework.mod.web:WebRouterConfigurer")
+@io.winterframework.core.annotation.Wire(beans="io.winterframework.example.web:webRouterConfigurer", into="io.winterframework.mod.web:webRouterConfigurer")
 module io.winterframework.example.web {
 	requires io.winterframework.core;
 

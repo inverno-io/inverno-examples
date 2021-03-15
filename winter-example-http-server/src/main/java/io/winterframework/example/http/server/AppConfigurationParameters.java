@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 Jeremy KUHN
+ * Copyright 2021 Jeremy KUHN
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.winterframework.example.simple;
+package io.winterframework.example.http.server;
+
+import java.util.List;
+import java.util.function.Supplier;
+
+import io.winterframework.core.annotation.Bean;
+import io.winterframework.mod.configuration.ConfigurationKey.Parameter;
 
 /**
- * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
+ * @author <a href="jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  *
  */
-public class App {
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		
-	}
-}
+@Bean
+public interface AppConfigurationParameters extends Supplier<List<Parameter>> {}

@@ -16,6 +16,7 @@
 package io.winterframework.example.web.internal;
 
 import io.winterframework.core.annotation.Bean;
+import io.winterframework.mod.base.resource.MediaTypes;
 import io.winterframework.mod.http.base.Method;
 import io.winterframework.mod.web.WebExchange;
 import io.winterframework.mod.web.WebRouter;
@@ -24,18 +25,18 @@ import io.winterframework.mod.web.annotation.WebRoute;
 import io.winterframework.mod.web.annotation.WebRoutes;
 
 /**
- * @author jkuhn
+ * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  *
  */
 @WebRoutes({
-	@WebRoute(path = { "/some|get" }, method = { Method.GET }, produces = { "application/json" })
+	@WebRoute(path = { "/some_get" }, method = { Method.GET }, produces = { MediaTypes.APPLICATION_JSON })
 })
 @Bean
 public class CustomWebRouterConfigurer implements WebRouterConfigurer<WebExchange> {
 
 	@Override
 	public void accept(WebRouter<WebExchange> router) {
-		router.route().path("/some|get", false).method(Method.GET).produces("application/json").handler(exchange -> {
+		router.route().path("/some_get", false).method(Method.GET).produces(MediaTypes.APPLICATION_JSON).handler(exchange -> {
 			exchange.response().body().encoder(String.class).value("Some Get");
 		});
 	}

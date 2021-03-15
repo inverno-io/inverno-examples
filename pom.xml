@@ -57,6 +57,7 @@
 	</build>
 
 	<modules>
+		<module>winter-example-http-server</module>
 		<module>winter-example-simple</module>
 		<module>winter-example-web</module>
 	</modules>
