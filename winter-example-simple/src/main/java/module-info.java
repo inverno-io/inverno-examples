@@ -21,7 +21,6 @@
  */
 @io.winterframework.core.annotation.Module
 module io.winterframework.example.simple {
-	requires io.winterframework.core;
 	requires io.winterframework.mod.boot;
 	
 	exports io.winterframework.example.simple;

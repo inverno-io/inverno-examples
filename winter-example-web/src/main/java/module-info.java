@@ -15,9 +15,15 @@
  */
 
 /**
- * <p>This is an example application to demonstrate Winter Web module.</p>
+ * <p>
+ * This is an example application to demonstrate Winter Web module.
+ * </p>
  * 
- * <p>It especially shows how to create {@link io.winterframework.mod.web.annotation.WebController WebController} beans.</p>
+ * <p>
+ * It especially shows how to create
+ * {@link io.winterframework.mod.web.annotation.WebController WebController}
+ * beans.
+ * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  * 
@@ -27,10 +33,7 @@
 
 @io.winterframework.core.annotation.Wire(beans="io.winterframework.example.web:webRouterConfigurer", into="io.winterframework.mod.web:webRouterConfigurer")
 module io.winterframework.example.web {
-	requires io.winterframework.core;
-
 	requires io.winterframework.mod.boot;
-	
 	requires io.winterframework.mod.web;
 	
 	requires com.fasterxml.jackson.databind;

@@ -20,8 +20,6 @@
  */
 @io.winterframework.core.annotation.Module
 module io.winterframework.example.http.server {
-	requires io.winterframework.core;
-
 	requires io.winterframework.mod.boot;
 	requires io.winterframework.mod.http.server;
 	
