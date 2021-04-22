@@ -16,11 +16,12 @@
 package io.winterframework.example.http.server;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import io.winterframework.core.v1.Application;
 import io.winterframework.mod.configuration.ConfigurationKey.Parameter;
-import io.winterframework.mod.configuration.source.ApplicationConfigurationSource;
+import io.winterframework.mod.configuration.source.BootstrapConfigurationSource;
 
 /**
  * <p>
@@ -48,8 +49,15 @@ public class App {
 	 * @throws IllegalStateException
 	 */
 	public static void main(String[] args) throws IllegalStateException, IllegalArgumentException, IOException {
+
+		Arrays.stream(args).forEach(System.out::println);
+		
+		BootstrapConfigurationSource source = new BootstrapConfigurationSource(App.class.getModule(), args);
+		
+		System.out.println(source.get("toto").execute().blockFirst().getResult().get().asString().get());
+		
 		Application.with(new Server.Builder()
-				.setAppConfigurationSource(new ApplicationConfigurationSource(App.class.getModule(), args))
+				.setAppConfigurationSource(new BootstrapConfigurationSource(App.class.getModule(), args))
 				.setAppConfigurationParameters(List.of(Parameter.of("profile", System.getProperty("profile", "default"))))
 			).run();
 	}

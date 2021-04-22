@@ -36,7 +36,7 @@ import io.winterframework.mod.base.resource.MediaTypes;
 import io.winterframework.mod.base.resource.ResourceService;
 import io.winterframework.mod.http.base.InternalServerErrorException;
 import io.winterframework.mod.http.base.Method;
-import io.winterframework.mod.http.base.WebException;
+import io.winterframework.mod.http.base.HttpException;
 import io.winterframework.mod.http.server.Exchange;
 import io.winterframework.mod.web.StaticHandler;
 import io.winterframework.mod.web.WebExchange;
@@ -107,7 +107,7 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 			.body().raw().stream(PLAIN_TEXT_MONO);
 	}
 	
-	private void json(WebExchange exchange) throws WebException {
+	private void json(WebExchange exchange) throws HttpException {
 		exchange.response().body().encoder().value(new Message("Hello, World!"));
 	}
 	
@@ -195,32 +195,19 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 	
 	private void sse(WebExchange exchange) {
 		
-//		exchange.response().body().sse2().from(
-//			(events, data) -> Flux.interval(Duration.ofSeconds(1))
-//				.map(seq -> events.apply(
-//						event -> event
-//							.id(Long.toString(seq))
-//							.event("periodic-event")
-//							.comment("some comment \n on mutliple lines")
-//							.value(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("SSE - " + LocalTime.now().toString() + "\r\n", Charsets.UTF_8)))
-//					)
-//				)
-//				.doOnNext(evt -> System.out.println("Emit sse"))
-//		);
-		
 		exchange.response().body().sse().from(
-			(events, data) -> Flux.interval(Duration.ofSeconds(1))
+			(events, data) -> data.stream(Flux.interval(Duration.ofSeconds(1))
 				.map(seq -> events.create(event -> event
 						.id(Long.toString(seq))
 						.event("seq")
-						.value(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Event #" + seq, Charsets.DEFAULT)))
-					)
+						.value(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Event #" + seq, Charsets.DEFAULT))))
 				)
+			)
 		);
 		
 		
 		exchange.response().body().<Message>sseEncoder(MediaTypes.APPLICATION_JSON, Message.class).from(
-			(events, data) -> Flux.interval(Duration.ofSeconds(1))
+			(events, data) -> data.stream(Flux.interval(Duration.ofSeconds(1))
 				.map(seq -> events.create(
 						event -> event
 							.id(Long.toString(seq))
@@ -230,6 +217,7 @@ public class WebRouterConfigurer implements Consumer<WebRouter<WebExchange>> {
 					)
 				)
 				.doOnNext(evt -> System.out.println("Emit sse"))
+			)
 		);
 	}
 }

@@ -36,10 +36,6 @@ module io.winterframework.example.web {
 	requires io.winterframework.mod.boot;
 	requires io.winterframework.mod.web;
 	
-	requires com.fasterxml.jackson.databind;
-	requires io.netty.common;
-	requires io.netty.codec.http;
-	
 	exports io.winterframework.example.web;
 	exports io.winterframework.example.web.dto;
 }

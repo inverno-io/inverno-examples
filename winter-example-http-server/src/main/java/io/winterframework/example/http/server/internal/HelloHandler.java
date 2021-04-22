@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.winterframework.example.http.server;
+package io.winterframework.example.http.server.internal;
 
 import java.util.function.Supplier;
 
@@ -24,7 +24,7 @@ import io.netty.handler.codec.http.HttpHeaderValues;
 import io.netty.util.AsciiString;
 import io.winterframework.core.annotation.Bean;
 import io.winterframework.mod.base.Charsets;
-import io.winterframework.mod.http.base.WebException;
+import io.winterframework.mod.http.base.HttpException;
 import io.winterframework.mod.http.server.Exchange;
 import io.winterframework.mod.http.server.ExchangeHandler;
 import reactor.core.publisher.Mono;
@@ -62,7 +62,7 @@ public class HelloHandler implements ExchangeHandler<Exchange> {
 	private static final Mono<ByteBuf> PLAIN_TEXT_MONO = Mono.fromSupplier(new PlaintextSupplier());
 	
 	@Override
-	public void handle(Exchange exchange) throws WebException {
+	public void handle(Exchange exchange) throws HttpException {
 		exchange.response().headers(h -> h.add(HttpHeaderNames.CONTENT_LENGTH, PLAINTEXT_CLHEADER_VALUE).add(HttpHeaderNames.CONTENT_TYPE, HttpHeaderValues.TEXT_PLAIN).add(HttpHeaderNames.SERVER, STATIC_SERVER)).body().raw().stream(PLAIN_TEXT_MONO);
 	}
 }

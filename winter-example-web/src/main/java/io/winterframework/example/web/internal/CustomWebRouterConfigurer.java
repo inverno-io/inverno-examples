@@ -16,8 +16,10 @@
 package io.winterframework.example.web.internal;
 
 import io.winterframework.core.annotation.Bean;
+import io.winterframework.mod.base.resource.FileResource;
 import io.winterframework.mod.base.resource.MediaTypes;
 import io.winterframework.mod.http.base.Method;
+import io.winterframework.mod.web.StaticHandler;
 import io.winterframework.mod.web.WebExchange;
 import io.winterframework.mod.web.WebRouter;
 import io.winterframework.mod.web.WebRouterConfigurer;
@@ -34,10 +36,44 @@ import io.winterframework.mod.web.annotation.WebRoutes;
 @Bean
 public class CustomWebRouterConfigurer implements WebRouterConfigurer<WebExchange> {
 
+	public interface SecurityContext {
+		boolean isAuthenticated();
+	}
+	
+	public interface Book {
+		String getId();
+	}
+	
+	public class Result {
+		
+		public Result(String message) {
+		}
+		
+		public String getMessage() {
+			return null;
+		}
+	}
+	
+	public interface BookRepository {
+	}
+	
+	public class SearchResult {
+		
+		
+	}
+	
 	@Override
 	public void accept(WebRouter<WebExchange> router) {
 		router.route().path("/some_get", false).method(Method.GET).produces(MediaTypes.APPLICATION_JSON).handler(exchange -> {
 			exchange.response().body().encoder(String.class).value("Some Get");
 		});
+		
+		router.route()
+			.path("/static/{path:.*}")
+			.handler(new StaticHandler(new FileResource("/home/jkuhn/Devel/git/frmk/io.winterframework.example.app_web/web-root/")));
+	}
+	
+	public Result storeBook(Book book) {
+		return null;
 	}
 }

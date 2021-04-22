@@ -1,15 +1,15 @@
 io.winterframework.example.web.serverConfiguration {
 	web {
 		http_server { 
-			ssl_enabled = false
+			tls_enabled = false
 			server_port = 8080
 			h2c_enabled = false
-			key_store = "module://io.winterframework.example.web/cert.jks"
-			key_store_password = "password"
 			[ profile="https" ] {
-				h2c_enabled = false
-				ssl_enabled = true
+				tls_enabled = true
+				key_store = "module://io.winterframework.example.web/cert.jks"
+				key_store_password = "password"
 				server_port = 8443
+				h2c_enabled = false
 			}
 		}
 		enable_open_api = true

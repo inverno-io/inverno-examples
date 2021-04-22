@@ -16,6 +16,7 @@
 package io.winterframework.example.http.server;
 
 import io.winterframework.core.annotation.NestedBean;
+import io.winterframework.mod.boot.NetConfiguration;
 import io.winterframework.mod.configuration.Configuration;
 import io.winterframework.mod.http.server.HttpServerConfiguration;
 
@@ -26,6 +27,9 @@ import io.winterframework.mod.http.server.HttpServerConfiguration;
 @Configuration
 public interface AppConfiguration {
 
+	@NestedBean
+	NetConfiguration net();
+	
 	@NestedBean
 	HttpServerConfiguration http_server();
 }

@@ -25,4 +25,13 @@ module io.winterframework.example.http.server {
 	
 	requires io.netty.common;
 	requires io.netty.codec.http;
+	
+	// needed for epoll: use --add-modules instead
+//	requires io.netty.transport.unix.common;
+//	requires io.netty.transport.epoll;
+	
+	// needed for ssl
+//	requires jdk.crypto.ec;
+	
+	exports io.winterframework.example.http.server;
 }

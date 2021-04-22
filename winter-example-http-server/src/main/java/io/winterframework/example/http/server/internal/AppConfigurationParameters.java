@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.winterframework.example.http.server;
+package io.winterframework.example.http.server.internal;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 import io.winterframework.core.annotation.Bean;
-import io.winterframework.mod.configuration.ConfigurationSource;
+import io.winterframework.mod.configuration.ConfigurationKey.Parameter;
 
 /**
  * @author <a href="jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  *
  */
 @Bean
-public interface AppConfigurationSource extends Supplier<ConfigurationSource<?, ?, ?>> {}
+public interface AppConfigurationParameters extends Supplier<List<Parameter>> {}

@@ -33,6 +33,8 @@
 
 	<properties>
 		<version.winter.modules>1.0.0-SNAPSHOT</version.winter.modules>
+		<maven.compiler.source>15</maven.compiler.source>
+		<maven.compiler.target>15</maven.compiler.target>
 	</properties>
 	
 	<dependencies>
@@ -57,7 +59,7 @@
 			<groupId>io.netty</groupId>
 			<artifactId>netty-transport-native-epoll</artifactId>
 			<classifier>linux-x86_64</classifier>
-	    </dependency>
+		</dependency>
 		
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
@@ -100,6 +102,29 @@
 						</manifest>
 					</archive>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>io.winterframework.tool</groupId>
+				<artifactId>winter-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>winter-package</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build-app</goal>
+						</goals>
+						<configuration>
+							<vm>server</vm>
+							<!-- jdk.crypto.ec: TLS, jdk.jdwp.agent: remote debug -->
+							<addModules>jdk.crypto.ec,jdk.jdwp.agent</addModules>
+							<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.epoll,org.webjars.swagger.ui</vmOptions>
+							<formats>
+								<format>zip</format>
+								<format>deb</format>
+							</formats>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
