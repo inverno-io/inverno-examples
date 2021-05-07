@@ -13,21 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.winterframework.example.app_web;
+
+import io.winterframework.example.app_web.dto.Book;
+import io.winterframework.mod.web.WebExchange;
+import io.winterframework.mod.web.annotation.WebController;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
- * <p>
- * Winter example application module demonstrating Web server module.
- * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
- * 
- * @version 1.0.0
+ *
  */
-@io.winterframework.core.annotation.Module
-@io.winterframework.core.annotation.Wire(beans="io.winterframework.example.app_web:webRouterConfigurer", into="io.winterframework.mod.web:webRouterConfigurer")
-module io.winterframework.example.app_web {
-    requires io.winterframework.mod.boot;
-    requires io.winterframework.mod.web;
-    
-    exports io.winterframework.example.app_web.dto to com.fasterxml.jackson.databind;
+@WebController(path = "/book")
+public interface BookResource extends CRUD<Book> {
+
+	Mono<Void> create(Mono<Book> book, WebExchange exchange);
+	
+	Mono<Void> update(String id, Mono<Book> book);
+	
+	Flux<Book> list();
+	
+	Mono<Book> get(String id);
+	
+	Mono<Void> delete(String id);
 }

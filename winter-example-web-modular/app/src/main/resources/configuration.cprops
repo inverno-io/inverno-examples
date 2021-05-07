@@ -1,4 +1,4 @@
-io.winterframework.example.app_web.app_webConfiguration.web {
+io.winterframework.example.web_modular.app.appConfiguration.web {
 	enable_open_api = true
 	enable_webjars = true
 	

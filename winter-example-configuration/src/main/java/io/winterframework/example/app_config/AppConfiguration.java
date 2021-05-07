@@ -13,21 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.winterframework.example.app_config;
+
+import java.net.URI;
+import java.time.LocalDate;
+
+import io.winterframework.mod.configuration.Configuration;
 
 /**
  * <p>
- * Winter example application module demonstrating Web server module.
+ * Interface defining the application configuration.
+ * </p>
+ * 
+ * <p>
+ * This interface is processed by the compiler to generate a configuration
+ * loader.
  * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
- * 
- * @version 1.0.0
+ *
  */
-@io.winterframework.core.annotation.Module
-@io.winterframework.core.annotation.Wire(beans="io.winterframework.example.app_web:webRouterConfigurer", into="io.winterframework.mod.web:webRouterConfigurer")
-module io.winterframework.example.app_web {
-    requires io.winterframework.mod.boot;
-    requires io.winterframework.mod.web;
-    
-    exports io.winterframework.example.app_web.dto to com.fasterxml.jackson.databind;
+@Configuration
+public interface AppConfiguration {
+
+	default String message() {
+		return "Default message";
+	}
+
+	int id();
+	
+	URI uri();
+	
+	LocalDate date();
 }

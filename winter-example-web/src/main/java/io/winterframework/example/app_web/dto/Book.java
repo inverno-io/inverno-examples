@@ -13,21 +13,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.winterframework.example.app_web.dto;
 
 /**
- * <p>
- * Winter example application module demonstrating Web server module.
- * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
- * 
- * @version 1.0.0
+ *
  */
-@io.winterframework.core.annotation.Module
-@io.winterframework.core.annotation.Wire(beans="io.winterframework.example.app_web:webRouterConfigurer", into="io.winterframework.mod.web:webRouterConfigurer")
-module io.winterframework.example.app_web {
-    requires io.winterframework.mod.boot;
-    requires io.winterframework.mod.web;
-    
-    exports io.winterframework.example.app_web.dto to com.fasterxml.jackson.databind;
+public class Book {
+
+	private String isbn;
+	
+	private String title;
+
+	private String author;
+	
+	private int pages;
+	
+	public Book() {
+	}
+
+	public String getIsbn() {
+		return isbn;
+	}
+
+	public void setIsbn(String isbn) {
+		this.isbn = isbn;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public int getPages() {
+		return pages;
+	}
+
+	public void setPages(int pages) {
+		this.pages = pages;
+	}
+
 }

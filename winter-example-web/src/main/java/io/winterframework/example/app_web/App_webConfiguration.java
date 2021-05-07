@@ -13,21 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package io.winterframework.example.app_web;
+
+import java.net.URI;
+import java.nio.file.Paths;
+
+import io.winterframework.core.annotation.NestedBean;
+import io.winterframework.mod.boot.NetConfiguration;
+import io.winterframework.mod.configuration.Configuration;
+import io.winterframework.mod.web.WebConfiguration;
 
 /**
- * <p>
- * Winter example application module demonstrating Web server module.
- * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
- * 
- * @version 1.0.0
+ *
  */
-@io.winterframework.core.annotation.Module
-@io.winterframework.core.annotation.Wire(beans="io.winterframework.example.app_web:webRouterConfigurer", into="io.winterframework.mod.web:webRouterConfigurer")
-module io.winterframework.example.app_web {
-    requires io.winterframework.mod.boot;
-    requires io.winterframework.mod.web;
-    
-    exports io.winterframework.example.app_web.dto to com.fasterxml.jackson.databind;
+@Configuration
+public interface App_webConfiguration {
+
+	default URI web_root() {
+		return Paths.get("web-root/").toUri();
+	}
+	
+    @NestedBean
+    NetConfiguration net();
+
+    @NestedBean
+    WebConfiguration web();
 }

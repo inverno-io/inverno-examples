@@ -1,0 +1,20 @@
+io.winterframework.example.app_config.appConfiguration {
+	[ environment = "test" ] {
+		message = "Test message"
+		id = 123
+		uri = "http://test"
+	}
+	
+	[ environment = "production" ] {
+		message = "Production message"
+		date = "2021-01-01"
+		[ node = "node-1" ] {
+			id = 1
+			uri = "https://node-1.production"
+		}
+		[ node = "node-2" ] {
+			id = 2
+			uri = "https://node-2.production"
+		}
+	}
+}

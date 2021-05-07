@@ -16,18 +16,15 @@
 
 /**
  * <p>
- * Winter example application module demonstrating Web server module.
+ * Winter example application module demonstrating configuration module.
  * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
- * 
- * @version 1.0.0
+ *
  */
 @io.winterframework.core.annotation.Module
-@io.winterframework.core.annotation.Wire(beans="io.winterframework.example.app_web:webRouterConfigurer", into="io.winterframework.mod.web:webRouterConfigurer")
-module io.winterframework.example.app_web {
-    requires io.winterframework.mod.boot;
-    requires io.winterframework.mod.web;
-    
-    exports io.winterframework.example.app_web.dto to com.fasterxml.jackson.databind;
+module io.winterframework.example.app_config {
+    requires io.winterframework.core;
+    requires io.winterframework.mod.configuration;
+	requires org.apache.logging.log4j;
 }

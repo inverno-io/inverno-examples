@@ -15,19 +15,17 @@
  */
 
 /**
- * <p>
- * Winter example application module demonstrating Web server module.
- * </p>
+ * This is a sample Book API which demonstrates Winter Web module capabilities.
  * 
  * @author <a href="mailto:jeremy.kuhn@winterframework.io">Jeremy Kuhn</a>
  * 
- * @version 1.0.0
+ * @version 1.2.3
  */
-@io.winterframework.core.annotation.Module
-@io.winterframework.core.annotation.Wire(beans="io.winterframework.example.app_web:webRouterConfigurer", into="io.winterframework.mod.web:webRouterConfigurer")
-module io.winterframework.example.app_web {
-    requires io.winterframework.mod.boot;
+@io.winterframework.core.annotation.Module( excludes = { "io.winterframework.mod.web" } )
+module io.winterframework.example.web_modular.book {
+    requires io.winterframework.core;
     requires io.winterframework.mod.web;
     
-    exports io.winterframework.example.app_web.dto to com.fasterxml.jackson.databind;
+    exports io.winterframework.example.web_modular.book to io.winterframework.example.web_modular.app;
+    exports io.winterframework.example.web_modular.book.dto to com.fasterxml.jackson.databind;
 }
