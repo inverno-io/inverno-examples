@@ -1,6 +1,6 @@
 [winter-mod-http-server]: https://github.com/winterframework-io/winter-mods/blob/master/doc/reference-guide.md#http-server
 [winter-root-doc]: https://github.com/winterframework-io/winter/blob/master/doc/reference-guide.md
-[javadoc]: http://tbd
+[winter-javadoc]: https://winterframework.io/docs/release/api/index.html
 
 [epoll]: https://en.wikipedia.org/wiki/Epoll
 
@@ -28,7 +28,7 @@ $ mvn winter:run
      ║                 ,   __\_/\_\__   ,     \  / \  /| || | | || |_ |  __/| |                   ║
      ║                  , /_/ /\/\ \_\ ,       \/   \/ |_||_| |_| \__| \___||_|                   ║
      ║                   ,     /\     ,                                                           ║
-     ║                     ,   \/   ,                        -- 1.0.2-SNAPSHOT --                 ║
+     ║                     ,   \/   ,                        -- 1.0.2 --                          ║
      ║                       ' -- '                                                               ║
      ╠════════════════════════════════════════════════════════════════════════════════════════════╣
      ║ Java runtime        : OpenJDK Runtime Environment                                          ║
@@ -68,4 +68,4 @@ Hello from main!
 
 - [HTTP server module documentation][winter-mod-http-server]
 - [Winter core documentation][winter-root-doc]
-- [API documentation][javadoc]
+- [API documentation][winter-javadoc]

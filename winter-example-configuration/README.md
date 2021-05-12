@@ -1,6 +1,6 @@
 [winter-mod-configuration]: https://github.com/winterframework-io/winter-mods/blob/master/doc/reference-guide.md#configuration-1
 [winter-root-doc]: https://github.com/winterframework-io/winter/blob/master/doc/reference-guide.md
-[javadoc]: http://tbd
+[winter-javadoc]: https://winterframework.io/docs/release/api/index.html
 
 # Winter configuration example
 
@@ -129,4 +129,4 @@ $ mvn winter:run -Dwinter.exec.vmOptions="-Dnode=node-1"
 
 - [Configuration module documentation][winter-mod-configuration]
 - [Winter core documentation][winter-root-doc]
-- [API documentation][javadoc]
+- [API documentation][winter-javadoc]

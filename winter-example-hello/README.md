@@ -1,5 +1,5 @@
 [winter-root-doc]: https://github.com/winterframework-io/winter/blob/master/doc/reference-guide.md
-[javadoc]: http://tbd
+[winter-javadoc]: https://winterframework.io/docs/release/api/index.html
 
 # Winter hello example
 
@@ -17,4 +17,4 @@ Hello John, how are you today?
 ## Going further
 
 - [Winter core documentation][winter-root-doc]
-- [API documentation][javadoc]
+- [API documentation][winter-javadoc]

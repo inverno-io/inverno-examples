@@ -3,7 +3,7 @@
 [winter-dist-root]: https://github.com/winterframework-io/winter-dist
 [winter-root-doc]: https://github.com/winterframework-io/winter/blob/master/doc/reference-guide.md
 [winter-tool-maven-plugin]: https://github.com/winterframework-io/winter-tools/blob/master/winter-maven-plugin
-[javadoc]: http://tbd
+[winter-javadoc]: https://winterframework.io/docs/release/api/index.html
 
 [epoll]: https://en.wikipedia.org/wiki/Epoll
 [chunked-transfer-encoding]: https://en.wikipedia.org/wiki/Chunked_transfer_encoding
@@ -216,7 +216,7 @@ The application can be packaged as a native runtime image by invoking the `relea
 ```plaintext
 $ mvn install -Prelease
 ...
-[INFO] --- winter-maven-plugin:1.0.0-SNAPSHOT:build-app (winter-build-app) @ winter-example-web ---
+[INFO] --- winter-maven-plugin:1.0.0:build-app (winter-build-app) @ winter-example-web ---
 [INFO] Building application image: /home/jkuhn/Devel/git/frmk/winter/winter-examples/winter-example-web/target/maven-winter/application_linux_amd64/winter-example-web-1.0.0-SNAPSHOT...
  [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
 [INFO] 
@@ -245,7 +245,7 @@ A portable docker image of the application can be created as a `tar` archive by 
 ```plaintext
 $ mvn install -Prelease-docker
 ...
-[INFO] --- winter-maven-plugin:1.0.0-SNAPSHOT:build-image-tar (winter-build-image-docker) @ winter-example-web ---
+[INFO] --- winter-maven-plugin:1.0.0:build-image-tar (winter-build-image-docker) @ winter-example-web ---
 [INFO] Building project container image...
  [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
 [INFO] 
@@ -272,7 +272,7 @@ The application can be directly deployed to a local docker daemon by invoking th
 ```plaintext
 $ mvn install -Pinstall-docker
 ...
-[INFO] --- winter-maven-plugin:1.0.0-SNAPSHOT:build-image-docker (winter-build-image-docker) @ winter-example-web ---
+[INFO] --- winter-maven-plugin:1.0.0:build-image-docker (winter-build-image-docker) @ winter-example-web ---
 [INFO] Building project container image...
  [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
 [INFO] ------------------------------------------------------------------------
@@ -301,4 +301,4 @@ $ docker run --rm --network host -e LANG=C.UTF-8 winter-example-http-server:1.0.
 - [Winter distribution documentation][winter-dist-root]
 - [Winter Maven plugin documentation][winter-tool-maven-plugin]
 - [Winter core documentation][winter-root-doc]
-- [API documentation][javadoc]
+- [API documentation][winter-javadoc]
