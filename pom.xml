@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>io.winterframework.dist</groupId>
 		<artifactId>winter-parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 	<groupId>io.winterframework</groupId>
 	<artifactId>winter-examples-root</artifactId>

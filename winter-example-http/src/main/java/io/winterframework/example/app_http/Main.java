@@ -72,7 +72,6 @@ public class Main {
                         .server_port(8443)
                         .tls_enabled(true)
                         .key_store(URI.create("module:/keystore.jks"))
-                        .key_alias("selfsigned")
                         .key_store_password("password")
                         // Enable HTTP/2
                         .h2_enabled(true)
