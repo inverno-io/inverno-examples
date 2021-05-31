@@ -19,17 +19,17 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>io.winterframework.dist</groupId>
-		<artifactId>winter-parent</artifactId>
-		<version>1.0.0</version>
+		<groupId>io.inverno.dist</groupId>
+		<artifactId>inverno-parent</artifactId>
+		<version>1.1.0-SNAPSHOT</version>
 	</parent>
-	<groupId>io.winterframework</groupId>
-	<artifactId>winter-examples-root</artifactId>
+	<groupId>io.inverno</groupId>
+	<artifactId>inverno-examples-root</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	
-	<name>winter-examples-root</name>
-	<description>The Winter framework examples are a collection of applications demonstrating the Winter framework capabilities</description>
+	<name>inverno-examples-root</name>
+	<description>The Inverno framework examples are a collection of applications demonstrating the Inverno framework capabilities</description>
 
 	<properties>
 		<maven.compiler.source>9</maven.compiler.source>
@@ -45,10 +45,10 @@
 					<configuration>
 						<compilerArgs>
 							<arg>--module-version=${project.version}</arg>
-							<arg>-Awinter.verbose=true</arg>
-							<arg>-Awinter.debug=true</arg>
-							<arg>-Awinter.generateDescriptor=true</arg>
-							<arg>-Awinter.web.generateOpenApiDefinition=true</arg>
+							<arg>-Ainverno.verbose=true</arg>
+							<arg>-Ainverno.debug=true</arg>
+							<arg>-Ainverno.generateDescriptor=true</arg>
+							<arg>-Ainverno.web.generateOpenApiDefinition=true</arg>
 						</compilerArgs>
 					</configuration>
 				</plugin>
@@ -57,10 +57,10 @@
 	</build>
 
 	<modules>
-		<module>winter-example-configuration</module>
-		<module>winter-example-hello</module>
-		<module>winter-example-http</module>
-		<module>winter-example-web</module>
-		<module>winter-example-web-modular</module>
+		<module>inverno-example-configuration</module>
+		<module>inverno-example-hello</module>
+		<module>inverno-example-http</module>
+		<module>inverno-example-web</module>
+		<module>inverno-example-web-modular</module>
 	</modules>
 </project>

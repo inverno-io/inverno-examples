@@ -1,16 +1,16 @@
-[winter-root]: https://github.com/winterframework-io/winter
-[winter-mods-root]: https://github.com/winterframework-io/winter-mods
-[winter-tools-root]: https://github.com/winterframework-io/winter-tools
+[inverno-core-root]: https://github.com/inverno-io/inverno-core
+[inverno-mods-root]: https://github.com/inverno-io/inverno-mods
+[inverno-tools-root]: https://github.com/inverno-io/inverno-tools
 
 [apache-license]: https://www.apache.org/licenses/LICENSE-2.0
 
-# Winter examples
+# Inverno examples
 
-This project regroups several example Winter applications that show the various features provided in [Winter core][winter-root], [Winter modules][winter-mods-root] and [Winter tools][winter-tools-root].
+This project regroups several example Inverno applications that show the various features provided in [Inverno core][inverno-core-root], [Inverno modules][inverno-mods-root] and [Inverno tools][inverno-tools-root].
 
-## Building Winter framework examples
+## Building Inverno framework examples
 
-The Winter framework examples can be built using Maven and Java 9+ with the following command:
+The Inverno framework examples can be built using Maven and Java 9+ with the following command:
 
 ```plaintext
 $ mvn install
@@ -18,4 +18,4 @@ $ mvn install
 
 ## License
 
-The Winter Framework is released under version 2.0 of the [Apache License][apache-license].
+The Inverno Framework is released under version 2.0 of the [Apache License][apache-license].

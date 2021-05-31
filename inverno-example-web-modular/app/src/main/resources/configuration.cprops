@@ -1,0 +1,18 @@
+io.inverno.example.web_modular.app.appConfiguration.web {
+	enable_open_api = true
+	enable_webjars = true
+	
+	http_server {
+		h2c_enabled = true
+		
+		[ profile = "https" ] {
+			h2c_enabled = false
+			h2_enabled = true
+			server_port = 8443
+			tls_enabled = true
+			key_store = "module:/keystore.jks"
+			key_alias = "selfsigned"
+			key_store_password = "password"
+		}
+	}
+}
