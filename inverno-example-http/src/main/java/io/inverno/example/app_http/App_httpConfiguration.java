@@ -16,7 +16,7 @@
 package io.inverno.example.app_http;
 
 import io.inverno.core.annotation.NestedBean;
-import io.inverno.mod.boot.NetConfiguration;
+import io.inverno.mod.boot.BootConfiguration;
 import io.inverno.mod.configuration.Configuration;
 import io.inverno.mod.http.server.HttpServerConfiguration;
 
@@ -29,7 +29,7 @@ import io.inverno.mod.http.server.HttpServerConfiguration;
 public interface App_httpConfiguration {
 
     @NestedBean
-    NetConfiguration net();
+    BootConfiguration boot();
 
     @NestedBean
     HttpServerConfiguration http_server();

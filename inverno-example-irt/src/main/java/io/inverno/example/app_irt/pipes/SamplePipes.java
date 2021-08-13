@@ -13,31 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.inverno.example.app_web;
+package io.inverno.example.app_irt.pipes;
 
-import java.net.URI;
-import java.nio.file.Paths;
-
-import io.inverno.core.annotation.NestedBean;
-import io.inverno.mod.boot.BootConfiguration;
-import io.inverno.mod.configuration.Configuration;
-import io.inverno.mod.web.WebConfiguration;
+import io.inverno.mod.irt.Pipe;
 
 /**
  * 
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  *
  */
-@Configuration
-public interface App_webConfiguration {
+public final class SamplePipes {
 
-	default URI web_root() {
-		return Paths.get("web-root/").toUri();
+	public static Pipe<String, String> uppercase() {
+		return String::toUpperCase;
 	}
-	
-    @NestedBean
-    BootConfiguration boot();
-
-    @NestedBean
-    WebConfiguration web();
 }

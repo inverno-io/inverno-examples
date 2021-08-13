@@ -10,7 +10,7 @@ This project regroups several example Inverno applications that show the various
 
 ## Building Inverno framework examples
 
-The Inverno framework examples can be built using Maven and Java 9+ with the following command:
+The Inverno framework examples can be built using Maven and Java 14+ with the following command:
 
 ```plaintext
 $ mvn install

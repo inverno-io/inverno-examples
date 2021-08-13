@@ -31,7 +31,7 @@ Previous command should have installed a native application packaged to the loca
 $ mvn dependency:unpack -Dartifact=io.inverno.example.inverno-example-web-modular:app:1.0.0-SNAPSHOT:zip:application_linux_amd64 -DoutputDirectory=./
 ```
 ```plaintext
-$ ./inverno-example-web-modular-1.0.0-SNAPSHOT/bin/app
+$ ./inverno-example-web-modular-1.0.0-SNAPSHOT/bin/example-web-modular
 ```
 
 If we open the SwaggerUI at `http://localhost:8080/open-api`, we should see that we have two OpenAPI specifications corresponding to modules *admin* and *book*:

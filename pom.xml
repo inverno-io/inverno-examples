@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>io.inverno.dist</groupId>
 		<artifactId>inverno-parent</artifactId>
-		<version>1.1.0</version>
+		<version>1.2.0</version>
 	</parent>
 	<groupId>io.inverno</groupId>
 	<artifactId>inverno-examples-root</artifactId>
@@ -30,11 +30,6 @@
 	
 	<name>inverno-examples-root</name>
 	<description>The Inverno framework examples are a collection of applications demonstrating the Inverno framework capabilities</description>
-
-	<properties>
-		<maven.compiler.source>9</maven.compiler.source>
-		<maven.compiler.target>9</maven.compiler.target>
-	</properties>
 	
 	<build>
 		<pluginManagement>
@@ -60,6 +55,7 @@
 		<module>inverno-example-configuration</module>
 		<module>inverno-example-hello</module>
 		<module>inverno-example-http</module>
+		<module>inverno-example-irt</module>
 		<module>inverno-example-web</module>
 		<module>inverno-example-web-modular</module>
 	</modules>

@@ -16,7 +16,7 @@
 package io.inverno.example.web_modular.app;
 
 import io.inverno.core.annotation.NestedBean;
-import io.inverno.mod.boot.NetConfiguration;
+import io.inverno.mod.boot.BootConfiguration;
 import io.inverno.mod.configuration.Configuration;
 import io.inverno.mod.web.WebConfiguration;
 
@@ -29,7 +29,7 @@ import io.inverno.mod.web.WebConfiguration;
 public interface AppConfiguration {
 
     @NestedBean
-    NetConfiguration net();
+    BootConfiguration boot();
 
     @NestedBean
     WebConfiguration web();

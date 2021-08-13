@@ -13,31 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.inverno.example.app_web;
 
-import java.net.URI;
-import java.nio.file.Paths;
+package io.inverno.example.app_irt.templates;
 
-import io.inverno.core.annotation.NestedBean;
-import io.inverno.mod.boot.BootConfiguration;
-import io.inverno.mod.configuration.Configuration;
-import io.inverno.mod.web.WebConfiguration;
+option modes = {"STRING", "STREAM", "PUBLISHER_STRING"};
 
-/**
- * 
- * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
- *
- */
-@Configuration
-public interface App_webConfiguration {
+header() -> {
+<h1>Header</h1>
+}
 
-	default URI web_root() {
-		return Paths.get("web-root/").toUri();
-	}
-	
-    @NestedBean
-    BootConfiguration boot();
-
-    @NestedBean
-    WebConfiguration web();
+footer() -> {
+<p style="font-size:80%;text-align: center;">Footer</p>
 }

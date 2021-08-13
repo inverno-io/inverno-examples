@@ -91,7 +91,12 @@
 									<vm>server</vm>
 									<!-- jdk.crypto.ec: TLS, jdk.jdwp.agent: remote debug -->
 									<addModules>jdk.crypto.ec,jdk.jdwp.agent</addModules>
-									<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
+									<launchers>
+										<launcher>
+											<name>example-web</name>
+											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
+										</launcher>
+									</launchers>
 									<formats>
 										<format>zip</format>
 									</formats>
@@ -120,7 +125,13 @@
 									<vm>server</vm>
 									<!-- jdk.crypto.ec: TLS, jdk.jdwp.agent: remote debug -->
 									<addModules>jdk.crypto.ec,jdk.jdwp.agent</addModules>
-									<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
+									<executable>example-web</executable>
+									<launchers>
+										<launcher>
+											<name>example-web</name>
+											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
+										</launcher>
+									</launchers>
 								</configuration>
 							</execution>
 						</executions>
@@ -146,7 +157,13 @@
 									<vm>server</vm>
 									<!-- jdk.crypto.ec: TLS, jdk.jdwp.agent: remote debug -->
 									<addModules>jdk.crypto.ec,jdk.jdwp.agent</addModules>
-									<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
+									<executable>example-web</executable>
+									<launchers>
+										<launcher>
+											<name>example-web</name>
+											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
+										</launcher>
+									</launchers>
 								</configuration>
 							</execution>
 						</executions>

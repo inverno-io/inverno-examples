@@ -1,0 +1,55 @@
+/*
+ * Copyright 2021 Jeremy KUHN
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.inverno.example.app_irt.templates;
+
+import io.inverno.example.app_irt.model.Item;
+import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
+import static io.inverno.mod.irt.Pipes.*;
+import static io.inverno.mod.irt.PublisherPipes.*;
+import org.reactivestreams.Publisher;
+
+import java.time.ZonedDateTime;
+
+include io.inverno.example.app_irt.templates.Misc;
+
+option modes = {"STRING", "STREAM", "PUBLISHER_STRING"};
+option charset = "utf-8";
+
+(Publisher<Item> items) -> {<html>
+	<head>
+		<title>Titre</title>
+	</head>
+	<body>
+		{;header}
+		{items|sort(Comparator.comparing(Item::getTitle)); (index, item) -> (index, item)}
+		{;footer}
+	</body>
+</html>
+}
+
+(long index, Item item) -> {<div class="{@(index%2 == 0 ? "odd" : "even")}">
+			<h1>{@(index + 1)}. {@item.title} {@item.dateTime|dateTime(DateTimeFormatter.ISO_DATE_TIME)}</h1>
+			{@if 
+				(item.getType() == "error") -> {<p>ERROR</p>};
+				(item.getType() == "warn") -> {<p>WARNING</p>};
+				() -> {<p>INFO</p>}
+			}{item.content; item_content}
+		</div>}
+
+item_content(String content) -> {
+			<p>{@content}</p>}

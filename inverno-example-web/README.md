@@ -236,7 +236,7 @@ The previous command should create archive `target/inverno-example-web-1.0.0-SNA
 
 ```plaintext
 $ unzip inverno-example-web-1.0.0-SNAPSHOT-application_linux_amd64.zip
-$ ./inverno-example-web-1.0.0-SNAPSHOT/bin/inverno-example-web
+$ ./inverno-example-web-1.0.0-SNAPSHOT/bin/example-web
 ...
 ```
 
@@ -286,7 +286,7 @@ $ mvn install -Pinstall-docker
 The application can then be started in docker as follows:
 
 ```plaintext
-$ docker run --rm --network host -e LANG=C.UTF-8 inverno-example-http-server:1.0.0-SNAPSHOT 
+$ docker run --rm --network host -e LANG=C.UTF-8 inverno-example-web:1.0.0-SNAPSHOT 
 ...
 2021-04-26 12:46:34,284 INFO  [main] i.w.m.h.s.i.HttpServer - HTTP Server (epoll) listening on http://0.0.0.0:8080
 2021-04-26 12:46:34,285 INFO  [main] i.w.m.h.s.Server - Module io.inverno.mod.http.server started in 88ms
