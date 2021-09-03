@@ -61,11 +61,6 @@ public class Item {
 		return content;
 	}
 	
-	public Publisher<Item> getContent2() {
-		return null;
-	}
-	
-	
 	public void setDateTime(ZonedDateTime dateTime) {
 		this.dateTime = dateTime;
 	}
