@@ -23,8 +23,6 @@ import static io.inverno.mod.irt.Pipes.*;
 import static io.inverno.mod.irt.PublisherPipes.*;
 import org.reactivestreams.Publisher;
 
-import java.time.ZonedDateTime;
-
 include io.inverno.example.app_irt.templates.Misc;
 
 option modes = {"STRING", "STREAM", "PUBLISHER_STRING"};

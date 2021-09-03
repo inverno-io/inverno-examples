@@ -1,0 +1,64 @@
+/*
+ * Copyright 2021 Jeremy KUHN
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package io.inverno.example.app_irt.templates;
+
+import io.inverno.example.app_irt.model.Event;
+import java.time.format.DateTimeFormatter;
+import static io.inverno.mod.irt.Pipes.*;
+import org.reactivestreams.Publisher;
+
+(Publisher<Event> events) -> {
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+		<title>Events</title>
+	</head>
+	<body class="container my-5">
+		<h1>Events</h1>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th scope="col"></th>
+					<th scope="col">Datetime</th>
+					<th scope="col">Message</th>
+				</tr>
+			</thead>
+			<tbody>
+			<!-- Apply templates on the stream of events -->
+			{events}
+			</tbody>
+		</table>
+	</body>
+</html>
+}
+
+(Event event) -> {
+<tr class="{@event.type|( (Event.Type type) -> { switch(type) { case ERROR: return "table-danger"; case WARN: return "table-warning"; default: return "table-info"; } } )}">
+	<td class="text-center">
+		{@if 
+			(event.getType() == Event.Type.ERROR) -> {<i class="bi bi-x-circle-fill text-danger"></i>};
+			(event.getType() == Event.Type.WARN) -> {<i class="bi bi-exclamation-triangle-fill text-warning"></i>};
+			() -> {<i class="bi bi-info-square-fill text-info"></i>}
+		}
+	</td>
+	<td>{@event.dateTime|dateTime(DateTimeFormatter.RFC_1123_DATE_TIME)}</td>
+	<td>{@event.message}</td>
+</tr>
+}

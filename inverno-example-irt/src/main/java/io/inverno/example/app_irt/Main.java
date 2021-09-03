@@ -15,14 +15,21 @@
  */
 package io.inverno.example.app_irt;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import io.inverno.example.app_irt.model.Event;
 import io.inverno.example.app_irt.model.Item;
 import io.inverno.example.app_irt.model.Message;
 import io.inverno.example.app_irt.model.Stock;
+import io.inverno.example.app_irt.model.Event.Type;
+import io.inverno.example.app_irt.templates.Events;
 import io.inverno.example.app_irt.templates.Items;
 import io.inverno.example.app_irt.templates.Simple;
 import io.inverno.example.app_irt.templates.Stocks;
@@ -40,25 +47,34 @@ public class Main {
 		renderSimple();
 		renderItems();
 		renderStocks();
+		renderEvents();
 	}
 	
-	public static void renderSimple() throws InterruptedException, ExecutionException {
-		System.out.println(Simple.string().render(new Message("Hello, world!", false)).get());
+	public static void renderSimple() throws InterruptedException, ExecutionException, IOException {
+		Files.writeString(Path.of("target/simple.txt"), Simple.string().render(new Message("Hello, world!", false)).get(), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
 	}
 	
-	public static void renderItems() throws InterruptedException, ExecutionException {
+	public static void renderItems() throws InterruptedException, ExecutionException, IOException {
 		Flux<Item> items = Flux.just(
 			new Item("Item 2", Flux.just("a", "b", "c"), ZonedDateTime.now(), "error"),
 			new Item("Item 3", Flux.just("d", "e"), ZonedDateTime.now(), "warning"),
 			new Item("Item 1", Flux.just("f"), ZonedDateTime.now(), "info")
 		);
-		System.out.println(Items.string().render(items).get());
+		Files.writeString(Path.of("target/items.html"), Items.string().render(items).get(), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
 	}
 	
-	public static void renderStocks() throws InterruptedException, ExecutionException {
+	public static void renderStocks() throws InterruptedException, ExecutionException, IOException {
 		List<Stock> items = Stock.dummyItems();
 		Renderer<CompletableFuture<String>> stocksRenderer = Stocks.string();
-		
-		System.out.println(stocksRenderer.render(items).get());
+		Files.writeString(Path.of("target/stocks.html"), stocksRenderer.render(items).get(), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+	}
+	
+	public static void renderEvents() throws InterruptedException, ExecutionException, IOException {
+		Flux<Event> events = Flux.just(
+			new Event(Type.ERROR, ZonedDateTime.now().minusSeconds(5), "This is an error."),
+			new Event(Type.WARN, ZonedDateTime.now().minusSeconds(10), "This is a warning."),
+			new Event(Type.INFO, ZonedDateTime.now().minusSeconds(15), "This is an info.")
+		).repeat(10);
+		Files.writeString(Path.of("target/events.html"), Events.string().render(events).get(), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
 	}
 }
