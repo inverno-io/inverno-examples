@@ -11,6 +11,7 @@ It defines three template sets:
 - `Simple.irt` which provides templates to render simple `Message` objects.
 - `Items.irt` which provides templates to render `Item` objects in a reactive way and demonstrating template set composition.
 - `Stocks.irt` which provides templates to render `Stock` objects.
+- `Events.irt` which provides templates to render `Event` objects.
 
 ## Going further
 

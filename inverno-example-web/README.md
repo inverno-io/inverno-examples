@@ -216,7 +216,7 @@ The application can be packaged as a native runtime image by invoking the `relea
 ```plaintext
 $ mvn install -Prelease
 ...
-[INFO] --- inverno-maven-plugin:1.0.0:build-app (inverno-build-app) @ inverno-example-web ---
+[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:build-app (inverno-build-app) @ inverno-example-web ---
 [INFO] Building application image: /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-web/target/maven-inverno/application_linux_amd64/inverno-example-web-1.0.0-SNAPSHOT...
  [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
 [INFO] 
@@ -245,7 +245,7 @@ A portable docker image of the application can be created as a `tar` archive by 
 ```plaintext
 $ mvn install -Prelease-docker
 ...
-[INFO] --- inverno-maven-plugin:1.0.0:build-image-tar (inverno-build-image-docker) @ inverno-example-web ---
+[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:build-image-tar (inverno-build-image-docker) @ inverno-example-web ---
 [INFO] Building project container image...
  [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
 [INFO] 
@@ -272,7 +272,7 @@ The application can be directly deployed to a local docker daemon by invoking th
 ```plaintext
 $ mvn install -Pinstall-docker
 ...
-[INFO] --- inverno-maven-plugin:1.0.0:build-image-docker (inverno-build-image-docker) @ inverno-example-web ---
+[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:build-image-docker (inverno-build-image-docker) @ inverno-example-web ---
 [INFO] Building project container image...
  [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
 [INFO] ------------------------------------------------------------------------
