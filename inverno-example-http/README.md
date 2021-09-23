@@ -3,6 +3,7 @@
 [inverno-javadoc]: https://inverno.io/docs/release/api/index.html
 
 [epoll]: https://en.wikipedia.org/wiki/Epoll
+[graalvm]: https://www.graalvm.org/
 
 # Inverno HTTP server example
 
@@ -63,6 +64,53 @@ content-length: 16
 
 Hello from main!
 ```
+
+## Building a native image
+
+Using [GraalVM][graalvm], you can also build a native image of the application with the following command:
+
+```plaintext
+> mvn clean package -Pnative
+```
+
+You can then run the native application:
+
+```plaintext
+> ./target/inverno-example-http
+2021-09-23 15:03:31,989 INFO  [main] i.i.c.v.Application - Inverno is starting...
+
+
+     ╔════════════════════════════════════════════════════════════════════════════════════════════╗
+     ║                      , ~~ ,                                                                ║
+     ║                  , '   /\   ' ,                                                            ║
+     ║                 , __   \/   __ ,      _                                                    ║
+     ║                ,  \_\_\/\/_/_/  ,    | |  ___  _    _  ___   __  ___   ___                 ║
+     ║                ,    _\_\/_/_    ,    | | / _ \\ \  / // _ \ / _|/ _ \ / _ \                ║
+     ║                ,   __\_/\_\__   ,    | || | | |\ \/ /|  __/| | | | | | |_| |               ║
+     ║                 , /_/ /\/\ \_\ ,     |_||_| |_| \__/  \___||_| |_| |_|\___/                ║
+     ║                  ,     /\     ,                                                            ║
+     ║                    ,   \/   ,                                   << n/a >>                  ║
+     ║                      ' -- '                                                                ║
+     ╠════════════════════════════════════════════════════════════════════════════════════════════╣
+     ║ Java runtime        :                                                                      ║
+     ║ Java version        :                                                                      ║
+     ║ Java home           :                                                                      ║
+     ╚════════════════════════════════════════════════════════════════════════════════════════════╝
+
+
+2021-09-23 15:03:31,989 INFO  [main] i.i.e.a.App_http - Starting Module io.inverno.example.app_http...
+2021-09-23 15:03:31,989 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
+2021-09-23 15:03:31,993 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 3ms
+2021-09-23 15:03:31,993 INFO  [main] i.i.m.h.s.Server - Starting Module io.inverno.mod.http.server...
+2021-09-23 15:03:31,993 INFO  [main] i.i.m.h.b.Base - Starting Module io.inverno.mod.http.base...
+2021-09-23 15:03:31,993 INFO  [main] i.i.m.h.b.Base - Module io.inverno.mod.http.base started in 0ms
+2021-09-23 15:03:32,164 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on https://0.0.0.0:8443
+2021-09-23 15:03:32,164 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 171ms
+2021-09-23 15:03:32,164 INFO  [main] i.i.e.a.App_http - Module io.inverno.example.app_http started in 175ms
+2021-09-23 15:03:32,164 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_http started in 175ms
+```
+
+> Note that although the startup time has been reduced by 70%, native transport is not supported in native image which has a significant impact on performances.
 
 ## Going further
 

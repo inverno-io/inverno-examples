@@ -10,6 +10,8 @@
 [swagger-ui]: https://swagger.io/tools/swagger-ui/
 [open-api]: https://www.openapis.org/
 
+[graalvm]: https://www.graalvm.org/
+
 # Inverno Web server example
 
 A sample Inverno application showing how to use the Web server module to create efficient and performant HTTP/1.x and HTTP/2 servers with Web enabled features like request routing, content negociation, automatic payload conversion, static content, WebJars, automatic Open API specifications in SwaggerUI...
@@ -293,6 +295,55 @@ $ docker run --rm --network host -e LANG=C.UTF-8 inverno-example-web:1.0.0-SNAPS
 2021-04-26 12:46:34,285 INFO  [main] i.w.m.w.Web - Module io.inverno.mod.web started in 88ms
 2021-04-26 12:46:34,285 INFO  [main] i.w.e.a.App_web - Module io.inverno.example.app_web started in 281ms
 ```
+
+## Building a native image
+
+Using [GraalVM][graalvm], you can also build a native image of the application with the following command:
+
+```plaintext
+> mvn clean package -Pnative
+```
+
+You can then run the native application:
+
+```plaintext
+> ./target/inverno-example-web
+2021-09-23 15:08:51,761 INFO  [main] i.i.c.v.Application - Inverno is starting...
+
+
+     ╔════════════════════════════════════════════════════════════════════════════════════════════╗
+     ║                      , ~~ ,                                                                ║
+     ║                  , '   /\   ' ,                                                            ║
+     ║                 , __   \/   __ ,      _                                                    ║
+     ║                ,  \_\_\/\/_/_/  ,    | |  ___  _    _  ___   __  ___   ___                 ║
+     ║                ,    _\_\/_/_    ,    | | / _ \\ \  / // _ \ / _|/ _ \ / _ \                ║
+     ║                ,   __\_/\_\__   ,    | || | | |\ \/ /|  __/| | | | | | |_| |               ║
+     ║                 , /_/ /\/\ \_\ ,     |_||_| |_| \__/  \___||_| |_| |_|\___/                ║
+     ║                  ,     /\     ,                                                            ║
+     ║                    ,   \/   ,                                   << n/a >>                  ║
+     ║                      ' -- '                                                                ║
+     ╠════════════════════════════════════════════════════════════════════════════════════════════╣
+     ║ Java runtime        :                                                                      ║
+     ║ Java version        :                                                                      ║
+     ║ Java home           :                                                                      ║
+     ╚════════════════════════════════════════════════════════════════════════════════════════════╝
+
+
+2021-09-23 15:08:51,762 INFO  [main] i.i.e.a.App_web - Starting Module io.inverno.example.app_web...
+2021-09-23 15:08:51,762 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
+2021-09-23 15:08:51,767 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 5ms
+2021-09-23 15:08:51,767 INFO  [main] i.i.m.w.Web - Starting Module io.inverno.mod.web...
+2021-09-23 15:08:51,767 INFO  [main] i.i.m.h.s.Server - Starting Module io.inverno.mod.http.server...
+2021-09-23 15:08:51,767 INFO  [main] i.i.m.h.b.Base - Starting Module io.inverno.mod.http.base...
+2021-09-23 15:08:51,767 INFO  [main] i.i.m.h.b.Base - Module io.inverno.mod.http.base started in 0ms
+2021-09-23 15:08:51,769 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
+2021-09-23 15:08:51,769 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 1ms
+2021-09-23 15:08:51,769 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web started in 1ms
+2021-09-23 15:08:51,769 INFO  [main] i.i.e.a.App_web - Module io.inverno.example.app_web started in 7ms
+2021-09-23 15:08:51,769 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web started in 7ms
+```
+
+> If the server is started without TLS the startup time is reduced by 97.5% and goes below 10ms. However native transport is not supported in native image which has a significant impact on performances.
 
 ## Going further
 

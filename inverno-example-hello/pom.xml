@@ -30,11 +30,42 @@
 
 	<name>io.inverno.example.app_hello</name>
 	<description>Inverno hello world example application</description>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>io.inverno</groupId>
 			<artifactId>inverno-core</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+		</dependency>
 	</dependencies>
+	
+	<profiles>
+		<profile>
+			<id>native</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.graalvm.buildtools</groupId>
+						<artifactId>native-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>build-native</id>
+								<goals>
+									<goal>build</goal>
+								</goals>
+								<phase>package</phase>
+							</execution>
+						</executions>
+						<configuration>
+							<mainClass>io.inverno.example.app_hello.Main</mainClass>
+							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath -H:+ReportExceptionStackTraces -H:+PrintClassInitialization -J-Dlog4j2.disable.jmx=true</buildArgs>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 </project>

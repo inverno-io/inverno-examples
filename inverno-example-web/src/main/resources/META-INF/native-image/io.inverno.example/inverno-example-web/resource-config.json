@@ -1,0 +1,10 @@
+{
+  "resources":{
+  "includes":[
+    {"pattern":"\\Qconfiguration.cprops\\E"},
+    {"pattern":"\\Qlog4j2.xml\\E"},
+    {"pattern":"\\Qkeystore.jks\\E"},
+    {"pattern":"\\QMETA-INF/MANIFEST.MF\\E"}
+  ]},
+  "bundles":[]
+}
