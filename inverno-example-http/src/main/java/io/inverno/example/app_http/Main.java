@@ -62,7 +62,7 @@ public class Main {
 		// Starts the server
         Application.run(new App_http.Builder()
         	// Setups the server
-            .setApp_httpConfiguration(
+            /*.setApp_httpConfiguration(
                     App_httpConfigurationLoader.load(configuration -> configuration
                     .http_server(server -> server
                         // HTTP compression
@@ -77,7 +77,7 @@ public class Main {
                         .h2_enabled(true)
                     )
                 )
-            )
+            )*/
             // Sets the custom root handler
             .setHandler(exchange -> {
                 exchange.response()

@@ -46,26 +46,26 @@
 			<artifactId>log4j-core</artifactId>
 		</dependency>
 
-		<dependency>
+		<!-- <dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-transport-native-epoll</artifactId>
 			<classifier>linux-x86_64</classifier>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 	
-	<build>
+	<!-- <build>
 		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>io.inverno.tool</groupId>
 					<artifactId>inverno-maven-plugin</artifactId>
 					<configuration>
-						<vmOptions>--add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
+						<vmOptions>add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
 					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>
-	</build>
+	</build> -->
 	
 	<profiles>
 		<profile>
@@ -86,7 +86,7 @@
 						</executions>
 						<configuration>
 							<mainClass>io.inverno.example.app_http.Main</mainClass>
-							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers -H:+ReportExceptionStackTraces -H:+PrintClassInitialization -J-Dlog4j2.disable.jmx=true</buildArgs>
+							<buildArgs>--pgo=/home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-http/default.iprof --verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers -H:+ReportExceptionStackTraces -H:+PrintClassInitialization -J-Dlog4j2.disable.jmx=true</buildArgs>
 						</configuration>
 					</plugin>
 				</plugins>
