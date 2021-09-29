@@ -3,6 +3,9 @@ io.inverno.example.app_config.appConfiguration {
 		message = "Test message"
 		id = 123
 		uri = "http://test"
+		sub_configuration {
+			param = "Parameter in test"
+		}
 	}
 	
 	[ environment = "production" ] {
@@ -11,10 +14,16 @@ io.inverno.example.app_config.appConfiguration {
 		[ node = "node-1" ] {
 			id = 1
 			uri = "https://node-1.production"
+			sub_configuration {
+				param = "Parameter for node-1 in production"
+			}
 		}
 		[ node = "node-2" ] {
 			id = 2
 			uri = "https://node-2.production"
+			sub_configuration {
+				param = "Parameter for node-2 in production"
+			}
 		}
 	}
 }

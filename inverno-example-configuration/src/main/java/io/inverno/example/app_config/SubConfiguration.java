@@ -15,36 +15,24 @@
  */
 package io.inverno.example.app_config;
 
-import java.net.URI;
-import java.time.LocalDate;
-
 import io.inverno.mod.configuration.Configuration;
 
 /**
  * <p>
- * Interface defining the application configuration.
+ * Interface defining a nested configuration.
  * </p>
  * 
  * <p>
- * This interface is processed by the compiler to generate a configuration
- * loader.
+ * The {@code generatedBean} attribute is set to tell the compiler to only
+ * generate a configuration loader which is required by an enclosing
+ * configuration.
  * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  *
  */
-@Configuration
-public interface AppConfiguration {
+@Configuration(generateBean = false)
+public interface SubConfiguration {
 
-	default String message() {
-		return "Default message";
-	}
-
-	int id();
-	
-	URI uri();
-	
-	LocalDate date();
-	
-	SubConfiguration sub_configuration();
+	String param();
 }

@@ -20,6 +20,7 @@ mvn inverno:run
 2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * id: 0
 2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * uri: null
 2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * date: null
+2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: null
 ...
 ```
 
@@ -33,6 +34,7 @@ $ mvn inverno:run -Dinverno.run.arguments="--io.inverno.example.app_config.appCo
 2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main -  * id: 123
 2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main -  * uri: null
 2021-04-26 09:13:20,457 INFO  [main] i.w.e.a.Main -  * date: 2021-01-01
+2021-04-26 09:13:20,457 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: null
 ...
 ```
 
@@ -52,10 +54,16 @@ io.inverno.example.app_config.appConfiguration {
 		[ node = "node-1" ] {
 			integer = 1
 			uri = "https://node-1.production"
+			sub_configuration {
+				param = "Parameter for node-1 in production"
+			}
 		}
 		[ node = "node-2" ] {
 			integer = 2
 			uri = "https://node-2.production"
+			sub_configuration {
+				param = "Parameter for node-2 in production"
+			}
 		}
 	}
 }
@@ -71,57 +79,62 @@ $ mvn inverno:run -Dinverno.exec.vmOptions="-Denvironment=test"
 2021-04-26 09:22:14,840 INFO  [main] i.w.e.a.Main -  * id: 123
 2021-04-26 09:22:14,840 INFO  [main] i.w.e.a.Main -  * uri: http://test
 2021-04-26 09:22:14,841 INFO  [main] i.w.e.a.Main -  * date: null
+2021-04-26 09:22:14,841 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: Parameter in test
 ...
 ```
 
 Or start the application with the `production` configuration on node `node-1`:
 
 ```plaintext
-$ mvn Inverno:run -DInverno.exec.vmOptions="-Dnode=node-1 -Denvironment=production"
+$ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-1 -Denvironment=production"
 ...
 2021-04-26 09:20:14,355 INFO  [main] i.w.e.a.Main - App Configuration [ node=node-1, environment=production ]:
 2021-04-26 09:20:14,356 INFO  [main] i.w.e.a.Main -  * message: Production message
 2021-04-26 09:20:14,356 INFO  [main] i.w.e.a.Main -  * id: 1
 2021-04-26 09:20:14,356 INFO  [main] i.w.e.a.Main -  * uri: https://node-1.production
 2021-04-26 09:20:14,357 INFO  [main] i.w.e.a.Main -  * date: 2021-01-01
+2021-04-26 09:20:14,357 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: Parameter for node-1 in production
 ...
 ```
 
 Or start the application with the `production` configuration on node `node-2`:
 
 ```plaintext
-$ mvn Inverno:run -DInverno.exec.vmOptions="-Dnode=node-2 -Denvironment=production"
+$ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-2 -Denvironment=production"
 ...
 2021-04-26 09:20:33,215 INFO  [main] i.w.e.a.Main - App Configuration [ node=node-2, environment=production ]:
 2021-04-26 09:20:33,215 INFO  [main] i.w.e.a.Main -  * message: Production message
 2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * id: 2
 2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * uri: https://node-2.production
 2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * date: 2021-01-01
+2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: Parameter for node-2 in production
 ...
 ```
 
 If we specify another unconfigured node, it defaults to the `production` configuration:
 
 ```plaintext
-$ mvn Inverno:run -DInverno.exec.vmOptions="-Dnode=node-3 -Denvironment=production"
+$ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-3 -Denvironment=production"
 ...
 2021-04-26 09:20:55,826 INFO  [main] i.w.e.a.Main -  * message: Production message
 2021-04-26 09:20:55,826 INFO  [main] i.w.e.a.Main -  * id: 0
 2021-04-26 09:20:55,826 INFO  [main] i.w.e.a.Main -  * uri: null
 2021-04-26 09:20:55,827 INFO  [main] i.w.e.a.Main -  * date: 2021-01-01
+2021-04-26 09:20:55,827 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: null
 ...
 ```
 
 And if we only specify the node, it defaults to the default configuration since we haven't specified any configuration for nodes outside the `production` context:
 
 ```plaintext
-$ mvn Inverno:run -DInverno.exec.vmOptions="-Dnode=node-1"
+$ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-1"
 ...
 2021-04-26 09:23:51,816 INFO  [main] i.w.e.a.Main - App Configuration [ node=node-1 ]:
 2021-04-26 09:23:51,816 INFO  [main] i.w.e.a.Main -  * message: Default message
 2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * id: 0
 2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * uri: null
 2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * date: null
+2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: null
 ...
 ```
 

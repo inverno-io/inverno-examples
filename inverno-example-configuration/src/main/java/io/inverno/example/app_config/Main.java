@@ -96,5 +96,6 @@ public class Main {
 		LOGGER.info(" * id: " + app_config.appConfiguration().id());
 		LOGGER.info(" * uri: " + app_config.appConfiguration().uri());
 		LOGGER.info(" * date: " + app_config.appConfiguration().date());
+		LOGGER.info(" * sub_configuration.param: " + app_config.appConfiguration().sub_configuration().param());
 	}
 }
