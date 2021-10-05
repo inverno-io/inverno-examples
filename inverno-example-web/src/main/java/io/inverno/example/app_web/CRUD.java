@@ -45,7 +45,7 @@ public interface CRUD<T> {
 	 * @throws if the resource already exists
 	 */
 	@WebRoute(method = Method.POST, consumes = MediaTypes.APPLICATION_JSON)
-	Mono<Void> create(@Body Mono<T> resource, WebExchange exchange) throws BadRequestException;
+	Mono<Void> create(@Body Mono<T> resource, WebExchange<?> exchange) throws BadRequestException;
 	
 	/**
 	 * Updates a resource.
@@ -70,13 +70,14 @@ public interface CRUD<T> {
 	/**
 	 * Returns the resource identified by the specified id.
 	 * 
-	 * @param id an id
+	 * @param id      an id
+	 * @param context the web context
 	 * 
 	 * @return the requested resource
 	 * @throws NotFoundException if there's no resource with the specified id
 	 */
 	@WebRoute(path = "/{id}", method = Method.GET, produces = MediaTypes.APPLICATION_JSON)
-	Mono<T> get(@PathParam String id);
+	Mono<T> get(@PathParam String id, WebContext context);
 	
 	/**
 	 * Deletes the resource identified by the specified id.

@@ -38,7 +38,7 @@ import io.inverno.mod.web.annotation.WebRoutes;
 	@WebRoute( path = { "/hello" }, method = { Method.GET }, produces = { MediaTypes.TEXT_PLAIN }, language = {"fr-FR"} ),
 	@WebRoute( path = { "/custom_exception" } )
 })
-public class App_webWebRouterConfigurer implements WebRouterConfigurer<WebExchange> {
+public class App_webWebRouterConfigurer implements WebRouterConfigurer<WebExchange.Context> {
 
 	private App_webConfiguration configuration;
 	private ResourceService resourceService;
@@ -49,7 +49,7 @@ public class App_webWebRouterConfigurer implements WebRouterConfigurer<WebExchan
 	}
 	
 	@Override
-	public void accept(WebRouter<WebExchange> router) {
+	public <B extends WebExchange.Context> void configure(WebRouter<B> router) {
 		router
 			.route()
 				.path("/static/{path:.*}", true)

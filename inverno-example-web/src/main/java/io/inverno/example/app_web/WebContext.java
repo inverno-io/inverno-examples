@@ -15,27 +15,19 @@
  */
 package io.inverno.example.app_web;
 
-import io.inverno.example.app_web.dto.Book;
 import io.inverno.mod.web.WebExchange;
-import io.inverno.mod.web.annotation.WebController;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
+ * <p>
+ * A simple Web exchange context.
+ * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  *
  */
-@WebController(path = "/book")
-public interface BookResource extends CRUD<Book> {
+public interface WebContext extends WebExchange.Context {
 
-	Mono<Void> create(Mono<Book> book, WebExchange<?> exchange);
-	
-	Mono<Void> update(String id, Mono<Book> book);
-	
-	Flux<Book> list();
-	
-	Mono<Book> get(String id, WebContext context);
-	
-	Mono<Void> delete(String id);
+	String getValue1();
+
+	void setValue1(String someValue);
 }

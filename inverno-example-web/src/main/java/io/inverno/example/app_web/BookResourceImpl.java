@@ -51,7 +51,7 @@ public class BookResourceImpl implements BookResource {
 	private Map<String, Book> bookDB = new ConcurrentHashMap<>(); 
 	
 	@Override
-	public Mono<Void> create(Mono<Book> book, WebExchange exchange) {
+	public Mono<Void> create(Mono<Book> book, WebExchange<?> exchange) {
 		return book.flatMap(b -> {
 			if(this.bookDB.putIfAbsent(b.getIsbn(), b) != null) {
 				throw new BadRequestException("Book with reference " + b.getIsbn() + " already exist");
@@ -83,8 +83,9 @@ public class BookResourceImpl implements BookResource {
 	}
 	
 	@Override
-	public Mono<Book> get(String isbn) {
+	public Mono<Book> get(String isbn, WebContext context) {
 		return Mono.fromSupplier(() -> {
+			context.setValue1("context1"); // context uses strong typing
 			if(!this.bookDB.containsKey(isbn)) {
 				throw new NotFoundException("Book with reference " + isbn + " does not exist");
 			}
@@ -139,4 +140,5 @@ public class BookResourceImpl implements BookResource {
 		}
 		return new Result("Book " + book.getIsbn() + " already exists.");
 	}
+
 }
