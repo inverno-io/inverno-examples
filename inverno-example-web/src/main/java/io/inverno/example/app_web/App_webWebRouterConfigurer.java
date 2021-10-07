@@ -19,8 +19,8 @@ import io.inverno.core.annotation.Bean;
 import io.inverno.mod.base.resource.MediaTypes;
 import io.inverno.mod.base.resource.ResourceService;
 import io.inverno.mod.http.base.Method;
+import io.inverno.mod.http.server.ExchangeContext;
 import io.inverno.mod.web.StaticHandler;
-import io.inverno.mod.web.WebExchange;
 import io.inverno.mod.web.WebRouter;
 import io.inverno.mod.web.WebRouterConfigurer;
 import io.inverno.mod.web.annotation.WebRoute;
@@ -38,7 +38,7 @@ import io.inverno.mod.web.annotation.WebRoutes;
 	@WebRoute( path = { "/hello" }, method = { Method.GET }, produces = { MediaTypes.TEXT_PLAIN }, language = {"fr-FR"} ),
 	@WebRoute( path = { "/custom_exception" } )
 })
-public class App_webWebRouterConfigurer implements WebRouterConfigurer<WebExchange.Context> {
+public class App_webWebRouterConfigurer implements WebRouterConfigurer<ExchangeContext> {
 
 	private App_webConfiguration configuration;
 	private ResourceService resourceService;
@@ -47,50 +47,50 @@ public class App_webWebRouterConfigurer implements WebRouterConfigurer<WebExchan
 		this.configuration = configuration;
 		this.resourceService = resourceService;
 	}
-	
+
 	@Override
-	public <B extends WebExchange.Context> void configure(WebRouter<B> router) {
+	public void configure(WebRouter<? extends ExchangeContext> router) {
 		router
-			.route()
-				.path("/static/{path:.*}", true)
-				.method(Method.GET)
-				.handler(new StaticHandler(this.resourceService.getResource(this.configuration.web_root())))
-			.route()
-				.path("/hello")
-				.method(Method.GET)
-				.produces(MediaTypes.TEXT_PLAIN)
-				.language("en-US")
-				.handler(exchange -> exchange
-					.response()
-						.body()
-						.encoder(String.class)
-						.value("Hello!")
-				)
-			.route()
-				.path("/hello")
-				.method(Method.GET)
-				.produces(MediaTypes.TEXT_PLAIN)
-				.language("fr-FR")
-				.handler(exchange -> exchange
-					.response()
-						.body()
-						.encoder(String.class)
-						.value("Bonjour!")
-				)
-			.route()
-				.path("/hello")
-				.method(Method.GET)
-				.produces(MediaTypes.TEXT_PLAIN)
-				.handler(exchange -> exchange
-					.response()
-						.body()
-						.encoder(String.class)
-						.value("Saluton!")
-				)
-			.route()
-				.path("/custom_exception")
-				.handler(exchange -> {
-					throw new SomeCustomException();
-				});
+		.route()
+			.path("/static/{path:.*}", true)
+			.method(Method.GET)
+			.handler(new StaticHandler(this.resourceService.getResource(this.configuration.web_root())))
+		.route()
+			.path("/hello")
+			.method(Method.GET)
+			.produces(MediaTypes.TEXT_PLAIN)
+			.language("en-US")
+			.handler(exchange -> exchange
+				.response()
+					.body()
+					.encoder(String.class)
+					.value("Hello!")
+			)
+		.route()
+			.path("/hello")
+			.method(Method.GET)
+			.produces(MediaTypes.TEXT_PLAIN)
+			.language("fr-FR")
+			.handler(exchange -> exchange
+				.response()
+					.body()
+					.encoder(String.class)
+					.value("Bonjour!")
+			)
+		.route()
+			.path("/hello")
+			.method(Method.GET)
+			.produces(MediaTypes.TEXT_PLAIN)
+			.handler(exchange -> exchange
+				.response()
+					.body()
+					.encoder(String.class)
+					.value("Saluton!")
+			)
+		.route()
+			.path("/custom_exception")
+			.handler(exchange -> {
+				throw new SomeCustomException();
+			});
 	}
 }

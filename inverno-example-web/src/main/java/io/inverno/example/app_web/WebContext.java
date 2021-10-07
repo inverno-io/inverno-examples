@@ -15,7 +15,7 @@
  */
 package io.inverno.example.app_web;
 
-import io.inverno.mod.web.WebExchange;
+import io.inverno.mod.http.server.ExchangeContext;
 
 /**
  * <p>
@@ -25,7 +25,7 @@ import io.inverno.mod.web.WebExchange;
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  *
  */
-public interface WebContext extends WebExchange.Context {
+public interface WebContext extends ExchangeContext {
 
 	String getValue1();
 

@@ -20,7 +20,6 @@ import io.inverno.mod.base.resource.MediaTypes;
 import io.inverno.mod.http.base.Status;
 import io.inverno.mod.web.ErrorWebRouter;
 import io.inverno.mod.web.ErrorWebRouterConfigurer;
-import io.inverno.mod.web.WebExchange;
 
 /**
  * 
@@ -28,10 +27,10 @@ import io.inverno.mod.web.WebExchange;
  *
  */
 @Bean
-public class App_webErrorWebRouterConfigurer implements ErrorWebRouterConfigurer<WebExchange.Context> {
+public class App_webErrorWebRouterConfigurer implements ErrorWebRouterConfigurer {
 
 	@Override
-	public void accept(ErrorWebRouter<WebExchange.Context> errorRouter) {
+	public void accept(ErrorWebRouter errorRouter) {
 		errorRouter
 			.route()
 				.error(SomeCustomException.class)

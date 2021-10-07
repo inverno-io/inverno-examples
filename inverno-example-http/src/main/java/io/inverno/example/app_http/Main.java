@@ -18,13 +18,15 @@ package io.inverno.example.app_http;
 import java.net.URI;
 import java.util.function.Supplier;
 
-import io.netty.buffer.Unpooled;
 import io.inverno.core.annotation.Bean;
 import io.inverno.core.v1.Application;
 import io.inverno.mod.base.Charsets;
 import io.inverno.mod.http.server.ErrorExchange;
+import io.inverno.mod.http.server.ErrorExchangeHandler;
 import io.inverno.mod.http.server.Exchange;
-import io.inverno.mod.http.server.ExchangeHandler;
+import io.inverno.mod.http.server.ExchangeContext;
+import io.inverno.mod.http.server.RootExchangeHandler;
+import io.netty.buffer.Unpooled;
 
 /**
  * <p>
@@ -45,7 +47,7 @@ public class Main {
 	 * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
 	 */
 	@Bean
-	public static interface Handler extends Supplier<ExchangeHandler<Exchange>> {}
+	public static interface Handler extends Supplier<RootExchangeHandler<ExchangeContext, Exchange<ExchangeContext>>> {}
 	
 	/**
 	 * <p>
@@ -56,7 +58,7 @@ public class Main {
 	 *
 	 */
 	@Bean
-	public static interface ErrorHandler extends Supplier<ExchangeHandler<ErrorExchange<Throwable>>> {}
+	public static interface ErrorHandler extends Supplier<ErrorExchangeHandler<Throwable, ErrorExchange<Throwable>>> {}
 
 	public static void main(String[] args) {
 		// Starts the server
