@@ -12,7 +12,7 @@
     </Appenders>
     <Loggers>
     	<!-- Disable HTTP server access and error logs -->
-    	<Logger name="io.inverno.mod.http.server.internal.AbstractExchange" additivity="false" level="off"  />
+    	<!--<Logger name="io.inverno.mod.http.server.internal.AbstractExchange" additivity="false" level="off"  />-->
     	
         <Root level="info">
             <AppenderRef ref="LogToConsole"/>

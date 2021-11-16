@@ -28,6 +28,8 @@
 module io.inverno.example.app_web {
     requires io.inverno.mod.boot;
     requires io.inverno.mod.web;
+	
+	requires org.apache.logging.log4j;
     
     exports io.inverno.example.app_web.dto to com.fasterxml.jackson.databind;
 }

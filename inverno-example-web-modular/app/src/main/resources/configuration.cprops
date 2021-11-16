@@ -1,7 +1,4 @@
 io.inverno.example.web_modular.app.appConfiguration.web {
-	enable_open_api = true
-	enable_webjars = true
-	
 	http_server {
 		h2c_enabled = true
 		

@@ -20,18 +20,23 @@ import io.inverno.mod.base.resource.MediaTypes;
 import io.inverno.mod.base.resource.ResourceService;
 import io.inverno.mod.http.base.Method;
 import io.inverno.mod.http.server.ExchangeContext;
+import io.inverno.mod.web.OpenApiWebRoutesConfigurer;
 import io.inverno.mod.web.StaticHandler;
+import io.inverno.mod.web.WebJarsWebRoutesConfigurer;
 import io.inverno.mod.web.WebRouter;
 import io.inverno.mod.web.WebRouterConfigurer;
 import io.inverno.mod.web.annotation.WebRoute;
 import io.inverno.mod.web.annotation.WebRoutes;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import reactor.core.publisher.Mono;
 
 /**
- * 
+ *  
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  *
  */
-@Bean
+@Bean(visibility = Bean.Visibility.PRIVATE)
 @WebRoutes({
 	@WebRoute( path = { "/static/{path:.*}" }, method = { Method.GET } ),
 	@WebRoute( path = { "/hello" }, method = { Method.GET }, produces = { MediaTypes.TEXT_PLAIN }, language = {"en-US"} ),
@@ -40,8 +45,10 @@ import io.inverno.mod.web.annotation.WebRoutes;
 })
 public class App_webWebRouterConfigurer implements WebRouterConfigurer<ExchangeContext> {
 
-	private App_webConfiguration configuration;
-	private ResourceService resourceService;
+	private Logger logger = LogManager.getLogger(this.getClass());
+	
+	private final App_webConfiguration configuration;
+	private final ResourceService resourceService;
 	
 	public App_webWebRouterConfigurer(App_webConfiguration configuration, ResourceService resourceService) {
 		this.configuration = configuration;
@@ -49,48 +56,57 @@ public class App_webWebRouterConfigurer implements WebRouterConfigurer<ExchangeC
 	}
 
 	@Override
-	public void configure(WebRouter<? extends ExchangeContext> router) {
+	public void accept(WebRouter<ExchangeContext> router) {
 		router
-		.route()
-			.path("/static/{path:.*}", true)
-			.method(Method.GET)
-			.handler(new StaticHandler(this.resourceService.getResource(this.configuration.web_root())))
-		.route()
-			.path("/hello")
-			.method(Method.GET)
-			.produces(MediaTypes.TEXT_PLAIN)
-			.language("en-US")
-			.handler(exchange -> exchange
-				.response()
-					.body()
-					.encoder(String.class)
-					.value("Hello!")
-			)
-		.route()
-			.path("/hello")
-			.method(Method.GET)
-			.produces(MediaTypes.TEXT_PLAIN)
-			.language("fr-FR")
-			.handler(exchange -> exchange
-				.response()
-					.body()
-					.encoder(String.class)
-					.value("Bonjour!")
-			)
-		.route()
-			.path("/hello")
-			.method(Method.GET)
-			.produces(MediaTypes.TEXT_PLAIN)
-			.handler(exchange -> exchange
-				.response()
-					.body()
-					.encoder(String.class)
-					.value("Saluton!")
-			)
-		.route()
-			.path("/custom_exception")
-			.handler(exchange -> {
-				throw new SomeCustomException();
-			});
+			.configureRoutes(new WebJarsWebRoutesConfigurer(this.resourceService))
+			.configureRoutes(new OpenApiWebRoutesConfigurer(this.resourceService, true))
+			.intercept()
+				.path("/hello")
+				.language("fr-FR")
+				.interceptor(exchange -> {
+					logger.info("Souriez, vous êtes interceptés");
+					return Mono.just(exchange);
+				})
+			.route()
+				.path("/static/{path:.*}", true)
+				.method(Method.GET)
+				.handler(new StaticHandler(this.resourceService.getResource(this.configuration.web_root())))
+			.route()
+				.path("/hello")
+				.method(Method.GET)
+				.produces(MediaTypes.TEXT_PLAIN)
+				.language("en-US")
+				.handler(exchange -> exchange
+					.response()
+						.body()
+						.encoder(String.class)
+						.value("Hello!")
+				)
+			.route()
+				.path("/hello")
+				.method(Method.GET)
+				.produces(MediaTypes.TEXT_PLAIN)
+				.language("fr-FR")
+				.handler(exchange -> exchange
+					.response()
+						.body()
+						.encoder(String.class)
+						.value("Bonjour!")
+				)
+			.route()
+				.path("/hello")
+				.method(Method.GET)
+				.produces(MediaTypes.TEXT_PLAIN)
+				.handler(exchange -> exchange
+					.response()
+						.body()
+						.encoder(String.class)
+						.value("Saluton!")
+				)
+			.route()
+				.path("/custom_exception")
+				.handler(exchange -> {
+					throw new SomeCustomException();
+				});
 	}
 }

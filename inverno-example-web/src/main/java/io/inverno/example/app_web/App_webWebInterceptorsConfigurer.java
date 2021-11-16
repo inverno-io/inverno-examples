@@ -16,10 +16,11 @@
 package io.inverno.example.app_web;
 
 import io.inverno.core.annotation.Bean;
-import io.inverno.mod.base.resource.MediaTypes;
-import io.inverno.mod.http.base.Status;
-import io.inverno.mod.web.ErrorWebRouter;
-import io.inverno.mod.web.ErrorWebRouterConfigurer;
+import io.inverno.mod.http.server.ExchangeContext;
+import io.inverno.mod.web.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import reactor.core.publisher.Mono;
 
 /**
  * 
@@ -27,22 +28,19 @@ import io.inverno.mod.web.ErrorWebRouterConfigurer;
  *
  */
 @Bean(visibility = Bean.Visibility.PRIVATE)
-public class App_webErrorWebRouterConfigurer implements ErrorWebRouterConfigurer {
+public class App_webWebInterceptorsConfigurer implements WebInterceptorsConfigurer<ExchangeContext> {
 
+	private Logger logger = LogManager.getLogger(this.getClass());
+	
 	@Override
-	public void accept(ErrorWebRouter errorRouter) {
-		errorRouter
-			.route()
-				.error(SomeCustomException.class)
-				.handler(errorExchange -> errorExchange
-					.response()
-					.headers(headers -> headers
-						.status(Status.BAD_REQUEST)
-						.contentType(MediaTypes.TEXT_PLAIN)
-					)
-					.body()
-					.encoder(String.class)
-					.value("A custom exception was raised: " + errorExchange.context())
-				);
+	public void accept(WebInterceptable<ExchangeContext, ?> router) {
+		router
+			.intercept()
+				.path("/hello")
+				.interceptor(exchange -> {
+					logger.info("Smile, you've been intercepted");
+					return Mono.just(exchange);
+				});
 	}
+	
 }
