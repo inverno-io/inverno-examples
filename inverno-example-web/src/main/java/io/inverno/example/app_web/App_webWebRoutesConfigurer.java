@@ -19,12 +19,14 @@ import io.inverno.core.annotation.Bean;
 import io.inverno.mod.base.resource.MediaTypes;
 import io.inverno.mod.base.resource.ResourceService;
 import io.inverno.mod.http.base.Method;
-import io.inverno.mod.http.server.ExchangeContext;
-import io.inverno.mod.web.OpenApiWebRoutesConfigurer;
+import io.inverno.mod.web.ContinueInterceptor;
+import io.inverno.mod.web.OpenApiRoutesConfigurer;
 import io.inverno.mod.web.StaticHandler;
-import io.inverno.mod.web.WebJarsWebRoutesConfigurer;
+import io.inverno.mod.web.WebJarsRoutesConfigurer;
+import io.inverno.mod.web.WebRoutable;
 import io.inverno.mod.web.WebRouter;
 import io.inverno.mod.web.WebRouterConfigurer;
+import io.inverno.mod.web.WebRoutesConfigurer;
 import io.inverno.mod.web.annotation.WebRoute;
 import io.inverno.mod.web.annotation.WebRoutes;
 import org.apache.logging.log4j.LogManager;
@@ -43,30 +45,23 @@ import reactor.core.publisher.Mono;
 	@WebRoute( path = { "/hello" }, method = { Method.GET }, produces = { MediaTypes.TEXT_PLAIN }, language = {"fr-FR"} ),
 	@WebRoute( path = { "/custom_exception" } )
 })
-public class App_webWebRouterConfigurer implements WebRouterConfigurer<ExchangeContext> {
+public class App_webWebRoutesConfigurer implements WebRoutesConfigurer<InterceptorContext> {
 
-	private Logger logger = LogManager.getLogger(this.getClass());
+	private final Logger logger = LogManager.getLogger(this.getClass());
 	
 	private final App_webConfiguration configuration;
 	private final ResourceService resourceService;
 	
-	public App_webWebRouterConfigurer(App_webConfiguration configuration, ResourceService resourceService) {
+	public App_webWebRoutesConfigurer(App_webConfiguration configuration, ResourceService resourceService) {
 		this.configuration = configuration;
 		this.resourceService = resourceService;
 	}
 
 	@Override
-	public void accept(WebRouter<ExchangeContext> router) {
-		router
-			.configureRoutes(new WebJarsWebRoutesConfigurer(this.resourceService))
-			.configureRoutes(new OpenApiWebRoutesConfigurer(this.resourceService, true))
-			.intercept()
-				.path("/hello")
-				.language("fr-FR")
-				.interceptor(exchange -> {
-					logger.info("Souriez, vous êtes interceptés");
-					return Mono.just(exchange);
-				})
+	public void accept(WebRoutable<InterceptorContext, ?> routable) {
+		routable
+			.configureRoutes(new WebJarsRoutesConfigurer(this.resourceService))
+			.configureRoutes(new OpenApiRoutesConfigurer(this.resourceService, true))
 			.route()
 				.path("/static/{path:.*}", true)
 				.method(Method.GET)
@@ -91,7 +86,7 @@ public class App_webWebRouterConfigurer implements WebRouterConfigurer<ExchangeC
 					.response()
 						.body()
 						.encoder(String.class)
-						.value("Bonjour!")
+						.value("L'intercepteur te dit: " + exchange.context().getInterceptorValue())
 				)
 			.route()
 				.path("/hello")
@@ -103,6 +98,11 @@ public class App_webWebRouterConfigurer implements WebRouterConfigurer<ExchangeC
 						.encoder(String.class)
 						.value("Saluton!")
 				)
+			.route()
+				.path("/continue")
+				.method(Method.POST)
+				.consumes(MediaTypes.APPLICATION_JSON)
+				.handler(exchange -> exchange.response().body().raw().stream(exchange.request().body().get().raw().stream()))
 			.route()
 				.path("/custom_exception")
 				.handler(exchange -> {

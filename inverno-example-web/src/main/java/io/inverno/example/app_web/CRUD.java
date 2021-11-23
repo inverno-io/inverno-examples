@@ -71,13 +71,14 @@ public interface CRUD<T> {
 	 * Returns the resource identified by the specified id.
 	 * 
 	 * @param id      an id
-	 * @param context the web context
+	 * @param context the context
+	 * @param <E>     the context type
 	 * 
 	 * @return the requested resource
 	 * @throws NotFoundException if there's no resource with the specified id
 	 */
 	@WebRoute(path = "/{id}", method = Method.GET, produces = MediaTypes.APPLICATION_JSON)
-	Mono<T> get(@PathParam String id, WebContext context);
+	<E extends WebContext & InterceptorContext> Mono<T> get(@PathParam String id, E context);
 	
 	/**
 	 * Deletes the resource identified by the specified id.

@@ -26,8 +26,8 @@ import io.inverno.mod.http.server.ExchangeContext;
  *
  */
 public interface WebContext extends ExchangeContext {
+	
+	String getWebValue();
 
-	String getValue1();
-
-	void setValue1(String someValue);
+	void setWebValue(String webValue);
 }

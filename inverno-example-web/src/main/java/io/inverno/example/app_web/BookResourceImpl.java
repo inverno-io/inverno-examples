@@ -37,6 +37,8 @@ import io.inverno.mod.web.WebResponseBody;
 import io.inverno.mod.web.annotation.Body;
 import io.inverno.mod.web.annotation.SseEventFactory;
 import io.inverno.mod.web.annotation.WebRoute;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -81,11 +83,10 @@ public class BookResourceImpl implements BookResource {
 	public Flux<Book> list() {
 		return Flux.fromIterable(this.bookDB.values());
 	}
-	
+
 	@Override
-	public Mono<Book> get(String isbn, WebContext context) {
+	public <E extends WebContext & InterceptorContext> Mono<Book> get(String isbn, E context) {
 		return Mono.fromSupplier(() -> {
-			context.setValue1("context1"); // context uses strong typing
 			if(!this.bookDB.containsKey(isbn)) {
 				throw new NotFoundException("Book with reference " + isbn + " does not exist");
 			}

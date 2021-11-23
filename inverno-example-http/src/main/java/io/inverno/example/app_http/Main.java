@@ -47,7 +47,7 @@ public class Main {
 	 * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
 	 */
 	@Bean
-	public static interface Handler extends Supplier<RootExchangeHandler<ExchangeContext, Exchange<ExchangeContext>>> {}
+	public static interface RootHandler extends Supplier<RootExchangeHandler<ExchangeContext, Exchange<ExchangeContext>>> {}
 	
 	/**
 	 * <p>
@@ -81,7 +81,7 @@ public class Main {
                 )
             )
             // Sets the custom root handler
-            .setHandler(exchange -> {
+            .setRootHandler(exchange -> {
                 exchange.response()
                     .body().raw().value(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Hello from main!", Charsets.DEFAULT)));
             })

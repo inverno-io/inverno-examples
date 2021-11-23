@@ -16,7 +16,6 @@
 package io.inverno.example.app_web;
 
 import io.inverno.core.annotation.Bean;
-import io.inverno.mod.http.server.ExchangeContext;
 import io.inverno.mod.web.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,19 +27,29 @@ import reactor.core.publisher.Mono;
  *
  */
 @Bean(visibility = Bean.Visibility.PRIVATE)
-public class App_webWebInterceptorsConfigurer implements WebInterceptorsConfigurer<ExchangeContext> {
+public class App_webWebInterceptorsConfigurer implements WebInterceptorsConfigurer<InterceptorContext> {
 
 	private Logger logger = LogManager.getLogger(this.getClass());
 	
 	@Override
-	public void accept(WebInterceptable<ExchangeContext, ?> router) {
+	public void accept(WebInterceptable<InterceptorContext, ?> router) {
 		router
+			.intercept()
+				.path("/continue")
+				.interceptor(new ContinueInterceptor())
 			.intercept()
 				.path("/hello")
 				.interceptor(exchange -> {
 					logger.info("Smile, you've been intercepted");
 					return Mono.just(exchange);
+				})
+			.intercept()
+				.path("/hello")
+				.language("fr-FR")
+				.interceptor(exchange -> {
+					logger.info("Souriez, vous êtes interceptés");
+					exchange.context().setInterceptorValue("Bonjour!");
+					return Mono.just(exchange);
 				});
 	}
-	
 }

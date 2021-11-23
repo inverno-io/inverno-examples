@@ -18,8 +18,8 @@ package io.inverno.example.web_modular.app;
 import io.inverno.core.annotation.Bean;
 import io.inverno.mod.base.resource.ResourceService;
 import io.inverno.mod.http.server.ExchangeContext;
-import io.inverno.mod.web.OpenApiWebRoutesConfigurer;
-import io.inverno.mod.web.WebJarsWebRoutesConfigurer;
+import io.inverno.mod.web.OpenApiRoutesConfigurer;
+import io.inverno.mod.web.WebJarsRoutesConfigurer;
 import io.inverno.mod.web.WebRoutable;
 import io.inverno.mod.web.WebRoutesConfigurer;
 
@@ -40,7 +40,7 @@ public class AppWebRoutesConfigurer implements WebRoutesConfigurer<ExchangeConte
 	@Override
 	public void accept(WebRoutable<ExchangeContext, ?> routable) {
 		routable
-			.configureRoutes(new WebJarsWebRoutesConfigurer(this.resourceService))
-			.configureRoutes(new OpenApiWebRoutesConfigurer(this.resourceService, true));
+			.configureRoutes(new WebJarsRoutesConfigurer(this.resourceService))
+			.configureRoutes(new OpenApiRoutesConfigurer(this.resourceService, true));
 	}
 }
