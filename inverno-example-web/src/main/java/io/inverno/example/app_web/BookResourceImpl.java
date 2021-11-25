@@ -37,8 +37,6 @@ import io.inverno.mod.web.WebResponseBody;
 import io.inverno.mod.web.annotation.Body;
 import io.inverno.mod.web.annotation.SseEventFactory;
 import io.inverno.mod.web.annotation.WebRoute;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
