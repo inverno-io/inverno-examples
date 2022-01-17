@@ -1,0 +1,6 @@
+io.inverno.example.app_sql.app_sqlConfiguration.sql {
+	db_uri = "postgresql://localhost:5432/postgres"
+	db_user = "postgres"
+	db_password = "password"
+}
+
