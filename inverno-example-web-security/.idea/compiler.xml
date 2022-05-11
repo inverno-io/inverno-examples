@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Annotation profile for io.inverno.example.app_web_security" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <option name="inverno.debug" value="true" />
+        <option name="inverno.generateDescriptor" value="true" />
+        <option name="inverno.verbose" value="true" />
+        <option name="inverno.web.generateOpenApiDefinition" value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/io/inverno/inverno-core-compiler/1.5.0-SNAPSHOT/inverno-core-compiler-1.5.0-SNAPSHOT.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/inverno/inverno-core-annotation/1.5.0-SNAPSHOT/inverno-core-annotation-1.5.0-SNAPSHOT.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/inverno/mod/inverno-configuration-compiler/1.5.0-SNAPSHOT/inverno-configuration-compiler-1.5.0-SNAPSHOT.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/inverno/mod/inverno-configuration/1.5.0-SNAPSHOT/inverno-configuration-1.5.0-SNAPSHOT.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/inverno/mod/inverno-base/1.5.0-SNAPSHOT/inverno-base-1.5.0-SNAPSHOT.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-text/1.9/commons-text-1.9.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/projectreactor/reactor-core/3.4.14/reactor-core-3.4.14.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/reactivestreams/reactive-streams/1.0.3/reactive-streams-1.0.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/netty/netty-buffer/4.1.73.Final/netty-buffer-4.1.73.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/netty/netty-common/4.1.73.Final/netty-common-4.1.73.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/netty/netty-transport/4.1.73.Final/netty-transport-4.1.73.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/netty/netty-resolver/4.1.73.Final/netty-resolver-4.1.73.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/logging/log4j/log4j-api/2.17.1/log4j-api-2.17.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-launcher/1.8.2/junit-platform-launcher-1.8.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-engine/1.8.2/junit-platform-engine-1.8.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/opentest4j/opentest4j/1.2.0/opentest4j-1.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/junit/platform/junit-platform-commons/1.8.2/junit-platform-commons-1.8.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-api/5.8.2/junit-jupiter-api-5.8.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-params/5.8.2/junit-jupiter-params-5.8.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/junit/jupiter/junit-jupiter-engine/5.8.2/junit-jupiter-engine-5.8.2.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/inverno/mod/inverno-irt-compiler/1.5.0-SNAPSHOT/inverno-irt-compiler-1.5.0-SNAPSHOT.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/inverno/mod/inverno-irt/1.5.0-SNAPSHOT/inverno-irt-1.5.0-SNAPSHOT.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/inverno/mod/inverno-web-compiler/1.5.0-SNAPSHOT/inverno-web-compiler-1.5.0-SNAPSHOT.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/inverno/mod/inverno-http-base/1.5.0-SNAPSHOT/inverno-http-base-1.5.0-SNAPSHOT.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/inverno/inverno-core/1.5.0-SNAPSHOT/inverno-core-1.5.0-SNAPSHOT.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/inverno/mod/inverno-http-server/1.5.0-SNAPSHOT/inverno-http-server-1.5.0-SNAPSHOT.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/netty/netty-codec-http2/4.1.73.Final/netty-codec-http2-4.1.73.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/netty/netty-codec/4.1.73.Final/netty-codec-4.1.73.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/netty/netty-handler/4.1.73.Final/netty-handler-4.1.73.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/netty/netty-tcnative-classes/2.0.46.Final/netty-tcnative-classes-2.0.46.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/netty/netty-codec-http/4.1.73.Final/netty-codec-http-4.1.73.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.13.1/jackson-databind-2.13.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-annotations/2.13.1/jackson-annotations-2.13.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-core/2.13.1/jackson-core-2.13.1.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/inverno/mod/inverno-web/1.5.0-SNAPSHOT/inverno-web-1.5.0-SNAPSHOT.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mockito/mockito-core/3.12.4/mockito-core-3.12.4.jar" />
+          <entry name="$MAVEN_REPOSITORY$/net/bytebuddy/byte-buddy/1.11.13/byte-buddy-1.11.13.jar" />
+          <entry name="$MAVEN_REPOSITORY$/net/bytebuddy/byte-buddy-agent/1.11.13/byte-buddy-agent-1.11.13.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/objenesis/objenesis/3.2/objenesis-3.2.jar" />
+        </processorPath>
+        <module name="inverno-example-web-security" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="inverno-example-web-security" options="--module-version=1.0.0-SNAPSHOT -Ainverno.verbose=true -Ainverno.debug=true -Ainverno.generateDescriptor=true -Ainverno.web.generateOpenApiDefinition=true" />
+    </option>
+  </component>
+</project>

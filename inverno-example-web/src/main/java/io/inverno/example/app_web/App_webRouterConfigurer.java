@@ -1,17 +1,6 @@
 /*
- * Copyright 2021 Jeremy KUHN
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *    http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package io.inverno.example.app_web;
 
@@ -19,13 +8,17 @@ import io.inverno.core.annotation.Bean;
 import io.inverno.mod.base.resource.MediaTypes;
 import io.inverno.mod.base.resource.ResourceService;
 import io.inverno.mod.http.base.Method;
+import io.inverno.mod.http.base.Status;
+import io.inverno.mod.http.server.ExchangeContext;
 import io.inverno.mod.web.ContinueInterceptor;
+import io.inverno.mod.web.ErrorWebRoutable;
+import io.inverno.mod.web.ErrorWebRoutesConfigurer;
 import io.inverno.mod.web.OpenApiRoutesConfigurer;
 import io.inverno.mod.web.StaticHandler;
+import io.inverno.mod.web.WebInterceptable;
+import io.inverno.mod.web.WebInterceptorsConfigurer;
 import io.inverno.mod.web.WebJarsRoutesConfigurer;
 import io.inverno.mod.web.WebRoutable;
-import io.inverno.mod.web.WebRouter;
-import io.inverno.mod.web.WebRouterConfigurer;
 import io.inverno.mod.web.WebRoutesConfigurer;
 import io.inverno.mod.web.annotation.WebRoute;
 import io.inverno.mod.web.annotation.WebRoutes;
@@ -34,9 +27,8 @@ import org.apache.logging.log4j.Logger;
 import reactor.core.publisher.Mono;
 
 /**
- *  
- * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  *
+ * @author jkuhn
  */
 @Bean(visibility = Bean.Visibility.PRIVATE)
 @WebRoutes({
@@ -45,21 +37,43 @@ import reactor.core.publisher.Mono;
 	@WebRoute( path = { "/hello" }, method = { Method.GET }, produces = { MediaTypes.TEXT_PLAIN }, language = {"fr-FR"} ),
 	@WebRoute( path = { "/custom_exception" } )
 })
-public class App_webWebRoutesConfigurer implements WebRoutesConfigurer<InterceptorContext> {
+public class App_webRouterConfigurer implements WebInterceptorsConfigurer<InterceptorContext>, WebRoutesConfigurer<InterceptorContext>, ErrorWebRoutesConfigurer<ExchangeContext> {
 
-	private final Logger logger = LogManager.getLogger(this.getClass());
+	private Logger logger = LogManager.getLogger(this.getClass());
 	
 	private final App_webConfiguration configuration;
 	private final ResourceService resourceService;
 	
-	public App_webWebRoutesConfigurer(App_webConfiguration configuration, ResourceService resourceService) {
+	public App_webRouterConfigurer(App_webConfiguration configuration, ResourceService resourceService) {
 		this.configuration = configuration;
 		this.resourceService = resourceService;
 	}
+	
+	@Override
+	public void configure(WebInterceptable<InterceptorContext, ?> interceptors) {
+		interceptors
+			.intercept()
+				.path("/continue")
+				.interceptor(new ContinueInterceptor())
+			.intercept()
+				.path("/hello")
+				.interceptor(exchange -> {
+					logger.info("Smile, you've been intercepted");
+					return Mono.just(exchange);
+				})
+			.intercept()
+				.path("/hello")
+				.language("fr-FR")
+				.interceptor(exchange -> {
+					logger.info("Souriez, vous êtes interceptés");
+					exchange.context().setInterceptorValue("Bonjour!");
+					return Mono.just(exchange);
+				});
+	}
 
 	@Override
-	public void accept(WebRoutable<InterceptorContext, ?> routable) {
-		routable
+	public void configure(WebRoutable<InterceptorContext, ?> routes) {
+		routes
 			.configureRoutes(new WebJarsRoutesConfigurer(this.resourceService))
 			.configureRoutes(new OpenApiRoutesConfigurer(this.resourceService, true))
 			.route()
@@ -109,4 +123,22 @@ public class App_webWebRoutesConfigurer implements WebRoutesConfigurer<Intercept
 					throw new SomeCustomException();
 				});
 	}
+
+	@Override
+	public void configure(ErrorWebRoutable<ExchangeContext, ?> errorRoutes) {
+		errorRoutes
+			.route()
+				.error(SomeCustomException.class)
+				.handler(errorExchange -> errorExchange
+					.response()
+					.headers(headers -> headers
+						.status(Status.BAD_REQUEST)
+						.contentType(MediaTypes.TEXT_PLAIN)
+					)
+					.body()
+					.encoder(String.class)
+					.value("A custom exception was raised: " + errorExchange.context())
+				);
+	}
+	
 }

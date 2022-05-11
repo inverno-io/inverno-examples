@@ -20,7 +20,7 @@
  *
  */
 @io.inverno.core.annotation.Module
-@io.inverno.core.annotation.Wire(beans="io.inverno.example.web_modular.app:webRouterConfigurer", into="io.inverno.mod.web:webRouterConfigurer")
+@io.inverno.core.annotation.Wire(beans="io.inverno.example.web_modular.app:webServerContollerConfigurer", into="io.inverno.mod.web:controllerConfigurer")
 module io.inverno.example.web_modular.app {
     requires io.inverno.mod.boot;
     requires io.inverno.mod.web;

@@ -24,7 +24,6 @@
  * @version 1.0.0
  */
 @io.inverno.core.annotation.Module
-@io.inverno.core.annotation.Wire(beans="io.inverno.example.app_web:webRouterConfigurer", into="io.inverno.mod.web:webRouterConfigurer")
 module io.inverno.example.app_web {
     requires io.inverno.mod.boot;
     requires io.inverno.mod.web;

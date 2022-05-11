@@ -22,10 +22,9 @@ import io.inverno.core.annotation.Bean;
 import io.inverno.core.v1.Application;
 import io.inverno.mod.base.Charsets;
 import io.inverno.mod.http.server.ErrorExchange;
-import io.inverno.mod.http.server.ErrorExchangeHandler;
 import io.inverno.mod.http.server.Exchange;
 import io.inverno.mod.http.server.ExchangeContext;
-import io.inverno.mod.http.server.RootExchangeHandler;
+import io.inverno.mod.http.server.ServerController;
 import io.netty.buffer.Unpooled;
 
 /**
@@ -41,24 +40,13 @@ public class Main {
 
 	/**
 	 * <p>
-	 * Socket bean for the custom root handler.
+	 * Socket bean for the server controller.
 	 * </p>
 	 * 
 	 * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
 	 */
 	@Bean
-	public static interface RootHandler extends Supplier<RootExchangeHandler<ExchangeContext, Exchange<ExchangeContext>>> {}
-	
-	/**
-	 * <p>
-	 * Socket bean for the custom error handler.
-	 * </p>
-	 * 
-	 * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
-	 *
-	 */
-	@Bean
-	public static interface ErrorHandler extends Supplier<ErrorExchangeHandler<Throwable, ErrorExchange<Throwable>>> {}
+	public static interface Controller extends Supplier<ServerController<ExchangeContext, Exchange<ExchangeContext>, ErrorExchange<ExchangeContext>>> {}
 
 	public static void main(String[] args) {
 		// Starts the server
@@ -80,17 +68,18 @@ public class Main {
                     )
                 )
             )
-            // Sets the custom root handler
-            .setRootHandler(exchange -> {
-                exchange.response()
-                    .body().raw().value(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Hello from main!", Charsets.DEFAULT)));
-            })
-            // Sets the custom error handler
-            .setErrorHandler(exchange -> {
-                exchange.response()
-                   .headers(headers -> headers.status(500))
-                   .body().raw().value(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Error: " + exchange.getError().getMessage(), Charsets.DEFAULT)));
-            })
+			// Sets the server controller
+			.setController(ServerController.from(
+				exchange -> {
+					exchange.response()
+						.body().raw().value(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Hello from main!", Charsets.DEFAULT)));
+				},
+				errorExchange -> {
+					errorExchange.response()
+					   .headers(headers -> headers.status(500))
+					   .body().raw().value(Unpooled.unreleasableBuffer(Unpooled.copiedBuffer("Error: " + errorExchange.getError().getMessage(), Charsets.DEFAULT)));
+				}
+			))
         );
     }
 }

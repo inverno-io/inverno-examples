@@ -38,7 +38,7 @@ public class AppWebRoutesConfigurer implements WebRoutesConfigurer<ExchangeConte
 	}
 	
 	@Override
-	public void accept(WebRoutable<ExchangeContext, ?> routable) {
+	public void configure(WebRoutable<ExchangeContext, ?> routable) {
 		routable
 			.configureRoutes(new WebJarsRoutesConfigurer(this.resourceService))
 			.configureRoutes(new OpenApiRoutesConfigurer(this.resourceService, true));
