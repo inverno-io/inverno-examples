@@ -15,10 +15,10 @@
  */
 package io.inverno.example.app_redis.dao;
 
-import io.inverno.example.app_redis.domain.Person;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.inverno.core.annotation.Bean;
+import io.inverno.example.app_redis.domain.Person;
 import io.inverno.mod.redis.RedisClient;
 import java.io.UncheckedIOException;
 import reactor.core.publisher.Mono;

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://logging.apache.org/log4j/2.0/config https://raw.githubusercontent.com/apache/logging-log4j2/rel/2.14.0/log4j-core/src/main/resources/Log4j-config.xsd" 
+	status="WARN" shutdownHook="disable">
+
+    <Appenders>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+<!--         <PatternLayout pattern="%d{DEFAULT} %-5level [%t] %c{1.} - %msg%n%ex"/> -->
+             <PatternLayout pattern="%d{DEFAULT} %highlight{%-5level} [%t] %c{1.} - %msg%n%ex"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+    	<!-- Disable HTTP server access and error logs -->
+    	<Logger name="io.inverno.mod.http.server.internal.AbstractExchange" additivity="false" level="off" />
+    	
+        <Root level="info">
+            <AppenderRef ref="LogToConsole"/>
+        </Root>
+    </Loggers>
+</Configuration>

@@ -25,11 +25,11 @@
 	</parent>
 	
 	<groupId>io.inverno.example</groupId>
-	<artifactId>inverno-example-web-security</artifactId>
+	<artifactId>inverno-example-web-socket</artifactId>
 	<packaging>jar</packaging>
 
-	<name>io.inverno.example.app_web_security</name>
-	<description>Inverno Web server security example application</description>
+	<name>io.inverno.example.app_web_websocket</name>
+	<description>Inverno Web server WebSocket example application</description>
 	
 	<dependencies>
 		<dependency>
@@ -38,68 +38,46 @@
 		</dependency>
 		<dependency>
 			<groupId>io.inverno.mod</groupId>
-			<artifactId>inverno-ldap</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.inverno.mod</groupId>
 			<artifactId>inverno-web</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>io.inverno.mod</groupId>
-			<artifactId>inverno-security-http</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.inverno.mod</groupId>
-			<artifactId>inverno-security-jose</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.inverno.mod</groupId>
-			<artifactId>inverno-security-ldap</artifactId>
-		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
 			<scope>compile</scope>
 		</dependency>
 
-		<!--<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>5.6.2</version>
-		</dependency>
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-ldap</artifactId>
-			<version>5.6.2</version>
-		</dependency>-->
-		
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-launcher</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-commons</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-params</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
-			<scope>test</scope>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-transport-native-epoll</artifactId>
+			<classifier>linux-x86_64</classifier>
 		</dependency>
 	</dependencies>
+	
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>io.inverno.tool</groupId>
+					<artifactId>inverno-maven-plugin</artifactId>
+					<configuration>
+						<vmOptions>--add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifestEntries>
+								<Automatic-Module-Name>${project.name}</Automatic-Module-Name>
+							</manifestEntries>
+						</archive>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
 	
 	<profiles>
 		<profile>
@@ -119,7 +97,7 @@
 							</execution>
 						</executions>
 						<configuration>
-							<mainClass>io.inverno.example.app_web.Main</mainClass>
+							<mainClass>io.inverno.example.app_web_websocket.Main</mainClass>
 							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers -H:+ReportExceptionStackTraces -H:+PrintClassInitialization -J-Dlog4j2.disable.jmx=true</buildArgs>
 						</configuration>
 					</plugin>
@@ -147,7 +125,7 @@
 									<launchers>
 										<launcher>
 											<name>example-web</name>
-											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC</vmOptions>
+											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
 										</launcher>
 									</launchers>
 									<formats>
@@ -182,7 +160,7 @@
 									<launchers>
 										<launcher>
 											<name>example-web</name>
-											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC</vmOptions>
+											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
 										</launcher>
 									</launchers>
 								</configuration>
@@ -214,7 +192,7 @@
 									<launchers>
 										<launcher>
 											<name>example-web</name>
-											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC</vmOptions>
+											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
 										</launcher>
 									</launchers>
 								</configuration>

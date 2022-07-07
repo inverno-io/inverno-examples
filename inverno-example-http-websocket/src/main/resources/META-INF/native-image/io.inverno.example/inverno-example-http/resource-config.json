@@ -1,0 +1,8 @@
+{
+  "resources":{
+  "includes":[
+    {"pattern":"\\Qlog4j2.xml\\E"},
+    {"pattern":"\\Qkeystore.jks\\E"}
+  ]},
+  "bundles":[]
+}

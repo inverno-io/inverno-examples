@@ -54,7 +54,7 @@ public class App_webRouterConfigurer implements WebInterceptorsConfigurer<Interc
 		interceptors
 			.intercept()
 				.path("/continue")
-				.interceptor(new ContinueInterceptor())
+				.interceptor(new ContinueInterceptor<>())
 			.intercept()
 				.path("/hello")
 				.interceptor(exchange -> {
@@ -79,7 +79,7 @@ public class App_webRouterConfigurer implements WebInterceptorsConfigurer<Interc
 			.route()
 				.path("/static/{path:.*}", true)
 				.method(Method.GET)
-				.handler(new StaticHandler(this.resourceService.getResource(this.configuration.web_root())))
+				.handler(new StaticHandler<>(this.resourceService.getResource(this.configuration.web_root())))
 			.route()
 				.path("/hello")
 				.method(Method.GET)

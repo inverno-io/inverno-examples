@@ -64,11 +64,13 @@
 		<module>inverno-example-configuration</module>
 		<module>inverno-example-hello</module>
 		<module>inverno-example-http</module>
+		<module>inverno-example-http-websocket</module>
 		<module>inverno-example-irt</module>
 		<module>inverno-example-redis</module>
 		<module>inverno-example-sql</module>
 		<module>inverno-example-web</module>
 		<module>inverno-example-web-modular</module>
 		<module>inverno-example-web-security</module>
+		<module>inverno-example-web-websocket</module>
 	</modules>
 </project>
