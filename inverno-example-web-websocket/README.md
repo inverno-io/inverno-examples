@@ -1,5 +1,5 @@
-[inverno-mod-http-server]: https://github.com/inverno-io/inverno-mods/blob/master/doc/reference-guide.md#http-server
-[inverno-mod-web]: https://github.com/inverno-io/inverno-mods/blob/master/doc/reference-guide.md#web
+[inverno-mod-http-server]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-http-server/
+[inverno-mod-web]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-web/
 [inverno-dist-root]: https://github.com/inverno-io/inverno-dist
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
 [inverno-tool-maven-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-maven-plugin
@@ -132,10 +132,11 @@ The application can then be started in docker as follows:
 ```plaintext
 $ docker run --rm --network host -e LANG=C.UTF-8 inverno-example-web-websocket:1.0.0-SNAPSHOT 
 ...
-2021-04-26 12:46:34,284 INFO  [main] i.w.m.h.s.i.HttpServer - HTTP Server (epoll) listening on http://0.0.0.0:8080
-2021-04-26 12:46:34,285 INFO  [main] i.w.m.h.s.Server - Module io.inverno.mod.http.server started in 88ms
-2021-04-26 12:46:34,285 INFO  [main] i.w.m.w.Web - Module io.inverno.mod.web started in 88ms
-2021-04-26 12:46:34,285 INFO  [main] i.w.e.a.App_web - Module io.inverno.example.app_web_websocket started in 281ms
+2022-07-08 11:38:59,273 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
+2022-07-08 11:38:59,274 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 108ms
+2022-07-08 11:38:59,274 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web started in 108ms
+2022-07-08 11:38:59,274 INFO  [main] i.i.e.a.App_web_websocket - Module io.inverno.example.app_web_websocket started in 323ms
+2022-07-08 11:38:59,276 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_websocket started in 381ms
 ```
 
 ## Building a native image

@@ -1,4 +1,4 @@
-[inverno-mod-configuration]: https://github.com/inverno-io/inverno-mods/blob/master/doc/reference-guide.md#configuration-1
+[inverno-mod-configuration]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-configuration/
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
 [inverno-javadoc]: https://inverno.io/docs/release/api/index.html
 

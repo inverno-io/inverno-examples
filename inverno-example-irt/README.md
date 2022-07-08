@@ -1,4 +1,4 @@
-[inverno-mod-irt]: https://github.com/inverno-io/inverno-mods/blob/master/doc/reference-guide.md#reactive-template
+[inverno-mod-irt]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-irt/
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
 [inverno-javadoc]: https://inverno.io/docs/release/api/index.html
 

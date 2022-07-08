@@ -1,4 +1,4 @@
-[inverno-mod-sql]: https://github.com/inverno-io/inverno-mods/blob/master/doc/reference-guide.md#sql-client
+[inverno-mod-sql]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-sql/
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
 [inverno-javadoc]: https://inverno.io/docs/release/api/index.html
 

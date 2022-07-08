@@ -1,4 +1,4 @@
-[inverno-mod-redis]: https://github.com/inverno-io/inverno-mods/blob/master/doc/reference-guide.md#redis-client
+[inverno-mod-redis]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-redis/
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
 [inverno-javadoc]: https://inverno.io/docs/release/api/index.html
 
