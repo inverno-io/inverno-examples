@@ -63,6 +63,7 @@
 	<modules>
 		<module>inverno-example-configuration</module>
 		<module>inverno-example-hello</module>
+		<module>inverno-example-hello-security</module>
 		<module>inverno-example-http</module>
 		<module>inverno-example-http-websocket</module>
 		<module>inverno-example-irt</module>

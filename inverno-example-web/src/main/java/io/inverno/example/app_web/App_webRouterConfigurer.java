@@ -22,7 +22,6 @@ import io.inverno.mod.web.WebRoutable;
 import io.inverno.mod.web.WebRoutesConfigurer;
 import io.inverno.mod.web.annotation.WebRoute;
 import io.inverno.mod.web.annotation.WebRoutes;
-import java.net.URI;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import reactor.core.publisher.Mono;
