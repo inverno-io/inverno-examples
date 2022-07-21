@@ -48,7 +48,7 @@ import reactor.core.publisher.Mono;
 @Bean
 public class BookResourceImpl implements BookResource {
 
-	private Map<String, Book> bookDB = new ConcurrentHashMap<>(); 
+	private Map<String, Book> bookDB = new ConcurrentHashMap<>();
 	
 	@Override
 	public Mono<Void> create(Mono<Book> book, WebExchange<?> exchange) {

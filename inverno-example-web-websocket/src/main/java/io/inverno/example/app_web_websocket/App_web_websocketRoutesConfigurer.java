@@ -21,6 +21,7 @@ import io.inverno.core.annotation.Init;
 import io.inverno.example.app_web_websocket.dto.Message;
 import io.inverno.mod.base.resource.Resource;
 import io.inverno.mod.base.resource.ResourceService;
+import io.inverno.mod.http.base.InternalServerErrorException;
 import io.inverno.mod.http.base.Method;
 import io.inverno.mod.http.server.ExchangeContext;
 import io.inverno.mod.web.WebRoutable;
@@ -89,19 +90,15 @@ public class App_web_websocketRoutesConfigurer implements WebRoutesConfigurer<Ex
 				.path("/ws")
 				.method(Method.GET)
 				.handler(exchange -> {
-					exchange.webSocket("json").ifPresentOrElse(
-						webSocket -> {
-							webSocket.handler(webSocketExchange -> {
-								Flux.from(webSocketExchange.inbound().decodeTextMessages(Message.class)).subscribe(message -> this.chatSink.tryEmitNext(message));
-								webSocketExchange.outbound().encodeTextMessages(this.chatSink.asFlux());
-							})
-							.or(() -> exchange.response()
-								.body().string().value("Web socket handshake failed")
-							);
-						},
-						() -> exchange.response().body().string().value("WebSocket not supported")
-					);
+					exchange.webSocket("json")
+						.orElseThrow(() -> new InternalServerErrorException("WebSocket not supported"))
+						.handler(webSocketExchange -> {
+							Flux.from(webSocketExchange.inbound().decodeTextMessages(Message.class)).subscribe(message -> this.chatSink.tryEmitNext(message));
+							webSocketExchange.outbound().encodeTextMessages(this.chatSink.asFlux());
+						})
+						.or(() -> exchange.response()
+							.body().string().value("Web socket handshake failed")
+						);
 				});*/
-		
 	}
 }

@@ -26,4 +26,6 @@
 module io.inverno.example.app_http_websocket {
     requires io.inverno.mod.boot;
     requires io.inverno.mod.http.server;
+	
+	requires org.apache.logging.log4j;
 }

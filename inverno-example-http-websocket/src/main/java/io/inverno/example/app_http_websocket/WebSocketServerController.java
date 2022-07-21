@@ -18,18 +18,17 @@ package io.inverno.example.app_http_websocket;
 import io.inverno.core.annotation.Bean;
 import io.inverno.core.annotation.Destroy;
 import io.inverno.core.annotation.Init;
-import io.inverno.mod.base.resource.FileResource;
 import io.inverno.mod.base.resource.MediaTypes;
 import io.inverno.mod.base.resource.PathResource;
 import io.inverno.mod.base.resource.Resource;
-import io.inverno.mod.base.resource.ResourceService;
 import io.inverno.mod.http.base.HttpException;
 import io.inverno.mod.http.server.ErrorExchange;
 import io.inverno.mod.http.server.Exchange;
 import io.inverno.mod.http.server.ExchangeContext;
 import io.inverno.mod.http.server.ServerController;
 import io.inverno.mod.http.server.ws.WebSocketFrame;
-import java.net.URI;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
 
@@ -40,6 +39,8 @@ import reactor.core.publisher.Sinks;
 @Bean
 public class WebSocketServerController implements ServerController<ExchangeContext, Exchange<ExchangeContext>, ErrorExchange<ExchangeContext>> {
 
+	private static final Logger LOGGER = LogManager.getLogger(WebSocketServerController.class);
+	
 	private final Resource index;
 	
 	// Solution 0: retain duplicate frame
@@ -76,6 +77,7 @@ public class WebSocketServerController implements ServerController<ExchangeConte
 						webSocketExchange.outbound().frames(factory -> this.chatSink.asFlux().map(WebSocketFrame::retainedDuplicate));
 						Flux.from(webSocketExchange.inbound().frames())
 							.subscribe(frame -> {
+								LOGGER.info("Broadcasting frame: kind = " + frame.getKind() + ", size = " + frame.getBinaryData().readableBytes() + ", final = " + frame.isFinal());
 								this.chatSink.tryEmitNext(frame);
 								frame.release();
 							});

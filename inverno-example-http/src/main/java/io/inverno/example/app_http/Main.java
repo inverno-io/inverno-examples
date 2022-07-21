@@ -15,9 +15,6 @@
  */
 package io.inverno.example.app_http;
 
-import java.net.URI;
-import java.util.function.Supplier;
-
 import io.inverno.core.annotation.Bean;
 import io.inverno.core.v1.Application;
 import io.inverno.mod.base.Charsets;
@@ -26,6 +23,8 @@ import io.inverno.mod.http.server.Exchange;
 import io.inverno.mod.http.server.ExchangeContext;
 import io.inverno.mod.http.server.ServerController;
 import io.netty.buffer.Unpooled;
+import java.net.URI;
+import java.util.function.Supplier;
 
 /**
  * <p>
