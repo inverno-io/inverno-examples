@@ -48,7 +48,7 @@ public class DigestRouterConfigurer implements WebInterceptorsConfigurer<Interce
 		interceptors
 			.intercept()
 				.path("/digest/**")
-				.interceptors(List.of(new SecurityInterceptor<>(
+				.interceptors(List.of(SecurityInterceptor.of(
 						new DigestCredentialsExtractor(), 
 						new PrincipalAuthenticator<>(this.credentialsResolver, new DigestCredentialsMatcher<>("secret"))
 					),

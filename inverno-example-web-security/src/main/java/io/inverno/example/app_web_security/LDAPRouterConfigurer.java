@@ -8,11 +8,12 @@ import io.inverno.mod.http.server.ExchangeContext;
 import io.inverno.mod.ldap.LDAPClient;
 import io.inverno.mod.security.accesscontrol.GroupsRoleBasedAccessControllerResolver;
 import io.inverno.mod.security.accesscontrol.RoleBasedAccessController;
-import io.inverno.mod.security.authentication.InvalidCredentialsException;
 import io.inverno.mod.security.http.AccessControlInterceptor;
+import io.inverno.mod.security.http.login.LoginActionHandler;
+import io.inverno.mod.security.http.login.LoginSuccessHandler;
+import io.inverno.mod.security.http.login.LogoutActionHandler;
+import io.inverno.mod.security.http.login.LogoutSuccessHandler;
 import io.inverno.mod.security.http.SecurityInterceptor;
-import io.inverno.mod.security.http.LoginActionHandler;
-import io.inverno.mod.security.http.LogoutActionHandler;
 import io.inverno.mod.security.http.context.InterceptingSecurityContext;
 import io.inverno.mod.security.http.context.SecurityContext;
 import io.inverno.mod.security.http.form.FormAuthenticationErrorInterceptor;
@@ -29,8 +30,8 @@ import io.inverno.mod.security.identity.Identity;
 import io.inverno.mod.security.jose.jwa.OCTAlgorithm;
 import io.inverno.mod.security.jose.jwk.JWKService;
 import io.inverno.mod.security.jose.jwk.oct.OCTJWK;
-import io.inverno.mod.security.jose.jws.JWS;
 import io.inverno.mod.security.jose.jws.JWSAuthentication;
+import io.inverno.mod.security.jose.jws.JWSAuthenticator;
 import io.inverno.mod.security.jose.jws.JWSService;
 import io.inverno.mod.security.jose.jwt.JWTSAuthentication;
 import io.inverno.mod.security.ldap.authentication.LDAPAuthentication;
@@ -38,7 +39,6 @@ import io.inverno.mod.security.ldap.authentication.LDAPAuthenticator;
 import io.inverno.mod.security.ldap.identity.LDAPIdentityResolver;
 import io.inverno.mod.web.ErrorWebRouter;
 import io.inverno.mod.web.ErrorWebRouterConfigurer;
-import io.inverno.mod.web.WebExchange;
 import io.inverno.mod.web.WebInterceptable;
 import io.inverno.mod.web.WebInterceptorsConfigurer;
 import io.inverno.mod.web.WebRoutable;
@@ -109,12 +109,9 @@ public class LDAPRouterConfigurer implements WebInterceptorsConfigurer<Intercept
 			// Cookie Token authentication (RFC7515 - JSON Web Signature (JWS)) + LDAP authentication + LDAP identity
 			.intercept()
 				.path("/ldap/**")
-				.interceptors(List.of(new SecurityInterceptor<> (
+				.interceptors(List.of(SecurityInterceptor.of(
 						new BearerTokenCredentialsExtractor().or(new CookieTokenCredentialsExtractor()), 
-						credentials -> this.jwsService.reader(LDAPAuthentication.class, this.jwsKey)
-							.read(credentials.getToken(), MediaTypes.APPLICATION_JSON)
-							.map(JWS::getPayload)
-							.onErrorMap(e -> new InvalidCredentialsException("Invalid token", e)),
+						new JWSAuthenticator<>(this.jwsService, LDAPAuthentication.class, this.jwsKey).failOnDenied().map(jwsAuthentication -> jwsAuthentication.getJws().getPayload()),
 						new LDAPIdentityResolver(this.ldapClient),
 						new GroupsRoleBasedAccessControllerResolver()
 					),
@@ -137,6 +134,7 @@ public class LDAPRouterConfigurer implements WebInterceptorsConfigurer<Intercept
 				.handler(new LoginActionHandler<>(
 					new FormCredentialsExtractor(), 
 					new LDAPAuthenticator(this.ldapClient, "dc=inverno,dc=io")
+						.failOnDenied()
 						.flatMap(authentication -> this.jwsService.builder(LDAPAuthentication.class, this.jwsKey)
 							.header(header -> header
 								.algorithm(OCTAlgorithm.HS256.getAlgorithm())
@@ -145,8 +143,10 @@ public class LDAPRouterConfigurer implements WebInterceptorsConfigurer<Intercept
 							.build(MediaTypes.APPLICATION_JSON)
 							.map(JWSAuthentication::new)
 						),
-					new CookieTokenLoginSuccessHandler<JWSAuthentication<LDAPAuthentication>, SecurityContext<Identity, RoleBasedAccessController>, WebExchange<SecurityContext<Identity, RoleBasedAccessController>>>("/ldap")
-						.andThen(new RedirectLoginSuccessHandler<>()),
+					LoginSuccessHandler.of(
+						new CookieTokenLoginSuccessHandler<>("/ldap"),
+						new RedirectLoginSuccessHandler<>("/login/ldap")
+					),
 					new RedirectLoginFailureHandler<>("/login/ldap")
 				))
 			.route()
@@ -154,8 +154,10 @@ public class LDAPRouterConfigurer implements WebInterceptorsConfigurer<Intercept
 				.path("/ldap/logout")
 				.handler(new LogoutActionHandler<>(
 					authentication -> Mono.empty(), // release the authentication: free resources, return a token to a pool...
-					new CookieTokenLogoutSuccessHandler<LDAPAuthentication, Identity, RoleBasedAccessController, SecurityContext<Identity, RoleBasedAccessController>, WebExchange<SecurityContext<Identity, RoleBasedAccessController>>>("/ldap")
-						.andThen(new RedirectLogoutSuccessHandler<>())
+					LogoutSuccessHandler.of(
+						new CookieTokenLogoutSuccessHandler<>("/ldap"),
+						new RedirectLogoutSuccessHandler<>()
+					)
 				));
 	}
 

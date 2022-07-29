@@ -3,6 +3,7 @@ package io.inverno.example.app_web_security;
 import io.inverno.core.annotation.Bean;
 import io.inverno.mod.http.base.UnauthorizedException;
 import io.inverno.mod.http.server.ExchangeContext;
+import io.inverno.mod.http.server.ExchangeInterceptor;
 import io.inverno.mod.security.accesscontrol.RoleBasedAccessController;
 import io.inverno.mod.security.authentication.CredentialsResolver;
 import io.inverno.mod.security.authentication.LoginCredentials;
@@ -18,7 +19,6 @@ import io.inverno.mod.web.ErrorWebRouter;
 import io.inverno.mod.web.ErrorWebRouterConfigurer;
 import io.inverno.mod.web.WebInterceptable;
 import io.inverno.mod.web.WebInterceptorsConfigurer;
-import java.util.List;
 
 /**
  * <p>
@@ -37,23 +37,50 @@ import java.util.List;
 @Bean( visibility = Bean.Visibility.PRIVATE )
 public class BasicRouterConfigurer implements WebInterceptorsConfigurer<InterceptingSecurityContext<Identity, RoleBasedAccessController>>, ErrorWebRouterConfigurer<ExchangeContext> {
 
-	private final CredentialsResolver<? extends LoginCredentials> credentialsResolver;
-	
+   private final CredentialsResolver<? extends LoginCredentials> credentialsResolver;
+
 	public BasicRouterConfigurer(CredentialsResolver<? extends LoginCredentials> credentialsResolver) {
 		this.credentialsResolver = credentialsResolver;
 	}
-	
+
 	@Override
 	public void configure(WebInterceptable<InterceptingSecurityContext<Identity, RoleBasedAccessController>, ?> interceptors) {
- 		interceptors
+		// Interceptors can be safely composed using ExchangeInterceptor.of()
+		interceptors
 			.intercept()
 				.path("/basic/**")
-				.interceptors(List.of(new SecurityInterceptor<>(
-						new BasicCredentialsExtractor(), 
+				.interceptor(ExchangeInterceptor.of(
+					SecurityInterceptor.of(
+							new BasicCredentialsExtractor(),
+							new PrincipalAuthenticator<>(this.credentialsResolver, new LoginCredentialsMatcher<>())
+						),
+					AccessControlInterceptor.authenticated()
+				));
+		
+		// In order to chain multiple interceptors using compose() or andThen(), we must make sure the Exchange type is a WebExchange, since SecurityInterceptor and AccessControlInterceptor uses parameterized Exchange type, we must then be explicit:
+		/*interceptors
+			.intercept()
+				.path("/basic/**")
+				.interceptor(
+					SecurityInterceptor.<LoginCredentials, PrincipalAuthentication, Identity, RoleBasedAccessController, InterceptingSecurityContext<Identity, RoleBasedAccessController>, WebExchange<InterceptingSecurityContext<Identity, RoleBasedAccessController>>>of(
+						new BasicCredentialsExtractor(),
+						new PrincipalAuthenticator<>(this.credentialsResolver, new LoginCredentialsMatcher<>())
+					).andThen(AccessControlInterceptor.authenticated())
+				);*/
+		
+		
+		
+		// Or we can use interceptors() and provide a list of interceptors
+		/*interceptors
+			.intercept()
+				.path("/basic/**")
+				.interceptors(List.of(
+					SecurityInterceptor.of(
+						new BasicCredentialsExtractor(),
 						new PrincipalAuthenticator<>(this.credentialsResolver, new LoginCredentialsMatcher<>())
 					),
 					AccessControlInterceptor.authenticated()
-				));
+				));*/
 	}
 
 	@Override
@@ -63,6 +90,6 @@ public class BasicRouterConfigurer implements WebInterceptorsConfigurer<Intercep
 				.error(UnauthorizedException.class)
 				.path("/basic/**")
 				.interceptor(new BasicAuthenticationErrorInterceptor<>("inverno-basic"))
-			.applyInterceptors(); // We must apply interceptors to intercept white labels error routes which are already defined 
+				.applyInterceptors(); // We must apply interceptors to intercept white labels error routes which are already defined 
 	}
 }

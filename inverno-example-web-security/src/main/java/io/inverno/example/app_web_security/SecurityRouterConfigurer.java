@@ -19,7 +19,6 @@ import io.inverno.core.annotation.Bean;
 import io.inverno.mod.http.server.ExchangeContext;
 import io.inverno.mod.security.http.cors.CORSInterceptor;
 import io.inverno.mod.security.http.csrf.CSRFDoubleSubmitCookieInterceptor;
-import io.inverno.mod.web.WebExchange;
 import io.inverno.mod.web.WebInterceptable;
 import io.inverno.mod.web.WebInterceptorsConfigurer;
 
@@ -34,9 +33,9 @@ public class SecurityRouterConfigurer implements WebInterceptorsConfigurer<Excha
 	public void configure(WebInterceptable<ExchangeContext, ?> interceptors) {
 		interceptors
 			.intercept()
-				.interceptor(CORSInterceptor.<ExchangeContext, WebExchange<ExchangeContext>>of("http://127.0.0.1:9090").build())
+				.interceptor(CORSInterceptor.builder("http://127.0.0.1:9090").build())
 			.intercept()
 				.path("/csrf/**")
-				.interceptor(CSRFDoubleSubmitCookieInterceptor.<ExchangeContext, WebExchange<ExchangeContext>>builder().build());
+				.interceptor(CSRFDoubleSubmitCookieInterceptor.builder().build());
 	}
 }

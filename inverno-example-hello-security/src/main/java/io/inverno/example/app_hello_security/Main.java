@@ -78,15 +78,17 @@ public class Main {
 		);
 		
 		securityManager.authenticate(LoginCredentials.of(args[0], new RawPassword(args[1])))
-			.subscribe(
-				securityContext -> {
+			.subscribe(securityContext -> {
+				if(securityContext.isAuthenticated()) {
 					LOGGER.info("User has been authenticated");
 					Application.run(new App_hello_security.Builder(securityContext)).helloService().sayHello();
-				},
-				error -> {
-					// User could not be authenticated
-					LOGGER.error("Failed to authenticate user", error);
 				}
-			);
+				else {
+					securityContext.getAuthentication().getCause().ifPresentOrElse(
+						error -> LOGGER.error("Failed to authenticate user", error),
+						() -> LOGGER.error("Unauthorized anonymous access")
+					);
+				}
+			});
     }
 }

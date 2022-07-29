@@ -1,8 +1,5 @@
 package io.inverno.example.app_web_security;
 
-import java.time.ZonedDateTime;
-import java.util.List;
-
 import io.inverno.core.annotation.Bean;
 import io.inverno.mod.base.resource.MediaTypes;
 import io.inverno.mod.http.base.Method;
@@ -10,15 +7,15 @@ import io.inverno.mod.http.base.UnauthorizedException;
 import io.inverno.mod.http.server.ExchangeContext;
 import io.inverno.mod.security.accesscontrol.RoleBasedAccessController;
 import io.inverno.mod.security.authentication.CredentialsResolver;
-import io.inverno.mod.security.authentication.InvalidCredentialsException;
 import io.inverno.mod.security.authentication.LoginCredentialsMatcher;
-import io.inverno.mod.security.authentication.TokenCredentials;
 import io.inverno.mod.security.authentication.user.User;
 import io.inverno.mod.security.authentication.user.UserAuthenticator;
 import io.inverno.mod.security.http.AccessControlInterceptor;
+import io.inverno.mod.security.http.login.LoginActionHandler;
+import io.inverno.mod.security.http.login.LoginSuccessHandler;
+import io.inverno.mod.security.http.login.LogoutActionHandler;
+import io.inverno.mod.security.http.login.LogoutSuccessHandler;
 import io.inverno.mod.security.http.SecurityInterceptor;
-import io.inverno.mod.security.http.LoginActionHandler;
-import io.inverno.mod.security.http.LogoutActionHandler;
 import io.inverno.mod.security.http.context.InterceptingSecurityContext;
 import io.inverno.mod.security.http.context.SecurityContext;
 import io.inverno.mod.security.http.form.FormAuthenticationErrorInterceptor;
@@ -37,16 +34,18 @@ import io.inverno.mod.security.jose.jwk.JWKService;
 import io.inverno.mod.security.jose.jwk.oct.OCTJWK;
 import io.inverno.mod.security.jose.jwt.JWTClaimsSet;
 import io.inverno.mod.security.jose.jwt.JWTSAuthentication;
+import io.inverno.mod.security.jose.jwt.JWTSAuthenticator;
 import io.inverno.mod.security.jose.jwt.JWTService;
 import io.inverno.mod.web.ErrorWebRouter;
 import io.inverno.mod.web.ErrorWebRouterConfigurer;
-import io.inverno.mod.web.WebExchange;
 import io.inverno.mod.web.WebInterceptable;
 import io.inverno.mod.web.WebInterceptorsConfigurer;
 import io.inverno.mod.web.WebRoutable;
 import io.inverno.mod.web.WebRoutesConfigurer;
 import io.inverno.mod.web.annotation.WebRoute;
 import io.inverno.mod.web.annotation.WebRoutes;
+import java.time.ZonedDateTime;
+import java.util.List;
 import reactor.core.publisher.Mono;
 
 /**
@@ -109,13 +108,10 @@ public class FormRouterConfigurer implements WebInterceptorsConfigurer<Intercept
 			// Cookie Token authentication (RFC7519 - JSON Web Token (JWT)) 
 			.intercept()
 				.path("/form/**")
-				.interceptors(List.of(new SecurityInterceptor<TokenCredentials, JWTSAuthentication<JWTClaimsSet>, Identity, RoleBasedAccessController, InterceptingSecurityContext<Identity, RoleBasedAccessController>, WebExchange<InterceptingSecurityContext<Identity, RoleBasedAccessController>>>(
+				.interceptors(List.of(SecurityInterceptor.of(
 						new BearerTokenCredentialsExtractor()
 							.or(new CookieTokenCredentialsExtractor()), 
-						credentials -> this.jwtService.jwsReader(this.jwsKey)
-							.read(credentials.getToken())
-							.map(JWTSAuthentication::new)
-							.onErrorMap(e -> new InvalidCredentialsException("Invalid token", e))
+						new JWTSAuthenticator<>(this.jwtService, this.jwsKey)
 					),
 					AccessControlInterceptor.authenticated()
 				));
@@ -135,6 +131,7 @@ public class FormRouterConfigurer implements WebInterceptorsConfigurer<Intercept
 				.handler(new LoginActionHandler<>(
 					new FormCredentialsExtractor(), 
 					new UserAuthenticator<>(this.credentialsResolver, new LoginCredentialsMatcher<>())
+						.failOnDenied()
 						.flatMap(authentication -> this.jwtService.jwsBuilder(this.jwsKey)
 							.header(header -> header
 								.algorithm(OCTAlgorithm.HS256.getAlgorithm())
@@ -143,8 +140,10 @@ public class FormRouterConfigurer implements WebInterceptorsConfigurer<Intercept
 							.build()
 							.map(JWTSAuthentication::new)
 						),
-					new CookieTokenLoginSuccessHandler<JWTSAuthentication<JWTClaimsSet>, SecurityContext<Identity, RoleBasedAccessController>, WebExchange<SecurityContext<Identity, RoleBasedAccessController>>>("/form")
-						.andThen(new RedirectLoginSuccessHandler<>()),
+					LoginSuccessHandler.of(
+						new CookieTokenLoginSuccessHandler<>("/form"),
+						new RedirectLoginSuccessHandler<>()
+					),
 					new RedirectLoginFailureHandler<>("/login/form")
 				))
 			.route()
@@ -152,8 +151,10 @@ public class FormRouterConfigurer implements WebInterceptorsConfigurer<Intercept
 				.path("/form/logout")
 				.handler(new LogoutActionHandler<>(
 					authentication -> Mono.empty(), // release the authentication: free resources, return a token to a pool...
-					new CookieTokenLogoutSuccessHandler<JWTSAuthentication<JWTClaimsSet>, Identity, RoleBasedAccessController, SecurityContext<Identity, RoleBasedAccessController>, WebExchange<SecurityContext<Identity, RoleBasedAccessController>>>("/form")
-						.andThen(new RedirectLogoutSuccessHandler<>())
+					LogoutSuccessHandler.of(
+						new CookieTokenLogoutSuccessHandler<>("/form"),
+						new RedirectLogoutSuccessHandler<>()
+					)
 				));
 			
 	}

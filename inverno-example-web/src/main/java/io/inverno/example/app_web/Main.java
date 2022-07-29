@@ -15,16 +15,15 @@
  */
 package io.inverno.example.app_web;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.function.Supplier;
-
 import io.inverno.core.annotation.Bean;
 import io.inverno.core.v1.Application;
 import io.inverno.mod.configuration.ConfigurationKey.Parameter;
 import io.inverno.mod.configuration.ConfigurationProperty;
 import io.inverno.mod.configuration.ConfigurationSource;
 import io.inverno.mod.configuration.source.BootstrapConfigurationSource;
+import java.io.IOException;
+import java.util.List;
+import java.util.function.Supplier;
 
 /**
  * 
