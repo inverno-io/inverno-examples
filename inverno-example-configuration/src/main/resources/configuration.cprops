@@ -1,4 +1,7 @@
 io.inverno.example.app_config.appConfiguration {
+	
+	uris = "https://server1.example.com, https://server2.example.com"
+	
 	[ environment = "test" ] {
 		message = "Test message"
 		id = 123

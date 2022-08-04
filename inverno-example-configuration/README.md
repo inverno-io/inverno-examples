@@ -19,6 +19,7 @@ mvn inverno:run
 2021-04-26 09:09:02,400 INFO  [main] i.w.e.a.Main -  * message: Default message
 2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * id: 0
 2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * uri: null
+2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
 2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * date: null
 2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: null
 ...
@@ -33,6 +34,7 @@ $ mvn inverno:run -Dinverno.run.arguments="--io.inverno.example.app_config.appCo
 2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main -  * message: Default message
 2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main -  * id: 123
 2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main -  * uri: null
+2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
 2021-04-26 09:13:20,457 INFO  [main] i.w.e.a.Main -  * date: 2021-01-01
 2021-04-26 09:13:20,457 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: null
 ...
@@ -78,6 +80,7 @@ $ mvn inverno:run -Dinverno.exec.vmOptions="-Denvironment=test"
 2021-04-26 09:22:14,840 INFO  [main] i.w.e.a.Main -  * message: Test message
 2021-04-26 09:22:14,840 INFO  [main] i.w.e.a.Main -  * id: 123
 2021-04-26 09:22:14,840 INFO  [main] i.w.e.a.Main -  * uri: http://test
+2021-04-26 09:22:14,840 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
 2021-04-26 09:22:14,841 INFO  [main] i.w.e.a.Main -  * date: null
 2021-04-26 09:22:14,841 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: Parameter in test
 ...
@@ -92,6 +95,7 @@ $ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-1 -Denvironment=producti
 2021-04-26 09:20:14,356 INFO  [main] i.w.e.a.Main -  * message: Production message
 2021-04-26 09:20:14,356 INFO  [main] i.w.e.a.Main -  * id: 1
 2021-04-26 09:20:14,356 INFO  [main] i.w.e.a.Main -  * uri: https://node-1.production
+2021-04-26 09:20:14,356 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
 2021-04-26 09:20:14,357 INFO  [main] i.w.e.a.Main -  * date: 2021-01-01
 2021-04-26 09:20:14,357 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: Parameter for node-1 in production
 ...
@@ -106,6 +110,7 @@ $ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-2 -Denvironment=producti
 2021-04-26 09:20:33,215 INFO  [main] i.w.e.a.Main -  * message: Production message
 2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * id: 2
 2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * uri: https://node-2.production
+2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
 2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * date: 2021-01-01
 2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: Parameter for node-2 in production
 ...
@@ -119,6 +124,7 @@ $ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-3 -Denvironment=producti
 2021-04-26 09:20:55,826 INFO  [main] i.w.e.a.Main -  * message: Production message
 2021-04-26 09:20:55,826 INFO  [main] i.w.e.a.Main -  * id: 0
 2021-04-26 09:20:55,826 INFO  [main] i.w.e.a.Main -  * uri: null
+2021-04-26 09:20:55,826 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
 2021-04-26 09:20:55,827 INFO  [main] i.w.e.a.Main -  * date: 2021-01-01
 2021-04-26 09:20:55,827 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: null
 ...
@@ -133,6 +139,7 @@ $ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-1"
 2021-04-26 09:23:51,816 INFO  [main] i.w.e.a.Main -  * message: Default message
 2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * id: 0
 2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * uri: null
+2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
 2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * date: null
 2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: null
 ...

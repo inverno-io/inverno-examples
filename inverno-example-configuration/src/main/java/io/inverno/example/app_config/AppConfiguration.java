@@ -17,6 +17,7 @@ package io.inverno.example.app_config;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.util.Set;
 
 import io.inverno.mod.configuration.Configuration;
 
@@ -45,6 +46,10 @@ public interface AppConfiguration {
 	URI uri();
 	
 	LocalDate date();
+	
+	default Set<URI> uris() {
+		return Set.of();
+	}
 	
 	SubConfiguration sub_configuration();
 }

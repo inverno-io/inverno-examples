@@ -16,6 +16,7 @@
 package io.inverno.example.app_config;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -95,6 +96,7 @@ public class Main {
 		LOGGER.info(" * message: " + app_config.appConfiguration().message());
 		LOGGER.info(" * id: " + app_config.appConfiguration().id());
 		LOGGER.info(" * uri: " + app_config.appConfiguration().uri());
+		LOGGER.info(" * uris: " + app_config.appConfiguration().uris().stream().map(URI::toString).collect(Collectors.joining(", ")));
 		LOGGER.info(" * date: " + app_config.appConfiguration().date());
 		LOGGER.info(" * sub_configuration.param: " + app_config.appConfiguration().sub_configuration().param());
 	}
