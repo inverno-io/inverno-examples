@@ -49,6 +49,10 @@
 
 		<dependency>
 			<groupId>io.netty</groupId>
+			<artifactId>netty-transport-classes-epoll</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
 			<artifactId>netty-transport-native-epoll</artifactId>
 			<classifier>linux-x86_64</classifier>
 		</dependency>
@@ -66,7 +70,7 @@
 					<groupId>io.inverno.tool</groupId>
 					<artifactId>inverno-maven-plugin</artifactId>
 					<configuration>
-						<vmOptions>--add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
+						<vmOptions>--add-modules io.netty.transport.unix.common,io.netty.transport.classes.epoll,io.netty.transport.epoll.linux.x86_64</vmOptions>
 					</configuration>
 				</plugin>
 				<plugin>
@@ -130,7 +134,7 @@
 									<launchers>
 										<launcher>
 											<name>example-web</name>
-											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
+											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.classes.epoll,io.netty.transport.epoll.linux.x86_64</vmOptions>
 										</launcher>
 									</launchers>
 									<formats>
@@ -165,7 +169,7 @@
 									<launchers>
 										<launcher>
 											<name>example-web</name>
-											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
+											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.classes.epoll,io.netty.transport.epoll.linux.x86_64</vmOptions>
 										</launcher>
 									</launchers>
 								</configuration>
@@ -197,7 +201,7 @@
 									<launchers>
 										<launcher>
 											<name>example-web</name>
-											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.epoll</vmOptions>
+											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.classes.epoll,io.netty.transport.epoll.linux.x86_64</vmOptions>
 										</launcher>
 									</launchers>
 								</configuration>
