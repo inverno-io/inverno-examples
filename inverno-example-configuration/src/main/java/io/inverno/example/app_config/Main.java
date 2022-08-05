@@ -74,15 +74,15 @@ public class Main {
 		// composed in the bootstrap configuration source (command line arguments,
 		// system properties, system environment, cprops files), in our example the node
 		// and the environment.
-		// Parameters should be sorted from the least general to the most general: node, environment
+		// Parameters should be sorted from the most general to the least general: environment, node
 		List<Parameter> appConfigurationParameters = new ArrayList<>();
-		String node = System.getProperty("node");
-		if(node != null) {
-			appConfigurationParameters.add(Parameter.of("node", node));
-		}
 		String environment = System.getProperty("environment");
 		if(environment != null) {
 			appConfigurationParameters.add(Parameter.of("environment", environment));
+		}
+		String node = System.getProperty("node");
+		if(node != null) {
+			appConfigurationParameters.add(Parameter.of("node", node));
 		}
 		
 		// Runs the application with the bootstrap source and parameters

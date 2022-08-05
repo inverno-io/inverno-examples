@@ -19,7 +19,7 @@ mvn inverno:run
 2021-04-26 09:09:02,400 INFO  [main] i.w.e.a.Main -  * message: Default message
 2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * id: 0
 2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * uri: null
-2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
+2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * uris: https://server1.example.com, https://server2.example.com
 2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * date: null
 2021-04-26 09:09:02,401 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: null
 ...
@@ -28,13 +28,13 @@ mvn inverno:run
 Individual parameters can be set as command line arguments or system properties as follows:
 
 ```plaintext
-$ mvn inverno:run -Dinverno.run.arguments="--io.inverno.example.app_config.appConfiguration.date=\\\"2021-01-01\\\"" -Dinverno.exec.vmOptions="-Dio.inverno.example.app_config.appConfiguration.integer=123"
+$ mvn inverno:run -Dinverno.run.arguments="--io.inverno.example.app_config.appConfiguration.date=\\\"2021-01-01\\\"" -Dinverno.exec.vmOptions="-Dio.inverno.example.app_config.appConfiguration.id=123"
 ...
 2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main - App Configuration [  ]:
 2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main -  * message: Default message
 2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main -  * id: 123
 2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main -  * uri: null
-2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
+2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main -  * uris: https://server1.example.com, https://server2.example.com
 2021-04-26 09:13:20,457 INFO  [main] i.w.e.a.Main -  * date: 2021-01-01
 2021-04-26 09:13:20,457 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: null
 ...
@@ -80,7 +80,7 @@ $ mvn inverno:run -Dinverno.exec.vmOptions="-Denvironment=test"
 2021-04-26 09:22:14,840 INFO  [main] i.w.e.a.Main -  * message: Test message
 2021-04-26 09:22:14,840 INFO  [main] i.w.e.a.Main -  * id: 123
 2021-04-26 09:22:14,840 INFO  [main] i.w.e.a.Main -  * uri: http://test
-2021-04-26 09:22:14,840 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
+2021-04-26 09:22:14,840 INFO  [main] i.w.e.a.Main -  * uris: https://server1.example.com, https://server2.example.com
 2021-04-26 09:22:14,841 INFO  [main] i.w.e.a.Main -  * date: null
 2021-04-26 09:22:14,841 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: Parameter in test
 ...
@@ -89,13 +89,13 @@ $ mvn inverno:run -Dinverno.exec.vmOptions="-Denvironment=test"
 Or start the application with the `production` configuration on node `node-1`:
 
 ```plaintext
-$ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-1 -Denvironment=production"
+$ mvn inverno:run -Dinverno.exec.vmOptions="-Denvironment=production -Dnode=node-1"
 ...
 2021-04-26 09:20:14,355 INFO  [main] i.w.e.a.Main - App Configuration [ node=node-1, environment=production ]:
 2021-04-26 09:20:14,356 INFO  [main] i.w.e.a.Main -  * message: Production message
 2021-04-26 09:20:14,356 INFO  [main] i.w.e.a.Main -  * id: 1
 2021-04-26 09:20:14,356 INFO  [main] i.w.e.a.Main -  * uri: https://node-1.production
-2021-04-26 09:20:14,356 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
+2021-04-26 09:20:14,356 INFO  [main] i.w.e.a.Main -  * uris: https://server1.example.com, https://server2.example.com
 2021-04-26 09:20:14,357 INFO  [main] i.w.e.a.Main -  * date: 2021-01-01
 2021-04-26 09:20:14,357 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: Parameter for node-1 in production
 ...
@@ -104,13 +104,13 @@ $ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-1 -Denvironment=producti
 Or start the application with the `production` configuration on node `node-2`:
 
 ```plaintext
-$ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-2 -Denvironment=production"
+$ mvn inverno:run -Dinverno.exec.vmOptions="-Denvironment=production -Dnode=node-2"
 ...
 2021-04-26 09:20:33,215 INFO  [main] i.w.e.a.Main - App Configuration [ node=node-2, environment=production ]:
 2021-04-26 09:20:33,215 INFO  [main] i.w.e.a.Main -  * message: Production message
 2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * id: 2
 2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * uri: https://node-2.production
-2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
+2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * uris: https://server1.example.com, https://server2.example.com
 2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * date: 2021-01-01
 2021-04-26 09:20:33,216 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: Parameter for node-2 in production
 ...
@@ -119,12 +119,12 @@ $ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-2 -Denvironment=producti
 If we specify another unconfigured node, it defaults to the `production` configuration:
 
 ```plaintext
-$ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-3 -Denvironment=production"
+$ mvn inverno:run -Dinverno.exec.vmOptions="-Denvironment=production -Dnode=node-3"
 ...
 2021-04-26 09:20:55,826 INFO  [main] i.w.e.a.Main -  * message: Production message
 2021-04-26 09:20:55,826 INFO  [main] i.w.e.a.Main -  * id: 0
 2021-04-26 09:20:55,826 INFO  [main] i.w.e.a.Main -  * uri: null
-2021-04-26 09:20:55,826 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
+2021-04-26 09:20:55,826 INFO  [main] i.w.e.a.Main -  * uris: https://server1.example.com, https://server2.example.com
 2021-04-26 09:20:55,827 INFO  [main] i.w.e.a.Main -  * date: 2021-01-01
 2021-04-26 09:20:55,827 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: null
 ...
@@ -139,7 +139,7 @@ $ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-1"
 2021-04-26 09:23:51,816 INFO  [main] i.w.e.a.Main -  * message: Default message
 2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * id: 0
 2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * uri: null
-2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * uris: https://other.example.com/keys.jwks, https://server.example.com/keys.jwks
+2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * uris: https://server1.example.com, https://server2.example.com
 2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * date: null
 2021-04-26 09:23:51,817 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: null
 ...
