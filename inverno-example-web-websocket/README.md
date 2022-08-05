@@ -28,7 +28,7 @@ The Maven build descriptor also defines three build profiles:
 The application is started using the Inverno Maven plugin as follows:
 
 ```plaintext
-$ mvn clean inverno:run
+$ mvn inverno:run
 ...
 2022-07-07 16:03:00,533 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
 2022-07-07 16:03:00,534 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 106ms

@@ -2,6 +2,7 @@
 [inverno-mods-root]: https://github.com/inverno-io/inverno-mods
 [inverno-tools-root]: https://github.com/inverno-io/inverno-tools
 
+[jdk]: https://jdk.java.net/
 [apache-license]: https://www.apache.org/licenses/LICENSE-2.0
 
 # Inverno examples
@@ -10,7 +11,7 @@ This project regroups several example Inverno applications that show the various
 
 ## Building Inverno framework examples
 
-The Inverno framework examples can be built using Maven and Java 15+ with the following command:
+The Inverno framework examples can be built using Maven and [JDK][jdk] 15+ with the following command:
 
 ```plaintext
 $ mvn install

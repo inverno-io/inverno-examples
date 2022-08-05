@@ -37,7 +37,7 @@ The Maven build descriptor also defines three build profiles:
 The application is started using the Inverno Maven plugin as follows:
 
 ```plaintext
-$ mvn clean inverno:run
+$ mvn inverno:run
 ...
 2021-04-26 10:54:45,020 INFO  [main] i.w.m.h.s.i.HttpServer - HTTP Server (epoll) listening on http://0.0.0.0:8080
 2021-04-26 10:54:45,020 INFO  [main] i.w.m.h.s.Server - Module io.inverno.mod.http.server started in 84ms
@@ -198,9 +198,9 @@ Hello!
 $ curl -i -H 'accept-language: fr' http://localhost:8080/hello
 HTTP/1.1 200 OK
 content-type: text/plain
-content-length: 8
+content-length: 31
 
-Bonjour!
+L'intercepteur te dit: Bonjour!
 ```
 ```plaintext
 $ curl -i -H 'accept-language: it-IT' http://localhost:8080/hello

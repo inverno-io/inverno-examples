@@ -13,6 +13,18 @@ It defines three template sets:
 - `Stocks.irt` which provides templates to render `Stock` objects.
 - `Events.irt` which provides templates to render `Event` objects.
 
+## Running the example
+
+```plaintext
+$ mvn inverno:run
+09:25:32.967 [main] INFO  io.inverno.example.app_irt.Main - Render simple...
+09:25:32.974 [main] INFO  io.inverno.example.app_irt.Main - Render items...
+09:25:33.057 [main] INFO  io.inverno.example.app_irt.Main - Render stocks...
+09:25:33.068 [main] INFO  io.inverno.example.app_irt.Main - Render events...
+```
+
+Templates are rendered in files in `target/` directory: `simple.txt`, `items.html`, `stocks.html`, `events.html`.
+
 ## Going further
 
 - [Reactive template module documentation][Inverno-mod-irt]

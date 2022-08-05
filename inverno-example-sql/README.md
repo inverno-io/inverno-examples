@@ -16,6 +16,18 @@ The client is also configured to use [epoll][epoll] when available (ie. on Linux
 
 ## Running the example
 
+The application requires a local Postgres server listening on port `5432`, it can be started using Docker as follows:
+
+```plaintext
+$ docker run -d --network inverno-network --name inverno-postgres -e POSTGRES_PASSWORD=password -p5432:5432 postgres
+```
+
+The following command can also be used to connect a Postgres client to the database in order to setup schemas:
+
+```plaintext
+$ docker run -it --rm --network inverno-network postgres psql -h inverno-postgres -U postgres
+```
+
 The database schema creation script is located in project's resources (`src/main/resources/schema.sql`):
 
 ```sql
@@ -24,7 +36,7 @@ CREATE SEQUENCE person_id_seq;
 CREATE TABLE person(id INTEGER DEFAULT NEXTVAL('person_id_seq'), firstname VARCHAR(32), lastname VARCHAR(32), age SMALLINT);
 ```
 
-The application can be run as follows:
+The application can then be run as follows:
 
 ``plaintext
 $ mvn inverno:run

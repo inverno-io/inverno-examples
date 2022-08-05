@@ -16,6 +16,14 @@ The client is also configured to use [epoll][epoll] when available (ie. on Linux
 
 ## Running the example
 
+The application requires a local Redis server listening on port `6379`, it can be started using Docker as follows:
+
+```plaintext
+$ docker run -d -p6379:6379 redis
+```
+
+The application can then be run as follows:
+
 ```plaintext
 $ mvn inverno:run
 2021-04-26 10:15:53,299 INFO  [main] i.w.c.v.Application - Inverno is starting...
