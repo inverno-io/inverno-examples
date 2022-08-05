@@ -27,4 +27,9 @@
 module io.inverno.example.app_irt {
 	requires io.inverno.core;
     requires io.inverno.mod.irt;
+    
+    requires io.netty.common;
+	requires transitive io.netty.buffer;
+	
+	requires org.apache.logging.log4j;
 }

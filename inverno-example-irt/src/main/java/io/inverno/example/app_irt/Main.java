@@ -15,6 +15,16 @@
  */
 package io.inverno.example.app_irt;
 
+import io.inverno.example.app_irt.model.Event;
+import io.inverno.example.app_irt.model.Event.Type;
+import io.inverno.example.app_irt.model.Item;
+import io.inverno.example.app_irt.model.Message;
+import io.inverno.example.app_irt.model.Stock;
+import io.inverno.example.app_irt.templates.Events;
+import io.inverno.example.app_irt.templates.Items;
+import io.inverno.example.app_irt.templates.Simple;
+import io.inverno.example.app_irt.templates.Stocks;
+import io.inverno.example.app_irt.templates.Stocks.Renderer;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -23,17 +33,8 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-
-import io.inverno.example.app_irt.model.Event;
-import io.inverno.example.app_irt.model.Item;
-import io.inverno.example.app_irt.model.Message;
-import io.inverno.example.app_irt.model.Stock;
-import io.inverno.example.app_irt.model.Event.Type;
-import io.inverno.example.app_irt.templates.Events;
-import io.inverno.example.app_irt.templates.Items;
-import io.inverno.example.app_irt.templates.Simple;
-import io.inverno.example.app_irt.templates.Stocks;
-import io.inverno.example.app_irt.templates.Stocks.Renderer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import reactor.core.publisher.Flux;
 
 /**
@@ -43,6 +44,8 @@ import reactor.core.publisher.Flux;
  */
 public class Main {
 	
+	private static final Logger LOGGER = LogManager.getLogger(Main.class);
+	
 	public static void main(String[] args) throws Exception {
 		renderSimple();
 		renderItems();
@@ -51,10 +54,12 @@ public class Main {
 	}
 	
 	public static void renderSimple() throws InterruptedException, ExecutionException, IOException {
+		LOGGER.info("Render simple...");
 		Files.writeString(Path.of("target/simple.txt"), Simple.string().render(new Message("Hello, world!", false)).get(), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
 	}
 	
 	public static void renderItems() throws InterruptedException, ExecutionException, IOException {
+		LOGGER.info("Render items...");
 		Flux<Item> items = Flux.just(
 			new Item("Item 2", Flux.just("a", "b", "c"), ZonedDateTime.now(), "error"),
 			new Item("Item 3", Flux.just("d", "e"), ZonedDateTime.now(), "warning"),
@@ -64,12 +69,14 @@ public class Main {
 	}
 	
 	public static void renderStocks() throws InterruptedException, ExecutionException, IOException {
+		LOGGER.info("Render stocks...");
 		List<Stock> items = Stock.dummyItems();
 		Renderer<CompletableFuture<String>> stocksRenderer = Stocks.string();
 		Files.writeString(Path.of("target/stocks.html"), stocksRenderer.render(items).get(), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
 	}
 	
 	public static void renderEvents() throws InterruptedException, ExecutionException, IOException {
+		LOGGER.info("Render events...");
 		Flux<Event> events = Flux.just(
 			new Event(Type.ERROR, ZonedDateTime.now().minusSeconds(5), "This is an error."),
 			new Event(Type.WARN, ZonedDateTime.now().minusSeconds(10), "This is a warning."),
