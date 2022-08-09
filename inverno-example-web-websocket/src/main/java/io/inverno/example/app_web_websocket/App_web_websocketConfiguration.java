@@ -16,7 +16,7 @@
 package io.inverno.example.app_web_websocket;
 
 import java.net.URI;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 import io.inverno.core.annotation.NestedBean;
 import io.inverno.mod.boot.BootConfiguration;
@@ -32,7 +32,7 @@ import io.inverno.mod.web.WebConfiguration;
 public interface App_web_websocketConfiguration {
 
 	default URI web_root() {
-		return Paths.get("web-root/").toUri();
+		return Path.of("web-root/").toUri();
 	}
 	
     @NestedBean
