@@ -2,9 +2,9 @@ package io.inverno.example.app_web_security;
 
 import io.inverno.core.annotation.Bean;
 import io.inverno.mod.base.resource.MediaTypes;
+import io.inverno.mod.http.base.ExchangeContext;
 import io.inverno.mod.http.base.Method;
 import io.inverno.mod.http.base.UnauthorizedException;
-import io.inverno.mod.http.server.ExchangeContext;
 import io.inverno.mod.ldap.LDAPClient;
 import io.inverno.mod.security.accesscontrol.GroupsRoleBasedAccessControllerResolver;
 import io.inverno.mod.security.accesscontrol.RoleBasedAccessController;

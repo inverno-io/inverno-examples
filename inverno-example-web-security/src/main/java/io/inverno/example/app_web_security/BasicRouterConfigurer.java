@@ -1,8 +1,8 @@
 package io.inverno.example.app_web_security;
 
 import io.inverno.core.annotation.Bean;
+import io.inverno.mod.http.base.ExchangeContext;
 import io.inverno.mod.http.base.UnauthorizedException;
-import io.inverno.mod.http.server.ExchangeContext;
 import io.inverno.mod.http.server.ExchangeInterceptor;
 import io.inverno.mod.security.accesscontrol.RoleBasedAccessController;
 import io.inverno.mod.security.authentication.CredentialsResolver;

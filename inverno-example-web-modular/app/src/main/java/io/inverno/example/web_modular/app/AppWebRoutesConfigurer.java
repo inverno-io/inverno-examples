@@ -17,7 +17,7 @@ package io.inverno.example.web_modular.app;
 
 import io.inverno.core.annotation.Bean;
 import io.inverno.mod.base.resource.ResourceService;
-import io.inverno.mod.http.server.ExchangeContext;
+import io.inverno.mod.http.base.ExchangeContext;
 import io.inverno.mod.web.OpenApiRoutesConfigurer;
 import io.inverno.mod.web.WebJarsRoutesConfigurer;
 import io.inverno.mod.web.WebRoutable;

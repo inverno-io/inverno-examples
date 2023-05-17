@@ -15,7 +15,7 @@
  */
 package io.inverno.example.app_web;
 
-import io.inverno.mod.http.server.ExchangeContext;
+import io.inverno.mod.http.base.ExchangeContext;
 
 /**
  * <p>
