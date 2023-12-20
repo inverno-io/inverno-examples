@@ -126,7 +126,7 @@
 								<id>inverno-build-app</id>
 								<phase>package</phase>
 								<goals>
-									<goal>build-app</goal>
+									<goal>package-app</goal>
 								</goals>
 								<configuration>
 									<vm>server</vm>
@@ -134,13 +134,13 @@
 									<addModules>jdk.crypto.ec,jdk.jdwp.agent</addModules>
 									<launchers>
 										<launcher>
-											<name>example-web</name>
+											<name>example-web-security</name>
 											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC</vmOptions>
 										</launcher>
 									</launchers>
-									<formats>
-										<format>zip</format>
-									</formats>
+									<archiveFormats>
+										<archiveFormat>zip</archiveFormat>
+									</archiveFormats>
 								</configuration>
 							</execution>
 						</executions>
@@ -149,7 +149,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>release-docker</id>
+			<id>release-image</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -157,19 +157,19 @@
 						<artifactId>inverno-maven-plugin</artifactId>
 						<executions>
 							<execution>
-								<id>inverno-build-image-docker</id>
+								<id>inverno-package-image</id>
 								<phase>package</phase>
 								<goals>
-									<goal>build-image-tar</goal>
+									<goal>package-image</goal>
 								</goals>
 								<configuration>
 									<vm>server</vm>
 									<!-- jdk.crypto.ec: TLS, jdk.jdwp.agent: remote debug -->
 									<addModules>jdk.crypto.ec,jdk.jdwp.agent</addModules>
-									<executable>example-web</executable>
+									<executable>example-web-security</executable>
 									<launchers>
 										<launcher>
-											<name>example-web</name>
+											<name>example-web-security</name>
 											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC</vmOptions>
 										</launcher>
 									</launchers>
@@ -181,7 +181,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>install-docker</id>
+			<id>install-image</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -189,19 +189,19 @@
 						<artifactId>inverno-maven-plugin</artifactId>
 						<executions>
 							<execution>
-								<id>inverno-build-image-docker</id>
+								<id>inverno-install-image</id>
 								<phase>install</phase>
 								<goals>
-									<goal>build-image-docker</goal>
+									<goal>install-image</goal>
 								</goals>
 								<configuration>
 									<vm>server</vm>
 									<!-- jdk.crypto.ec: TLS, jdk.jdwp.agent: remote debug -->
 									<addModules>jdk.crypto.ec,jdk.jdwp.agent</addModules>
-									<executable>example-web</executable>
+									<executable>example-web-security</executable>
 									<launchers>
 										<launcher>
-											<name>example-web</name>
+											<name>example-web-security</name>
 											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC</vmOptions>
 										</launcher>
 									</launchers>

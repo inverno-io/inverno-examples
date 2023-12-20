@@ -24,8 +24,8 @@ Hello my dear friend John!
 User `adoe` is a normal user, a normal greeting message is then displayed:
 
 ```plaintext
-$ mvn inverno:run -Dinverno.run.arguments="jsmith password"
-Hello my dear friend John!
+$ mvn inverno:run -Dinverno.run.arguments="adoe password"
+Hello Alice!
 ```
 
 The application displays an error message on invalid credentials:

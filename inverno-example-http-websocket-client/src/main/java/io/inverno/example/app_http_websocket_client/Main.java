@@ -1,12 +1,12 @@
 /*
- * Copyright 2021 Jeremy KUHN
- *
+ * Copyright 2022 Jeremy KUHN
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * 
  *    http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
+package io.inverno.example.app_http_websocket_client;
+
+import io.inverno.core.v1.Application;
+
 /**
  * <p>
- * Inverno example application module demonstrating Web server module.
+ * Starts a JavaFX application which can connect to a WebSocket endpoint and send/receive text messages.
  * </p>
  * 
- * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
- * 
- * @version 1.0.0
+ * @author <a href="jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  */
-@io.inverno.core.annotation.Module
-module io.inverno.example.app_web {
-	requires io.inverno.mod.boot;
-	requires io.inverno.mod.web;
+public class Main {
 	
-	requires org.apache.logging.log4j;
-    
-	exports io.inverno.example.app_web.dto to com.fasterxml.jackson.databind;
+	public static void main(String[] args) {
+		Application.run(new App_http_websocket_client.Builder());
+	}
 }

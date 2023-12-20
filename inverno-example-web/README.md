@@ -28,9 +28,9 @@ Open API specification generation is activated and resulting specifications expo
 
 The Maven build descriptor also defines three build profiles:
 
-- `release` which builds a native application image in a `zip` archive, a docker image in a `tar` archive and installs the docker image of the application in a local docker daemon.
-- `release-docker` which builds a docker image in a `tar` archive
-- `install-docker` which installs the docker image of the application to a local docker daemon.
+- `release` which builds a native application image in a `zip` archive.
+- `release-image` which builds a Docker container image of the application in a `tar` archive.
+- `install-image` which installs the Docker container image of the application to a local docker daemon.
 
 ## Running the example
 
@@ -192,6 +192,14 @@ HTTP/1.1 200 OK
 content-type: text/plain
 content-length: 8
 
+Saluton!
+```
+```plaintext
+$ curl -i -H 'accept-language: en' http://localhost:8080/hello
+HTTP/1.1 200 OK
+content-type: text/plain
+content-length: 8
+
 Hello!
 ```
 ```plaintext
@@ -218,8 +226,7 @@ The application can be packaged as a native runtime image by invoking the `relea
 ```plaintext
 $ mvn install -Prelease
 ...
-[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:build-app (inverno-build-app) @ inverno-example-web ---
-[INFO] Building application image: /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-web/target/maven-inverno/application_linux_amd64/inverno-example-web-1.0.0-SNAPSHOT...
+[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:package-app (inverno-package-app) @ inverno-example-web ---
  [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
 [INFO] 
 [INFO] --- maven-install-plugin:2.5.2:install (default-install) @ inverno-example-web ---
@@ -245,10 +252,9 @@ $ ./inverno-example-web-1.0.0-SNAPSHOT/bin/example-web
 A portable docker image of the application can be created as a `tar` archive by invoking the `release-docker` build profile:
 
 ```plaintext
-$ mvn install -Prelease-docker
+$ mvn install -Prelease-image
 ...
-[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:build-image-tar (inverno-build-image-docker) @ inverno-example-web ---
-[INFO] Building project container image...
+[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:package-image (inverno-package-image) @ inverno-example-web ---
  [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
 [INFO] 
 [INFO] --- maven-install-plugin:2.5.2:install (default-install) @ inverno-example-web ---
@@ -272,10 +278,9 @@ $ docker load --input target/inverno-example-web-1.0.0-SNAPSHOT-container_linux_
 The application can be directly deployed to a local docker daemon by invoking the `install-docker` build profile:
 
 ```plaintext
-$ mvn install -Pinstall-docker
+$ mvn install -Pinstall-image
 ...
-[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:build-image-docker (inverno-build-image-docker) @ inverno-example-web ---
-[INFO] Building project container image...
+[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:install-image (inverno-install-image) @ inverno-example-web ---
  [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
