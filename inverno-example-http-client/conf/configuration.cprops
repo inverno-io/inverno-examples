@@ -2,7 +2,6 @@ io.inverno.example.app_http_client.app_http_clientConfiguration {
 	http_client {
 		tls_enabled = true
 		tls_trust_all = true
-		#http_protocol_versions = "HTTP_1_1"
 		pool_keep_alive_timeout = 30000
 	}
 }

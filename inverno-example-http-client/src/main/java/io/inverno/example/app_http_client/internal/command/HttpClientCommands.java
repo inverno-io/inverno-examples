@@ -202,11 +202,14 @@ public class HttpClientCommands extends AbstractCommands {
 				() -> {
 					Endpoint endpoint = this.httpClientCommands.getHttpClient()
 						.endpoint(this.host, this.port.orElseGet(() -> this.tls_enabled ? 443 : 80))
-						.configuration(this.httpClientCommands.getHttpClientConfiguration(config -> config
-							.tls_enabled(this.tls_enabled)
-							.tls_trust_all(this.tls_trust_all)
-							.http_protocol_versions(this.httpVersions != null ? this.httpVersions : (this.tls_enabled ? Set.of(HttpVersion.HTTP_2_0) : Set.of(HttpVersion.HTTP_1_1)))
-						))
+						.configuration(this.httpClientCommands.getHttpClientConfiguration(config -> { 
+							config
+								.tls_enabled(this.tls_enabled)
+								.tls_trust_all(this.tls_trust_all);
+							if(this.httpVersions != null && !this.httpVersions.isEmpty()) {
+								config.http_protocol_versions(this.httpVersions);
+							}
+						}))
 						.build();
 					this.httpClientCommands.setEndpoint(endpoint);
 					this.httpClientCommands.getTerminal().writer().println("Connected to " + endpoint.getRemoteAddress());
