@@ -20,7 +20,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>io.inverno.example</groupId>
-	<artifactId>inverno-example-web-modular</artifactId>
+		<artifactId>inverno-example-web-modular</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<groupId>io.inverno.example.inverno-example-web-modular</groupId>
@@ -100,6 +100,7 @@
 										<launcher>
 											<name>example-web-modular</name>
 											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.classes.epoll,io.netty.transport.epoll.linux.x86_64</vmOptions>
+											<winConsole>true</winConsole>
 										</launcher>
 									</launchers>
 									<archiveFormats>

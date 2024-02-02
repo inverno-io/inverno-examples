@@ -67,9 +67,9 @@
 			<version>3.23.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.fusesource.jansi</groupId>
-			<artifactId>jansi</artifactId>
-			<version>2.4.0</version>
+			<groupId>net.java.dev.jna</groupId>
+			<artifactId>jna</artifactId>
+			<version>5.13.0</version>
 		</dependency>
 	</dependencies>
 	
@@ -80,7 +80,7 @@
 					<groupId>io.inverno.tool</groupId>
 					<artifactId>inverno-maven-plugin</artifactId>
 					<configuration>
-						<vmOptions>--add-modules io.netty.transport.unix.common,io.netty.transport.classes.epoll,io.netty.transport.epoll.linux.x86_64</vmOptions>
+						<vmOptions>--add-modules com.sun.jna,io.netty.transport.unix.common,io.netty.transport.classes.epoll,io.netty.transport.epoll.linux.x86_64</vmOptions>
 					</configuration>
 				</plugin>
 			</plugins>

@@ -57,7 +57,7 @@ public class HttpClientShell extends Thread implements Runnable {
 	@Override
 	public void run() {
 		try(Terminal terminal = TerminalBuilder.builder()
-			.jansi(true)
+			.jna(true)
 			.color(true)
 			.build()) {
 			

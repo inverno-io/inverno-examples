@@ -136,6 +136,7 @@
 										<launcher>
 											<name>example-web-security</name>
 											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC</vmOptions>
+											<winConsole>true</winConsole>
 										</launcher>
 									</launchers>
 									<archiveFormats>

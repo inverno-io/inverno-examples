@@ -28,7 +28,7 @@ mvn inverno:run
 Individual parameters can be set as command line arguments or system properties as follows:
 
 ```plaintext
-$ mvn inverno:run -Dinverno.run.arguments="--io.inverno.example.app_config.appConfiguration.date=\\\"2021-01-01\\\"" -Dinverno.exec.vmOptions="-Dio.inverno.example.app_config.appConfiguration.id=123"
+$ mvn inverno:run -Dinverno.run.arguments='--io.inverno.example.app_config.appConfiguration.date=\"2021-01-01\"' -Dinverno.exec.vmOptions='-Dio.inverno.example.app_config.appConfiguration.id=123'
 ...
 2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main - App Configuration [  ]:
 2021-04-26 09:13:20,456 INFO  [main] i.w.e.a.Main -  * message: Default message
@@ -39,6 +39,8 @@ $ mvn inverno:run -Dinverno.run.arguments="--io.inverno.example.app_config.appCo
 2021-04-26 09:13:20,457 INFO  [main] i.w.e.a.Main -  * sub_configuration.param: null
 ...
 ```
+
+> On Windows systems, three double quotes must be used to obtain a single double quote, each of which must be escaped within the quoted system property value: `-Dinverno.run.arguments='--io.inverno.example.app_config.appConfiguration.date=\"\"\"2021-01-01\"\"\"'` 
 
 Parameterized configurations for a particular context are defined in `src/main/resources/configuration.cprops`:
 
