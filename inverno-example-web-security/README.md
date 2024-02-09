@@ -1,7 +1,7 @@
 [inverno-mods-root]: https://github.com/inverno-io/inverno-mods
 [inverno-tools-root]: https://github.com/inverno-io/inverno-tools
 [inverno-mod-http-server]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-http-server/
-[inverno-mod-web]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-web/
+[inverno-mod-web-server]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-web-server/
 [inverno-mod-security]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-security/
 [inverno-mod-security-http]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-security-http/
 [inverno-mod-security-jose]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-security-jose/
@@ -62,7 +62,7 @@ $ mvn inverno:run
 ...
 2022-07-08 10:08:10,075 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
 2022-07-08 10:08:10,075 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 132ms
-2022-07-08 10:08:10,076 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web started in 132ms
+2022-07-08 10:08:10,076 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web.server started in 132ms
 2022-07-08 10:08:10,076 INFO  [main] i.i.e.a.App_web_security - Module io.inverno.example.app_web_security started in 452ms
 2022-07-08 10:08:10,079 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_security started in 520ms
 ```
@@ -252,7 +252,7 @@ $ docker run --rm --network host -e LANG=C.UTF-8 inverno-example-web-security:1.
 ...
 2022-07-08 11:38:00,955 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
 2022-07-08 11:38:00,955 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 138ms
-2022-07-08 11:38:00,955 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web started in 138ms
+2022-07-08 11:38:00,955 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web.server started in 138ms
 2022-07-08 11:38:00,956 INFO  [main] i.i.e.a.App_web_security - Module io.inverno.example.app_web_security started in 447ms
 2022-07-08 11:38:00,958 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_security started in 515ms
 ```
@@ -260,7 +260,7 @@ $ docker run --rm --network host -e LANG=C.UTF-8 inverno-example-web-security:1.
 ## Going further
 
 - [HTTP server module documentation][inverno-mod-http-server]
-- [Web server module documentation][inverno-mod-web]
+- [Web server module documentation][inverno-mod-web-server]
 - [Security module documentation][inverno-mod-security]
 - [HTTP Security module documentation][inverno-mod-security-http]
 - [JOSE Security module documentation][inverno-mod-security-jose]

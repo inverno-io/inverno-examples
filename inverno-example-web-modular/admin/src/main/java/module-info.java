@@ -19,10 +19,10 @@
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  *
  */
-@io.inverno.core.annotation.Module( excludes = { "io.inverno.mod.web" } )
+@io.inverno.core.annotation.Module( excludes = { "io.inverno.mod.web.server" } )
 module io.inverno.example.web_modular.admin {
     requires io.inverno.core;
-    requires io.inverno.mod.web;
+    requires io.inverno.mod.web.server;
 
     exports io.inverno.example.web_modular.admin to io.inverno.example.web_modular.app;
 }

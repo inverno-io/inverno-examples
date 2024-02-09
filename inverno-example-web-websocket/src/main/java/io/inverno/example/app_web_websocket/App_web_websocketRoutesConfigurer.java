@@ -24,13 +24,13 @@ import io.inverno.mod.base.resource.ResourceService;
 import io.inverno.mod.http.base.ExchangeContext;
 import io.inverno.mod.http.base.InternalServerErrorException;
 import io.inverno.mod.http.base.Method;
-import io.inverno.mod.web.WebRoutable;
-import io.inverno.mod.web.WebRoutesConfigurer;
-import io.inverno.mod.web.annotation.WebRoute;
-import io.inverno.mod.web.annotation.WebRoutes;
+import io.inverno.mod.web.server.WebRoutable;
+import io.inverno.mod.web.server.WebRoutesConfigurer;
+import io.inverno.mod.web.server.annotation.WebRoute;
+import io.inverno.mod.web.server.annotation.WebRoutes;
 import reactor.core.publisher.Sinks;
 import reactor.core.publisher.Flux;
-import io.inverno.mod.web.StaticHandler;
+import io.inverno.mod.web.server.StaticHandler;
 
 /**
  *

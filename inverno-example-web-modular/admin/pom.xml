@@ -37,7 +37,7 @@
 
 		<dependency>
 			<groupId>io.inverno.mod</groupId>
-			<artifactId>inverno-web</artifactId>
+			<artifactId>inverno-web-server</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -19,10 +19,10 @@ import io.inverno.mod.base.resource.MediaTypes;
 import io.inverno.mod.http.base.BadRequestException;
 import io.inverno.mod.http.base.Method;
 import io.inverno.mod.http.base.NotFoundException;
-import io.inverno.mod.web.WebExchange;
-import io.inverno.mod.web.annotation.Body;
-import io.inverno.mod.web.annotation.PathParam;
-import io.inverno.mod.web.annotation.WebRoute;
+import io.inverno.mod.web.server.WebExchange;
+import io.inverno.mod.web.server.annotation.Body;
+import io.inverno.mod.web.server.annotation.PathParam;
+import io.inverno.mod.web.server.annotation.WebRoute;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

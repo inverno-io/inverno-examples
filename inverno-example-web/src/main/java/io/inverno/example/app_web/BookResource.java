@@ -16,8 +16,8 @@
 package io.inverno.example.app_web;
 
 import io.inverno.example.app_web.dto.Book;
-import io.inverno.mod.web.WebExchange;
-import io.inverno.mod.web.annotation.WebController;
+import io.inverno.mod.web.server.WebExchange;
+import io.inverno.mod.web.server.annotation.WebController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 

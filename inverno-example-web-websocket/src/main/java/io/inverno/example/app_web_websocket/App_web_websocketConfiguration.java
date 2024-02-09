@@ -21,7 +21,7 @@ import java.nio.file.Path;
 import io.inverno.core.annotation.NestedBean;
 import io.inverno.mod.boot.BootConfiguration;
 import io.inverno.mod.configuration.Configuration;
-import io.inverno.mod.web.WebConfiguration;
+import io.inverno.mod.web.server.WebServerConfiguration;
 
 /**
  * 
@@ -39,5 +39,5 @@ public interface App_web_websocketConfiguration {
     BootConfiguration boot();
 
     @NestedBean
-    WebConfiguration web();
+    WebServerConfiguration web();
 }

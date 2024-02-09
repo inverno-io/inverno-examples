@@ -1,5 +1,5 @@
 [inverno-mod-http-server]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-http-server/
-[inverno-mod-web]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-web/
+[inverno-mod-web-server]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-web-server/
 [inverno-dist-root]: https://github.com/inverno-io/inverno-dist
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
 [inverno-tool-maven-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-maven-plugin
@@ -41,7 +41,7 @@ $ mvn inverno:run
 ...
 2021-04-26 10:54:45,020 INFO  [main] i.w.m.h.s.i.HttpServer - HTTP Server (epoll) listening on http://0.0.0.0:8080
 2021-04-26 10:54:45,020 INFO  [main] i.w.m.h.s.Server - Module io.inverno.mod.http.server started in 84ms
-2021-04-26 10:54:45,020 INFO  [main] i.w.m.w.Web - Module io.inverno.mod.web started in 84ms
+2021-04-26 10:54:45,020 INFO  [main] i.w.m.w.Web - Module io.inverno.mod.web.server started in 84ms
 2021-04-26 10:54:45,021 INFO  [main] i.w.e.a.App_web - Module io.inverno.example.app_web started in 288ms
 ```
 
@@ -52,7 +52,7 @@ $ mvn inverno:run -Dinverno.run.arguments="--profile=\\\"https\\\""
 ...
 2021-04-26 10:56:20,975 INFO  [main] i.w.m.h.s.i.HttpServer - HTTP Server (epoll) listening on https://0.0.0.0:8443
 2021-04-26 10:56:20,975 INFO  [main] i.w.m.h.s.Server - Module io.inverno.mod.http.server started in 377ms
-2021-04-26 10:56:20,976 INFO  [main] i.w.m.w.Web - Module io.inverno.mod.web started in 377ms
+2021-04-26 10:56:20,976 INFO  [main] i.w.m.w.Web - Module io.inverno.mod.web.server started in 377ms
 2021-04-26 10:56:20,976 INFO  [main] i.w.e.a.App_web - Module io.inverno.example.app_web started in 585ms
 ```
 
@@ -297,7 +297,7 @@ $ docker run --rm --network host -e LANG=C.UTF-8 inverno-example-web:1.0.0-SNAPS
 ...
 2021-04-26 12:46:34,284 INFO  [main] i.w.m.h.s.i.HttpServer - HTTP Server (epoll) listening on http://0.0.0.0:8080
 2021-04-26 12:46:34,285 INFO  [main] i.w.m.h.s.Server - Module io.inverno.mod.http.server started in 88ms
-2021-04-26 12:46:34,285 INFO  [main] i.w.m.w.Web - Module io.inverno.mod.web started in 88ms
+2021-04-26 12:46:34,285 INFO  [main] i.w.m.w.Web - Module io.inverno.mod.web.server started in 88ms
 2021-04-26 12:46:34,285 INFO  [main] i.w.e.a.App_web - Module io.inverno.example.app_web started in 281ms
 ```
 
@@ -337,13 +337,13 @@ You can then run the native application:
 2021-09-23 15:08:51,762 INFO  [main] i.i.e.a.App_web - Starting Module io.inverno.example.app_web...
 2021-09-23 15:08:51,762 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
 2021-09-23 15:08:51,767 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 5ms
-2021-09-23 15:08:51,767 INFO  [main] i.i.m.w.Web - Starting Module io.inverno.mod.web...
+2021-09-23 15:08:51,767 INFO  [main] i.i.m.w.Web - Starting Module io.inverno.mod.web.server...
 2021-09-23 15:08:51,767 INFO  [main] i.i.m.h.s.Server - Starting Module io.inverno.mod.http.server...
 2021-09-23 15:08:51,767 INFO  [main] i.i.m.h.b.Base - Starting Module io.inverno.mod.http.base...
 2021-09-23 15:08:51,767 INFO  [main] i.i.m.h.b.Base - Module io.inverno.mod.http.base started in 0ms
 2021-09-23 15:08:51,769 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
 2021-09-23 15:08:51,769 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 1ms
-2021-09-23 15:08:51,769 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web started in 1ms
+2021-09-23 15:08:51,769 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web.server started in 1ms
 2021-09-23 15:08:51,769 INFO  [main] i.i.e.a.App_web - Module io.inverno.example.app_web started in 7ms
 2021-09-23 15:08:51,769 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web started in 7ms
 ```
@@ -353,7 +353,7 @@ You can then run the native application:
 ## Going further
 
 - [HTTP server module documentation][inverno-mod-http-server]
-- [Web server module documentation][inverno-mod-web]
+- [Web server module documentation][inverno-mod-web-server]
 - [Inverno distribution documentation][inverno-dist-root]
 - [Inverno Maven plugin documentation][inverno-tool-maven-plugin]
 - [Inverno core documentation][inverno-core-root-doc]

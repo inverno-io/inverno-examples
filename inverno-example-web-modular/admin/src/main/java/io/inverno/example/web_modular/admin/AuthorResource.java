@@ -21,9 +21,9 @@ import java.util.Optional;
 import io.inverno.core.annotation.Bean;
 import io.inverno.mod.base.resource.MediaTypes;
 import io.inverno.mod.http.base.Method;
-import io.inverno.mod.web.annotation.FormParam;
-import io.inverno.mod.web.annotation.WebController;
-import io.inverno.mod.web.annotation.WebRoute;
+import io.inverno.mod.web.server.annotation.FormParam;
+import io.inverno.mod.web.server.annotation.WebController;
+import io.inverno.mod.web.server.annotation.WebRoute;
 import reactor.core.publisher.Mono;
 
 /**

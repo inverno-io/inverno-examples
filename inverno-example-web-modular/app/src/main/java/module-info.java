@@ -20,10 +20,10 @@
  *
  */
 @io.inverno.core.annotation.Module
-@io.inverno.core.annotation.Wire(beans="io.inverno.example.web_modular.app:webServerContollerConfigurer", into="io.inverno.mod.web:controllerConfigurer")
+@io.inverno.core.annotation.Wire(beans="io.inverno.example.web_modular.app:webServerContollerConfigurer", into="io.inverno.mod.web.server:controllerConfigurer")
 module io.inverno.example.web_modular.app {
     requires io.inverno.mod.boot;
-    requires io.inverno.mod.web;
+    requires io.inverno.mod.web.server;
     
     requires io.inverno.example.web_modular.admin;
     requires io.inverno.example.web_modular.book;

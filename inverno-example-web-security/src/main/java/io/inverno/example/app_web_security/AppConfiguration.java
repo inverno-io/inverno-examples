@@ -19,7 +19,7 @@ import io.inverno.core.annotation.NestedBean;
 import io.inverno.mod.boot.BootConfiguration;
 import io.inverno.mod.configuration.Configuration;
 import io.inverno.mod.ldap.LDAPClientConfiguration;
-import io.inverno.mod.web.WebConfiguration;
+import io.inverno.mod.web.server.WebServerConfiguration;
 import java.net.URI;
 
 /**
@@ -33,7 +33,7 @@ public interface AppConfiguration {
 	BootConfiguration boot();
 	
 	@NestedBean
-	WebConfiguration web();
+	WebServerConfiguration web();
 	
 	@NestedBean
 	default LDAPClientConfiguration ldap_client() {

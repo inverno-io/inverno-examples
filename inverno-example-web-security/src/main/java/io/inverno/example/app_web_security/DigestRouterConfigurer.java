@@ -14,10 +14,10 @@ import io.inverno.mod.security.http.digest.DigestAuthenticationErrorInterceptor;
 import io.inverno.mod.security.http.digest.DigestCredentialsExtractor;
 import io.inverno.mod.security.http.digest.DigestCredentialsMatcher;
 import io.inverno.mod.security.identity.Identity;
-import io.inverno.mod.web.ErrorWebRouter;
-import io.inverno.mod.web.ErrorWebRouterConfigurer;
-import io.inverno.mod.web.WebInterceptable;
-import io.inverno.mod.web.WebInterceptorsConfigurer;
+import io.inverno.mod.web.server.ErrorWebRouter;
+import io.inverno.mod.web.server.ErrorWebRouterConfigurer;
+import io.inverno.mod.web.server.WebInterceptable;
+import io.inverno.mod.web.server.WebInterceptorsConfigurer;
 import java.util.List;
 
 /**

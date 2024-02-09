@@ -1,5 +1,5 @@
 [inverno-mod-http-server]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-http-server/
-[inverno-mod-web]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-web/
+[inverno-mod-web-server]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-web-server/
 [inverno-dist-root]: https://github.com/inverno-io/inverno-dist
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
 [inverno-tool-maven-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-maven-plugin
@@ -32,7 +32,7 @@ $ mvn inverno:run
 ...
 2022-07-07 16:03:00,533 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
 2022-07-07 16:03:00,534 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 106ms
-2022-07-07 16:03:00,534 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web started in 106ms
+2022-07-07 16:03:00,534 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web.server started in 106ms
 2022-07-07 16:03:00,534 INFO  [main] i.i.e.a.App_web_websocket - Module io.inverno.example.app_web_websocket started in 365ms
 2022-07-07 16:03:00,537 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_websocket started in 424ms
 ```
@@ -44,7 +44,7 @@ $ mvn inverno:run -Dinverno.run.arguments="--profile=\\\"https\\\""
 ...
 2022-07-07 16:08:49,862 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on https://0.0.0.0:8443
 2022-07-07 16:08:49,862 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 422ms
-2022-07-07 16:08:49,862 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web started in 422ms
+2022-07-07 16:08:49,862 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web.server started in 422ms
 2022-07-07 16:08:49,862 INFO  [main] i.i.e.a.App_web_websocket - Module io.inverno.example.app_web_websocket started in 657ms
 2022-07-07 16:08:49,866 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_websocket started in 716ms
 ```
@@ -134,7 +134,7 @@ $ docker run --rm --network host -e LANG=C.UTF-8 inverno-example-web-websocket:1
 ...
 2022-07-08 11:38:59,273 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
 2022-07-08 11:38:59,274 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 108ms
-2022-07-08 11:38:59,274 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web started in 108ms
+2022-07-08 11:38:59,274 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web.server started in 108ms
 2022-07-08 11:38:59,274 INFO  [main] i.i.e.a.App_web_websocket - Module io.inverno.example.app_web_websocket started in 323ms
 2022-07-08 11:38:59,276 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_websocket started in 381ms
 ```
@@ -175,13 +175,13 @@ You can then run the native application:
 2022-07-07 16:14:03,258 INFO  [main] i.i.e.a.App_web_websocket - Starting Module io.inverno.example.app_web_websocket...
 2022-07-07 16:14:03,258 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
 2022-07-07 16:14:03,262 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 3ms
-2022-07-07 16:14:03,262 INFO  [main] i.i.m.w.Web - Starting Module io.inverno.mod.web...
+2022-07-07 16:14:03,262 INFO  [main] i.i.m.w.Web - Starting Module io.inverno.mod.web.server...
 2022-07-07 16:14:03,262 INFO  [main] i.i.m.h.s.Server - Starting Module io.inverno.mod.http.server...
 2022-07-07 16:14:03,262 INFO  [main] i.i.m.h.b.Base - Starting Module io.inverno.mod.http.base...
 2022-07-07 16:14:03,262 INFO  [main] i.i.m.h.b.Base - Module io.inverno.mod.http.base started in 0ms
 2022-07-07 16:14:03,263 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
 2022-07-07 16:14:03,263 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 1ms
-2022-07-07 16:14:03,263 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web started in 1ms
+2022-07-07 16:14:03,263 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web.server started in 1ms
 2022-07-07 16:14:03,263 INFO  [main] i.i.e.a.App_web_websocket - Module io.inverno.example.app_web_websocket started in 5ms
 2022-07-07 16:14:03,263 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_websocket started in 5ms
 ```
@@ -193,7 +193,7 @@ You can then run the native application:
 ## Going further
 
 - [HTTP server module documentation][inverno-mod-http-server]
-- [Web server module documentation][inverno-mod-web]
+- [Web server module documentation][inverno-mod-web-server]
 - [Inverno distribution documentation][inverno-dist-root]
 - [Inverno Maven plugin documentation][inverno-tool-maven-plugin]
 - [Inverno core documentation][inverno-core-root-doc]

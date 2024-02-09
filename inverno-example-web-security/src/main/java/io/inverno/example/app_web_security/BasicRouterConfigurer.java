@@ -15,10 +15,10 @@ import io.inverno.mod.security.http.basic.BasicAuthenticationErrorInterceptor;
 import io.inverno.mod.security.http.basic.BasicCredentialsExtractor;
 import io.inverno.mod.security.http.context.InterceptingSecurityContext;
 import io.inverno.mod.security.identity.Identity;
-import io.inverno.mod.web.ErrorWebRouter;
-import io.inverno.mod.web.ErrorWebRouterConfigurer;
-import io.inverno.mod.web.WebInterceptable;
-import io.inverno.mod.web.WebInterceptorsConfigurer;
+import io.inverno.mod.web.server.ErrorWebRouter;
+import io.inverno.mod.web.server.ErrorWebRouterConfigurer;
+import io.inverno.mod.web.server.WebInterceptable;
+import io.inverno.mod.web.server.WebInterceptorsConfigurer;
 
 /**
  * <p>

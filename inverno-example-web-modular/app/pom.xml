@@ -27,7 +27,7 @@
 	<artifactId>app</artifactId>
 
 	<name>io.inverno.example.web_modular.app</name>
-	<description>Inverno Web modular application example</description>
+	<description>Inverno Web server modular application example</description>
 
 	<dependencies>
 		<dependency>
@@ -41,7 +41,7 @@
 		</dependency>
 		<dependency>
 			<groupId>io.inverno.mod</groupId>
-			<artifactId>inverno-web</artifactId>
+			<artifactId>inverno-web-server</artifactId>
 		</dependency>
 
 		<dependency>

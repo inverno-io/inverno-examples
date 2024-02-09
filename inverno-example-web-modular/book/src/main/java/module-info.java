@@ -15,16 +15,16 @@
  */
 
 /**
- * This is a sample Book API which demonstrates Inverno Web module capabilities.
+ * This is a sample Book API which demonstrates Inverno Web server module capabilities.
  * 
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  * 
  * @version 1.2.3
  */
-@io.inverno.core.annotation.Module( excludes = { "io.inverno.mod.web" } )
+@io.inverno.core.annotation.Module( excludes = { "io.inverno.mod.web.server" } )
 module io.inverno.example.web_modular.book {
     requires io.inverno.core;
-    requires io.inverno.mod.web;
+    requires io.inverno.mod.web.server;
     
     exports io.inverno.example.web_modular.book to io.inverno.example.web_modular.app;
     exports io.inverno.example.web_modular.book.dto to com.fasterxml.jackson.databind;

@@ -19,8 +19,8 @@ import io.inverno.core.annotation.Bean;
 import io.inverno.mod.http.base.ExchangeContext;
 import io.inverno.mod.security.http.cors.CORSInterceptor;
 import io.inverno.mod.security.http.csrf.CSRFDoubleSubmitCookieInterceptor;
-import io.inverno.mod.web.WebInterceptable;
-import io.inverno.mod.web.WebInterceptorsConfigurer;
+import io.inverno.mod.web.server.WebInterceptable;
+import io.inverno.mod.web.server.WebInterceptorsConfigurer;
 
 /**
  *

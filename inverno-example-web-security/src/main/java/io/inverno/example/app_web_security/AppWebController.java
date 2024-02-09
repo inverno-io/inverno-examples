@@ -10,8 +10,8 @@ import io.inverno.mod.security.accesscontrol.RoleBasedAccessController;
 import io.inverno.mod.security.http.context.SecurityContext;
 import io.inverno.mod.security.identity.Identity;
 import io.inverno.mod.security.ldap.identity.LDAPIdentity;
-import io.inverno.mod.web.annotation.WebController;
-import io.inverno.mod.web.annotation.WebRoute;
+import io.inverno.mod.web.server.annotation.WebController;
+import io.inverno.mod.web.server.annotation.WebRoute;
 
 @Bean
 @WebController

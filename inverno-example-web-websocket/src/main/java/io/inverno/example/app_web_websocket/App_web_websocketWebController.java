@@ -19,8 +19,8 @@ import io.inverno.core.annotation.Bean;
 import io.inverno.core.annotation.Destroy;
 import io.inverno.core.annotation.Init;
 import io.inverno.example.app_web_websocket.dto.Message;
-import io.inverno.mod.web.annotation.WebController;
-import io.inverno.mod.web.annotation.WebSocketRoute;
+import io.inverno.mod.web.server.annotation.WebController;
+import io.inverno.mod.web.server.annotation.WebSocketRoute;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
 

@@ -26,7 +26,7 @@
 @io.inverno.core.annotation.Module
 module io.inverno.example.app_web_websocket {
 	requires io.inverno.mod.boot;
-	requires io.inverno.mod.web;
+	requires io.inverno.mod.web.server;
 	
 	exports io.inverno.example.app_web_websocket.dto to com.fasterxml.jackson.databind;
 }

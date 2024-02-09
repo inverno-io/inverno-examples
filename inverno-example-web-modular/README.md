@@ -1,5 +1,5 @@
 [inverno-mod-http-server]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-http-server/
-[inverno-mod-web]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-web/
+[inverno-mod-web-server]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-web-server/
 [inverno-dist-root]: https://github.com/inverno-io/inverno-dist
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
 [inverno-tool-maven-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-maven-plugin
@@ -41,7 +41,7 @@ If we open the SwaggerUI at `http://localhost:8080/open-api`, we should see that
 ## Going further
 
 - [HTTP server module documentation][inverno-mod-http-server]
-- [Inverno server module documentation][inverno-mod-web]
+- [Web server module documentation][inverno-mod-web-server]
 - [Inverno distribution documentation][inverno-dist-root]
 - [Inverno Maven plugin documentation][inverno-tool-maven-plugin]
 - [Inverno core documentation][inverno-core-root-doc]

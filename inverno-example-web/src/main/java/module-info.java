@@ -26,7 +26,7 @@
 @io.inverno.core.annotation.Module
 module io.inverno.example.app_web {
 	requires io.inverno.mod.boot;
-	requires io.inverno.mod.web;
+	requires io.inverno.mod.web.server;
 	
 	requires org.apache.logging.log4j;
     
