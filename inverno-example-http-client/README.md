@@ -6,6 +6,7 @@
 [epoll]: https://en.wikipedia.org/wiki/Epoll
 [picocli]: https://picocli.info/
 [jline3]: https://github.com/jline/jline3
+[sni]: https://en.wikipedia.org/wiki/Server_Name_Indication
 
 # Inverno HTTP client example
 
@@ -332,6 +333,12 @@ example.org:443> get /
 
 ...
 ```
+
+> Some web sites (e.g. google.com) requires the client to send [Server Name Indication][sni] to identify the site the client is trying to connect to over TLS. This is disabled by default and can be enabled in the configuration
+> 
+> ```plaintext
+> > config set tls_send_sni true
+> ```
 
 ## Going further
 
