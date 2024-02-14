@@ -11,7 +11,7 @@ A sample application showing how to use the HTTP server module to create efficie
 
 The HTTP server configuration is exposed in the module's configuration `App_httpConfiguration`.
 
-The server is also configured to use [epoll][epoll] when available (ie. on Linux platform) for better performance.
+The server is configured to use [epoll][epoll] when available (ie. on Linux platform) for better performance and to request TLS client authentication.
 
 ## Running the example
 
@@ -64,6 +64,20 @@ content-length: 16
 
 Hello from main!
 ```
+
+In above example, `curl` client did not authenticate to the server and blindly trusted the server certificate using the `--insecure` option. It can authenticate and verify server certificate with the following command:
+
+```plaintext
+$ curl -i --cert src/main/resources/client-certificate.pem --key src/main/resources/client-key.pem --cacert src/main/resources/server-certificate.pem https://127.0.0.1:8443
+HTTP/1.1 200 OK
+content-length: 26
+
+Hello Http Example Client!
+```
+
+In this example, `Http Example Client` is the common name (CN) extracted from the client certificate received by the server.
+
+> The `src/main/resources` folder contains both server and client keystores (`server-keystore.jks` and `client-keystore.jks` respectively) whose certificates have been added to client and server truststores (`client-truststore.jks` and `server-truststore.jks` respectively). The server is configured to request client authentication (`tls_client_auth=true`) and to trust client certificates contained in the server trutstore.
 
 ## Building a native image
 

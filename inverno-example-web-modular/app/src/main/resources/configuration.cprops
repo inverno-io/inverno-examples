@@ -7,9 +7,9 @@ io.inverno.example.web_modular.app.appConfiguration.web {
 			h2_enabled = true
 			server_port = 8443
 			tls_enabled = true
-			key_store = "module:/keystore.jks"
-			key_alias = "selfsigned"
-			key_store_password = "password"
+			tls_key_store = "module:/keystore.jks"
+			tls_key_alias = "selfsigned"
+			tls_key_store_password = "password"
 		}
 	}
 }

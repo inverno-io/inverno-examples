@@ -1,12 +1,14 @@
 [inverno-mod-http-client]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-http-client/
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
 [inverno-javadoc]: https://inverno.io/docs/release/api/index.html
+[inverno-example-http]: https://github.com/inverno-io/inverno-examples/blob/master/inverno-example-http/
 [inverno-example-web]: https://github.com/inverno-io/inverno-examples/blob/master/inverno-example-web/
 
 [epoll]: https://en.wikipedia.org/wiki/Epoll
 [picocli]: https://picocli.info/
 [jline3]: https://github.com/jline/jline3
 [sni]: https://en.wikipedia.org/wiki/Server_Name_Indication
+[mTLS]: https://en.wikipedia.org/wiki/Mutual_authentication
 
 # Inverno HTTP client example
 
@@ -309,6 +311,13 @@ Using a secured connection, Http protocol version is negotiated (ALPN) and if th
 Connected to example.org/<unresolved>:443
 example.org:443> get /
 2023-12-21 10:02:02,908 INFO  [inverno-io-epoll-1-9] i.i.m.h.c.i.AbstractEndpoint - HTTP/2.0 Client (epoll) connected to https://example.org:443
+* Server certificate:
+   subject: CN=www.example.org, O=Internet Corporation for Assigned Names and Numbers, L=Los Angeles, ST=California, C=US
+   start date: Tue Jan 30 01:00:00 CET 2024
+   expire date: Sun Mar 02 00:59:59 CET 2025
+   subjectAltName: [2, www.example.org], [2, example.net], [2, example.edu], [2, example.com], [2, example.org], [2, www.example.com], [2, www.example.edu], [2, www.example.net]
+   issuer: CN=DigiCert Global G2 TLS RSA SHA256 2020 CA1, O=DigiCert Inc, C=US
+
 > GET / h2
 > :method: GET
 > :scheme: https
@@ -339,6 +348,45 @@ example.org:443> get /
 > ```plaintext
 > > config set tls_send_sni true
 > ```
+
+The HTTP client can also be configured with a keystore and a truststore to enable Mutual TLS authentication ([mTLS][mTLS]), the example application provides client keystore and trustore under `src/main/resources` matching [HTTP server example][inverno-example-http] certificate, they can be specified on the command line:
+
+```plaintext
+$ mvn clean inverno:run -Dinverno.run.arguments='--io.inverno.example.app_http_client.app_http_clientConfiguration.http_client.tls_key_store=\"module:/clientkeystore.p12\" --io.inverno.example.app_http_client.app_http_clientConfiguration.http_client.tls_key_store_type=\"PKCS12\" --io.inverno.example.app_http_client.app_http_clientConfiguration.http_client.tls_key_store_password=\"password\" --io.inverno.example.app_http_client.app_http_clientConfiguration.http_client.tls_trust_store=\"module:/clienttruststore.p12\" --io.inverno.example.app_http_client.app_http_clientConfiguration.http_client.tls_trust_store_type=\"PKCS12\" --io.inverno.example.app_http_client.app_http_clientConfiguration.http_client.tls_trust_store_password=\"password\"'
+...
+```
+
+When connecting to [HTTP server example][inverno-example-http], the client should now trust the server certificate and send authentication to the server:
+
+```plaintext
+> open -s 127.0.0.1 8443
+Connected to 127.0.0.1/<unresolved>:8443
+127.0.0.1:8443> get /
+2024-02-14 16:03:26,541 INFO  [inverno-io-epoll-1-4] i.i.m.h.c.i.AbstractEndpoint - HTTP/2.0 Client (epoll) connected to https://127.0.0.1:8443
+* Server certificate:
+   subject: CN=Http Example Server, OU=Unknown, O=Inverno, L=Unknown, ST=Unknown, C=Unknown
+   start date: Wed Feb 14 12:12:19 CET 2024
+   expire date: Fri Dec 23 12:12:19 CET 2033
+   subjectAltName: [7, 127.0.0.1], [2, localhost]
+   issuer: CN=Http Example Server, OU=Unknown, O=Inverno, L=Unknown, ST=Unknown, C=Unknown
+
+> GET / h2
+> :method: GET
+> :scheme: https
+> :authority: 127.0.0.1:8443
+> :path: /
+> user-agent: Inverno/1.7.0-SNAPSHOT
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+< h2 200 OK
+< :status: 200
+< content-length: 26
+
+Hello Http Example Client!
+127.0.0.1:8443> 
+```
+
+In above example, `Hello Example Client` is the common name (CN) extracted from the client certificate sent to the server.
 
 ## Going further
 

@@ -11,9 +11,14 @@ import io.inverno.mod.http.client.Exchange;
 import io.inverno.mod.http.client.InterceptableExchange;
 import io.inverno.mod.http.client.Response;
 import java.nio.charset.StandardCharsets;
+import java.security.cert.CertificateParsingException;
+import java.security.cert.X509Certificate;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import org.jline.utils.AttributedStringBuilder;
 import org.jline.utils.AttributedStyle;
 import org.jline.utils.Colors;
@@ -126,6 +131,34 @@ public abstract class AbstractHttpCommand implements Runnable {
 	protected abstract void configure(Request<ExchangeContext, Exchange<ExchangeContext>, InterceptableExchange<ExchangeContext>> request);
 
 	protected void logRequest(io.inverno.mod.http.client.Request request, HttpVersion protocol) {
+		request.getRemoteCertificates().ifPresent(certificates -> {
+			X509Certificate certificate = (X509Certificate)certificates[0];
+			StringBuilder serverCert = new StringBuilder();
+
+			serverCert
+				.append("* Server certificate:\n")
+				.append("   subject: ").append(certificate.getSubjectX500Principal().toString()).append("\n")
+				.append("   start date: ").append(certificate.getNotBefore().toString()).append("\n")
+				.append("   expire date: ").append(certificate.getNotAfter().toString()).append("\n")
+				.append("   subjectAltName: ");
+
+			try {
+				serverCert.append(certificate.getSubjectAlternativeNames().stream().map(Object::toString).collect(Collectors.joining(", ")));
+			}
+			catch (CertificateParsingException ex) {
+				// ign
+			}
+			serverCert.append("\n");
+			
+			serverCert.append("   issuer: ").append(certificate.getIssuerX500Principal().toString()).append("\n");
+
+			this.httpCommands.getTerminal().writer().println(new AttributedStringBuilder()
+				.style(AttributedStyle.DEFAULT.foreground(Colors.rgbColor("grey50")))
+				.append(serverCert.toString())
+				.toAnsi()
+			);
+		});
+	  
 		this.httpCommands.getTerminal().writer().println(new AttributedStringBuilder()
 			.style(AttributedStyle.BOLD.foreground(AttributedStyle.BLUE))
 			.append(String.format("> %s %s %s", request.getMethod().name(), request.getPathAbsolute(), protocol.getCode()))
