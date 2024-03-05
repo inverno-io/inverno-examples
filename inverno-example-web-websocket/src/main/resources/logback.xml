@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <appender name="LogToConsole" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d %highlight(%-5level) [%thread] %c{1} - %msg%n%ex</pattern>
+    </encoder>
+  </appender>
+
+  <root level="info">
+    <appender-ref ref="LogToConsole" />
+  </root>
+</configuration>

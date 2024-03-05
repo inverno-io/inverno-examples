@@ -74,6 +74,21 @@
 	<profiles>
 		<profile>
 			<id>native</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-core</artifactId>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-to-slf4j</artifactId>
+				</dependency>
+				<dependency>
+					  <groupId>ch.qos.logback</groupId>
+					  <artifactId>logback-classic</artifactId>
+				</dependency>
+			</dependencies>
 			<build>
 				<plugins>
 					<plugin>
@@ -83,14 +98,14 @@
 							<execution>
 								<id>build-native</id>
 								<goals>
-									<goal>build</goal>
+									<goal>compile-no-fork</goal>
 								</goals>
 								<phase>package</phase>
 							</execution>
 						</executions>
 						<configuration>
 							<mainClass>io.inverno.example.app_http_websocket.Main</mainClass>
-							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers -H:+ReportExceptionStackTraces -H:+PrintClassInitialization -J-Dlog4j2.disable.jmx=true</buildArgs>
+							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
 						</configuration>
 					</plugin>
 				</plugins>

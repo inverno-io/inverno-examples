@@ -1,8 +1,13 @@
 {
-  "resources":{
-  "includes":[
-    {"pattern":"\\Qlog4j2.xml\\E"},
-    {"pattern":"\\Qkeystore.jks\\E"}
-  ]},
-  "bundles":[]
+"resources":{
+"includes":[
+	{"pattern":"\\Qconfiguration.cprops\\E"},
+	{"pattern":"\\Qlogback.xml\\E"},
+	{"pattern":"\\Qserverkeystore.p12\\E"},
+	{"pattern":"\\Qservertruststore.p12\\E"},
+	{"pattern":"\\Qclientkeystore.p12\\E"},
+	{"pattern":"\\Qclienttruststore.p12\\E"},
+	{"pattern":"\\QMETA-INF/MANIFEST.MF\\E"}
+]},
+"bundles":[]
 }

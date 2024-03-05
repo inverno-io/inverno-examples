@@ -64,7 +64,6 @@ You should now be able to use the JavaFX UI to connect to the WebSocket server, 
 
 <img src="src/img/inverno_javafx_chat.png" style="display: block; margin: 2em auto;"/>
 
-
 ## Going further
 
 - [HTTP client module documentation][inverno-mod-http-client]

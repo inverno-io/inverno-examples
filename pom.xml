@@ -32,8 +32,24 @@
 	<description>The Inverno framework examples are a collection of applications demonstrating the Inverno framework capabilities</description>
 	
 	<properties>
-		<version.native-maven-plugin>0.9.5</version.native-maven-plugin>
+		<version.native-maven-plugin>0.10.1</version.native-maven-plugin>
+		<version.logback>1.5.3</version.logback>
 	</properties>
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.apache.logging.log4j</groupId>
+				<artifactId>log4j-to-slf4j</artifactId>
+				<version>${version.log4j}</version>
+			</dependency>
+			<dependency>
+				  <groupId>ch.qos.logback</groupId>
+				  <artifactId>logback-classic</artifactId>
+				  <version>${version.logback}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 	
 	<build>
 		<pluginManagement>

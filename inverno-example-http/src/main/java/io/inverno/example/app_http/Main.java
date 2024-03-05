@@ -17,16 +17,14 @@ package io.inverno.example.app_http;
 
 import io.inverno.core.annotation.Bean;
 import io.inverno.core.v1.Application;
-import io.inverno.mod.base.Charsets;
 import io.inverno.mod.http.base.ExchangeContext;
 import io.inverno.mod.http.server.ErrorExchange;
 import io.inverno.mod.http.server.Exchange;
 import io.inverno.mod.http.server.HttpServerConfiguration;
 import io.inverno.mod.http.server.ServerController;
-import io.netty.buffer.Unpooled;
 import java.net.URI;
+import java.nio.file.Path;
 import java.security.cert.X509Certificate;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -34,9 +32,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import javax.security.auth.x500.X500Principal;
-import reactor.core.publisher.Mono;
-import reactor.core.publisher.Flux;
-import reactor.core.scheduler.Schedulers;
 
 /**
  * <p>
@@ -72,12 +67,14 @@ public class Main {
 					// TLS
 					.server_port(8443)
 					.tls_enabled(true)
+//					.tls_key_store(Path.of("src/main/resources/serverkeystore.p12").toUri())
 					.tls_key_store(URI.create("module:/serverkeystore.p12"))
 					.tls_key_store_type("pkcs12")
 					.tls_key_store_password("password")
 					// mTLS
 					.tls_client_auth(HttpServerConfiguration.ClientAuth.REQUESTED)
-					.tls_trust_store(URI.create("module:/servertruststore.p12"))
+//					.tls_trust_store(Path.of("src/main/resources/servertruststore.p12").toUri())
+					.tls_key_store(URI.create("module:/servertruststore.p12"))
 					.tls_trust_store_type("pkcs12")
 					.tls_trust_store_password("password")
 					// Enable HTTP/2

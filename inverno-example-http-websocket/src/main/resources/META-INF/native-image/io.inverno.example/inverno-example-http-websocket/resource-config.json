@@ -1,0 +1,9 @@
+{
+"resources":{
+"includes":[
+	{"pattern":"\\Qlogback.xml\\E"},
+	{"pattern":"\\Qserverkeystore.p12\\E"},
+	{"pattern":"\\QMETA-INF/MANIFEST.MF\\E"}
+]},
+"bundles":[]
+}

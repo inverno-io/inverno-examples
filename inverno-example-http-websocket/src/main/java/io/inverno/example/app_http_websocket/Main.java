@@ -38,10 +38,11 @@ public class Main {
 						// TLS
 						/*.server_port(8443)
 						.tls_enabled(true)
-						.key_store(URI.create("module:/keystore.jks"))
-						.key_store_password("password")*/
+						.tls_key_store(URI.create("module:/serverkeystore.p12"))
+						.tls_key_store_type("pkcs12") 
+						.tls_key_store_password("password")*/
 						// WebSocket
-//						.ws_max_frame_size(16)
+						//.ws_max_frame_size(16)
 						.ws_message_compression_enabled(true)
 						.ws_message_compression_level(6)
 					)

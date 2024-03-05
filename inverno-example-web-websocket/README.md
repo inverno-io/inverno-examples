@@ -8,6 +8,7 @@
 [epoll]: https://en.wikipedia.org/wiki/Epoll
 
 [graalvm]: https://www.graalvm.org/
+[logback]: https://logback.qos.ch/
 
 # Inverno Web server WebSocket example
 
@@ -189,6 +190,8 @@ You can then run the native application:
 > This application uses Jackson annotation for JSON serialization/deserialization which seems to require further configuration for it to work properly.
 
 > If the server is started without TLS the startup time is drastically reduced and goes below 10ms. However native transport is not supported in native image which has a significant impact on performances.
+
+> Note that for the native image to work, [logback][logback] must be used as logging manager since log4j doesn't support native build (see https://issues.apache.org/jira/browse/LOG4J2-2649).
 
 ## Going further
 

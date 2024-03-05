@@ -11,6 +11,7 @@
 [open-api]: https://www.openapis.org/
 
 [graalvm]: https://www.graalvm.org/
+[logback]: https://logback.qos.ch/
 
 # Inverno Web server example
 
@@ -349,6 +350,8 @@ You can then run the native application:
 ```
 
 > If the server is started without TLS the startup time is reduced by 97.5% and goes below 10ms. However native transport is not supported in native image which has a significant impact on performances.
+
+> Note that for the native image to work, [logback][logback] must be used as logging manager since log4j doesn't support native build (see https://issues.apache.org/jira/browse/LOG4J2-2649).
 
 ## Going further
 

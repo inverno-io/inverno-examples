@@ -106,7 +106,7 @@
 						</executions>
 						<configuration>
 							<mainClass>io.inverno.example.app_http_client.Main</mainClass>
-							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers -H:+ReportExceptionStackTraces -H:+PrintClassInitialization -J-Dlog4j2.disable.jmx=true</buildArgs>
+							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
 						</configuration>
 					</plugin>
 				</plugins>

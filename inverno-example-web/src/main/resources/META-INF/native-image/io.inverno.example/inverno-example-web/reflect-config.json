@@ -1,0 +1,29 @@
+[
+{
+	"name":"io.inverno.example.app_web.dto.Book",
+	"allDeclaredConstructors" : true,
+    "allPublicConstructors" : true,
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+	"allPublicFields" : true, 
+	"allDeclaredFields" : true
+},
+{
+	"name":"io.inverno.example.app_web.dto.BookEvent",
+	"allDeclaredConstructors" : true,
+    "allPublicConstructors" : true,
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+	"allPublicFields" : true, 
+	"allDeclaredFields" : true
+},
+{
+	"name":"io.inverno.example.app_web.dto.Result",
+	"allDeclaredConstructors" : true,
+    "allPublicConstructors" : true,
+    "allDeclaredMethods" : true,
+    "allPublicMethods" : true,
+	"allPublicFields" : true, 
+	"allDeclaredFields" : true
+}
+]

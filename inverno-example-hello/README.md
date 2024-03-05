@@ -2,6 +2,7 @@
 [inverno-javadoc]: https://inverno.io/docs/release/api/index.html
 
 [graalvm]: https://www.graalvm.org/
+[logback]: https://logback.qos.ch/
 
 # Inverno hello example
 
@@ -30,6 +31,8 @@ You can then run the native application:
 > ./target/inverno-example-hello John
 Hello John, how are you today?
 ```
+
+> Note that for the native image to work, [logback][logback] must be used as logging manager since log4j doesn't support native build (see https://issues.apache.org/jira/browse/LOG4J2-2649).
 
 ## Going further
 

@@ -7,8 +7,8 @@ io.inverno.example.app_web_websocket.app_web_websocketConfiguration.web {
 			h2_enabled = true
 			server_port = 8443
 			tls_enabled = true
-			tls_key_store = "module:/keystore.jks"
-			tls_key_alias = "selfsigned"
+			tls_key_store = "module:/serverkeystore.p12"
+			tls_key_store_type = "pkcs12"
 			tls_key_store_password = "password"
 		}
 	}
