@@ -90,6 +90,21 @@
 	<profiles>
 		<profile>
 			<id>native</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-core</artifactId>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.logging.log4j</groupId>
+					<artifactId>log4j-to-slf4j</artifactId>
+				</dependency>
+				<dependency>
+					  <groupId>ch.qos.logback</groupId>
+					  <artifactId>logback-classic</artifactId>
+				</dependency>
+			</dependencies>
 			<build>
 				<plugins>
 					<plugin>
@@ -99,7 +114,7 @@
 							<execution>
 								<id>build-native</id>
 								<goals>
-									<goal>build</goal>
+									<goal>compile-no-fork</goal>
 								</goals>
 								<phase>package</phase>
 							</execution>

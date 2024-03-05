@@ -68,13 +68,13 @@ public class Main {
 					.server_port(8443)
 					.tls_enabled(true)
 //					.tls_key_store(Path.of("src/main/resources/serverkeystore.p12").toUri())
-					.tls_key_store(URI.create("module:/serverkeystore.p12"))
+					.tls_key_store(URI.create("module://io.inverno.example.app_http/serverkeystore.p12"))
 					.tls_key_store_type("pkcs12")
 					.tls_key_store_password("password")
 					// mTLS
 					.tls_client_auth(HttpServerConfiguration.ClientAuth.REQUESTED)
 //					.tls_trust_store(Path.of("src/main/resources/servertruststore.p12").toUri())
-					.tls_key_store(URI.create("module:/servertruststore.p12"))
+					.tls_key_store(URI.create("module://io.inverno.example.app_http/servertruststore.p12"))
 					.tls_trust_store_type("pkcs12")
 					.tls_trust_store_password("password")
 					// Enable HTTP/2

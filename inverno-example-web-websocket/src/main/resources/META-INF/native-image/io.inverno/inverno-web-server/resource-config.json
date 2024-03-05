@@ -2,6 +2,7 @@
   "resources":{
   "includes":[
     {"pattern":"\\QMETA-INF/inverno/web/server/openapi.yml\\E"},
+	{"pattern":"^inverno_favicon.svg$"},
     {"pattern":"^META-INF/resources/webjars/.*"}
   ]},
   "bundles":[]
