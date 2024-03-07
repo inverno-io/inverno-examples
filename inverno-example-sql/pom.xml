@@ -46,6 +46,10 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>com.ongres.scram</groupId>
+			<artifactId>client</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>io.vertx</groupId>
 			<artifactId>vertx-pg-client</artifactId>
 		</dependency>
@@ -73,7 +77,7 @@
 					<groupId>io.inverno.tool</groupId>
 					<artifactId>inverno-maven-plugin</artifactId>
 					<configuration>
-						<vmOptions>--add-modules io.netty.transport.unix.common,io.netty.transport.classes.epoll,io.netty.transport.epoll.linux.x86_64</vmOptions>
+						<vmOptions>--add-modules io.netty.transport.unix.common,io.netty.transport.classes.epoll,io.netty.transport.epoll.linux.x86_64,com.ongres.scram.client,com.ongres.scram.common,com.ongres.stringprep.saslprep,com.ongres.stringprep.stringprep</vmOptions>
 					</configuration>
 				</plugin>
 			</plugins>
