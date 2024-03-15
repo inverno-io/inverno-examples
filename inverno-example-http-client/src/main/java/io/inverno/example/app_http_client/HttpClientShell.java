@@ -8,6 +8,7 @@ import io.inverno.example.app_http_client.internal.command.HttpCommands;
 import io.inverno.example.app_http_client.internal.command.ShellCommands;
 import io.inverno.example.app_http_client.internal.picocli.PicocliCommandRegistry;
 import io.inverno.mod.configuration.ConfigurationSource;
+import io.inverno.mod.http.base.ExchangeContext;
 import io.inverno.mod.http.client.Endpoint;
 import io.inverno.mod.http.client.HttpClient;
 import java.io.IOException;
@@ -123,7 +124,7 @@ public class HttpClientShell extends Thread implements Runnable {
 		}
 	}
 	
-	private String getPrompt(Optional<Endpoint> endpoint) {
+	private String getPrompt(Optional<Endpoint<ExchangeContext>> endpoint) {
 		AttributedStringBuilder builder = new AttributedStringBuilder()
 			.style(AttributedStyle.BOLD);
 		

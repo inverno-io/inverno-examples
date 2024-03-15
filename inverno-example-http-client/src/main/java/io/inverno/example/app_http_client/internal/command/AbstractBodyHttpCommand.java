@@ -4,9 +4,10 @@ import io.inverno.mod.base.resource.FileResource;
 import io.inverno.mod.http.base.ExchangeContext;
 import io.inverno.mod.http.base.Method;
 import io.inverno.mod.http.base.header.Headers;
-import io.inverno.mod.http.client.Endpoint.Request;
 import io.inverno.mod.http.client.Exchange;
 import io.inverno.mod.http.client.InterceptableExchange;
+import io.inverno.mod.http.client.Request;
+
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -96,43 +97,40 @@ public abstract class AbstractBodyHttpCommand extends AbstractHttpCommand {
 	}
 
 	@Override
-	protected void configure(Request<ExchangeContext, Exchange<ExchangeContext>, InterceptableExchange<ExchangeContext>> request) {
-		this.contentType.ifPresent(contentType -> request.headers(h -> h.add(Headers.NAME_CONTENT_TYPE, contentType)));
+	protected void configure(Exchange<ExchangeContext> exchange) {
+		this.contentType.ifPresent(contentType -> exchange.request().headers(h -> h.add(Headers.NAME_CONTENT_TYPE, contentType)));
 		
 		if(this.body != null) {
 			if(this.body.data != null) {
-				this.configureData(request, this.body.data);
+				this.configureData(exchange.request(), this.body.data);
 			}
 			else if(this.body.urlEncodedParams != null && !this.body.urlEncodedParams.isEmpty()) {
-				this.configureUrlEncoded(request, this.body.urlEncodedParams);
+				this.configureUrlEncoded(exchange.request(), this.body.urlEncodedParams);
 			}
 			else if(this.body.multipartParams != null && !this.body.multipartParams.isEmpty()) {
-				this.configureMultipart(request, this.body.multipartParams);
+				this.configureMultipart(exchange.request(), this.body.multipartParams);
 			}
 		}
 	}
 
-	private void configureData(Request<ExchangeContext, Exchange<ExchangeContext>, InterceptableExchange<ExchangeContext>> request, String data) {
+	private void configureData(Request request, String data) {
 		if(data.startsWith("@")) {
-			request.body(body -> body.resource().value(new FileResource(new File(data.substring(1)))));
+			request.body().get().resource().value(new FileResource(new File(data.substring(1))));
 		}
 		else {
-			request.body(body -> {
-				body.string().value(data);
-			});
+			request.body().get().string().value(data);
 		}
 	}
 
-	private void configureUrlEncoded(Request<ExchangeContext, Exchange<ExchangeContext>, InterceptableExchange<ExchangeContext>> request, List<URlEncodedParameter> urlEncodedParams) {
-		request.body(body -> body.urlEncoded()
+	private void configureUrlEncoded(Request request, List<URlEncodedParameter> urlEncodedParams) {
+		request.body().get().urlEncoded()
 			.from((factory, data) -> data.stream(Flux.fromStream(urlEncodedParams.stream()
 				.map(param -> factory.create(param.name, param.value))
-			)))
-		);
+			)));
 	}
 
-	private void configureMultipart(Request<ExchangeContext, Exchange<ExchangeContext>, InterceptableExchange<ExchangeContext>> request, List<MultipartParameter> multipartParams) {
-		request.body(body -> body.multipart()
+	private void configureMultipart(Request request, List<MultipartParameter> multipartParams) {
+		request.body().get().multipart()
 			.from((factory, data) -> data.stream(Flux.fromStream(multipartParams.stream()
 				.map(param -> {
 					if(param.data.startsWith("@")) {
@@ -158,7 +156,6 @@ public abstract class AbstractBodyHttpCommand extends AbstractHttpCommand {
 						);
 					}
 				})
-			)))
-		);
+			)));
 	}
 }

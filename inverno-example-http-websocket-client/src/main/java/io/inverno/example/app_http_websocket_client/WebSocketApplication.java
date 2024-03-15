@@ -20,6 +20,7 @@ import io.inverno.core.annotation.Destroy;
 import io.inverno.core.annotation.Init;
 import io.inverno.mod.http.base.ExchangeContext;
 import io.inverno.mod.http.base.ws.WebSocketMessage;
+import io.inverno.mod.http.client.Exchange;
 import io.inverno.mod.http.client.HttpClient;
 import io.inverno.mod.http.client.HttpClientConfigurationLoader;
 import io.inverno.mod.http.client.ws.WebSocketExchange;
@@ -197,8 +198,8 @@ public class WebSocketApplication extends Application {
 					)
 				)
 				.build()
-				.webSocketRequest(wsURL.getPath())                                         // Create a WebSocket request to the specified path
-				.send()                                                                    // Send the request to establish the WebSocket connection
+				.exchange(wsURL.getPath())                                                 // Create an exchange to the specified WebSocket path
+				.flatMap(Exchange::webSocket)                                              // MAke sure to subscribe to the WebSocket exchange publisher to establish the WebSocket connection
 				.flatMapMany(webSocketExchange -> {
 					this.wsExchange = webSocketExchange;
 					this.onConnected();                                                    // The WebSocket connection is established

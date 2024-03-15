@@ -3,9 +3,7 @@ package io.inverno.example.app_http_client.internal.command;
 import io.inverno.mod.http.base.ExchangeContext;
 import io.inverno.mod.http.base.Method;
 import io.inverno.mod.http.client.Endpoint;
-import io.inverno.mod.http.client.Endpoint.Request;
 import io.inverno.mod.http.client.Exchange;
-import io.inverno.mod.http.client.InterceptableExchange;
 import picocli.CommandLine.Command;
 
 @Command(
@@ -24,13 +22,13 @@ import picocli.CommandLine.Command;
 )
 public class HttpCommands extends AbstractCommands {
 
-	private Endpoint endpoint;
+	private Endpoint<ExchangeContext> endpoint;
 
-	public void setEndpoint(Endpoint endpoint) {
+	public void setEndpoint(Endpoint<ExchangeContext> endpoint) {
 		this.endpoint = endpoint;
 	}
 	
-	public Endpoint getEndpoint() {
+	public Endpoint<ExchangeContext> getEndpoint() {
 		return this.endpoint;
 	}
 
@@ -45,7 +43,7 @@ public class HttpCommands extends AbstractCommands {
 		}
 
 		@Override
-		protected void configure(Request<ExchangeContext, Exchange<ExchangeContext>, InterceptableExchange<ExchangeContext>> request) {
+		protected void configure(Exchange<ExchangeContext> request) {
 		}
 	}
 
@@ -60,7 +58,7 @@ public class HttpCommands extends AbstractCommands {
 		}
 
 		@Override
-		protected void configure(Request<ExchangeContext, Exchange<ExchangeContext>, InterceptableExchange<ExchangeContext>> request) {
+		protected void configure(Exchange<ExchangeContext> request) {
 		}
 	}
 
