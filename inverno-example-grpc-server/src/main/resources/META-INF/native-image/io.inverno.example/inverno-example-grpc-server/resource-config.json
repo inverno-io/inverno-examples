@@ -1,0 +1,9 @@
+{
+  "resources":{
+  "includes":[
+    {"pattern":"\\Qconfiguration.cprops\\E"},
+    {"pattern":"\\Qlogback.xml\\E"},
+    {"pattern":"\\QMETA-INF/MANIFEST.MF\\E"}
+  ]},
+  "bundles":[]
+}

@@ -10,7 +10,7 @@ A sample inverno application showing basic IoC/DI with Inverno core framework.
 
 The application simply says hello to a user specified as command line arguments with a greeting message. The `HelloService` is used to display the message, when starting the module, the framework creates an instance (IoC) and wire the greeting message specified in optional socket bean `GreetingMessageSocketBean` (DI) into the bean's optional socket `setGreetingMessage()`.
 
-## Running the example
+## Running the application
 
 ```plaintext
 $ mvn inverno:run -Dinverno.run.arguments="John"

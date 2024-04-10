@@ -105,7 +105,7 @@
 						</executions>
 						<configuration>
 							<mainClass>io.inverno.example.app_http.Main</mainClass>
-							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
+							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers --gc=G1 -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
 						</configuration>
 					</plugin>
 				</plugins>

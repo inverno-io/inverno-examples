@@ -14,7 +14,7 @@ The Redis lettuce client configuration is exposed in the module's configuration 
 
 The client is also configured to use [epoll][epoll] when available (ie. on Linux platform) for better performance.
 
-## Running the example
+## Running the application
 
 The application requires a local Redis server listening on port `6379`, it can be started using Docker as follows:
 
@@ -22,11 +22,12 @@ The application requires a local Redis server listening on port `6379`, it can b
 $ docker run -d -p6379:6379 redis
 ```
 
-The application can then be run as follows:
+The application is started using the Inverno Maven plugin as follows:
 
 ```plaintext
 $ mvn inverno:run
-2021-04-26 10:15:53,299 INFO  [main] i.w.c.v.Application - Inverno is starting...
+ [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] Running project io.inverno.example.app_redis@1.0.0-SNAPSHOT...
+2024-04-09 15:04:24,099 INFO  [main] i.i.c.v.Application - Inverno is starting...
 
 
      ╔════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -42,42 +43,37 @@ $ mvn inverno:run
      ║                      ' -- '                                                                ║
      ╠════════════════════════════════════════════════════════════════════════════════════════════╣
      ║ Java runtime        : OpenJDK Runtime Environment                                          ║
-     ║ Java version        : 17+35-2724                                                           ║
-     ║ Java home           : /home/jkuhn/Devel/jdk/jdk-17                                         ║
+     ║ Java version        : 21.0.2+13-58                                                         ║
+     ║ Java home           : /home/jkuhn/Devel/jdk/jdk-21.0.2                                     ║
      ║                                                                                            ║
      ║ Application module  : io.inverno.example.app_redis                                         ║
+     ║ Application version : 1.0.0-SNAPSHOT                                                       ║
      ║ Application class   : io.inverno.example.app_redis.Main                                    ║
      ║                                                                                            ║
      ║ Modules             :                                                                      ║
-     ║  * ...                                                                                     ║
+     ║  ...                                                                                       ║
      ╚════════════════════════════════════════════════════════════════════════════════════════════╝
 
 
-2022-01-14 14:31:49,688 INFO  [main] i.i.e.a.App_redis - Starting Module io.inverno.example.app_redis...
-2022-01-14 14:31:49,689 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
-2022-01-14 14:31:49,978 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 289ms
-2022-01-14 14:31:49,978 INFO  [main] i.i.m.r.l.Lettuce - Starting Module io.inverno.mod.redis.lettuce...
-2022-01-14 14:31:50,025 INFO  [main] i.i.m.r.l.Lettuce - Module io.inverno.mod.redis.lettuce started in 46ms
-2022-01-14 14:31:50,026 INFO  [main] i.i.e.a.App_redis - Module io.inverno.example.app_redis started in 339ms
-2022-01-14 14:31:50,028 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_redis started in 378ms
-2022-01-14 14:31:50,410 INFO  [inverno-io-epoll-3-2] i.i.e.a.Main - Store Person{id=3, firstname=John, name=Smith, age=42}
-2022-01-14 14:31:50,410 INFO  [inverno-io-epoll-3-2] i.i.e.a.Main - Store Person{id=4, firstname=Linda, name=Johnson, age=25}
-2022-01-14 14:31:50,435 INFO  [inverno-io-epoll-3-2] i.i.e.a.Main - Get Person{id=3, firstname=John, name=Smith, age=42}
-2022-01-14 14:31:50,435 INFO  [inverno-io-epoll-3-2] i.i.e.a.Main - Get Person{id=4, firstname=Linda, name=Johnson, age=25}
-2022-01-14 14:31:50,438 INFO  [inverno-io-epoll-3-2] i.i.e.a.Main - Delete true
-2022-01-14 14:31:50,439 INFO  [inverno-io-epoll-3-1] i.i.e.a.Main - Delete true
-2022-01-14 14:31:50,439 INFO  [main] i.i.e.a.App_redis - Stopping Module io.inverno.example.app_redis...
-2022-01-14 14:31:50,450 INFO  [main] i.i.m.b.Boot - Stopping Module io.inverno.mod.boot...
-2022-01-14 14:31:50,451 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot stopped in 0ms
-2022-01-14 14:31:50,451 INFO  [main] i.i.m.r.l.Lettuce - Stopping Module io.inverno.mod.redis.lettuce...
-2022-01-14 14:31:50,451 INFO  [main] i.i.m.r.l.Lettuce - Module io.inverno.mod.redis.lettuce stopped in 0ms
-2022-01-14 14:31:50,452 INFO  [main] i.i.e.a.App_redis - Module io.inverno.example.app_redis stopped in 12ms
-2022-01-14 14:31:50,951 INFO  [Thread-0] i.i.e.a.App_redis - Stopping Module io.inverno.example.app_redis...
-2022-01-14 14:31:50,952 INFO  [Thread-0] i.i.m.b.Boot - Stopping Module io.inverno.mod.boot...
-2022-01-14 14:31:50,953 INFO  [Thread-0] i.i.m.b.Boot - Module io.inverno.mod.boot stopped in 0ms
-2022-01-14 14:31:50,953 INFO  [Thread-0] i.i.m.r.l.Lettuce - Stopping Module io.inverno.mod.redis.lettuce...
-2022-01-14 14:31:50,954 INFO  [Thread-0] i.i.m.r.l.Lettuce - Module io.inverno.mod.redis.lettuce stopped in 0ms
-2022-01-14 14:31:50,954 INFO  [Thread-0] i.i.e.a.App_redis - Module io.inverno.example.app_redis stopped in 3ms
+2024-04-09 15:04:24,110 INFO  [main] i.i.e.a.App_redis - Starting Module io.inverno.example.app_redis...
+2024-04-09 15:04:24,111 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
+2024-04-09 15:04:24,442 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 331ms
+2024-04-09 15:04:24,443 INFO  [main] i.i.m.r.l.Lettuce - Starting Module io.inverno.mod.redis.lettuce...
+2024-04-09 15:04:24,530 INFO  [main] i.i.m.r.l.Lettuce - Module io.inverno.mod.redis.lettuce started in 86ms
+2024-04-09 15:04:24,530 INFO  [main] i.i.e.a.App_redis - Module io.inverno.example.app_redis started in 427ms
+2024-04-09 15:04:24,530 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_redis started in 465ms
+2024-04-09 15:04:24,949 INFO  [inverno-io-epoll-1-1] i.i.e.a.Main - Store Person{id=2, firstname=Linda, name=Johnson, age=25}
+2024-04-09 15:04:24,950 INFO  [inverno-io-epoll-1-1] i.i.e.a.Main - Store Person{id=1, firstname=John, name=Smith, age=42}
+2024-04-09 15:04:24,994 INFO  [inverno-io-epoll-1-1] i.i.e.a.Main - Get Person{id=2, firstname=Linda, name=Johnson, age=25}
+2024-04-09 15:04:24,995 INFO  [inverno-io-epoll-1-1] i.i.e.a.Main - Get Person{id=1, firstname=John, name=Smith, age=42}
+2024-04-09 15:04:24,998 INFO  [inverno-io-epoll-1-1] i.i.e.a.Main - Delete true
+2024-04-09 15:04:24,998 INFO  [inverno-io-epoll-1-1] i.i.e.a.Main - Delete true
+2024-04-09 15:04:24,998 INFO  [main] i.i.e.a.App_redis - Stopping Module io.inverno.example.app_redis...
+2024-04-09 15:04:25,010 INFO  [main] i.i.m.b.Boot - Stopping Module io.inverno.mod.boot...
+2024-04-09 15:04:25,011 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot stopped in 1ms
+2024-04-09 15:04:25,012 INFO  [main] i.i.m.r.l.Lettuce - Stopping Module io.inverno.mod.redis.lettuce...
+2024-04-09 15:04:25,012 INFO  [main] i.i.m.r.l.Lettuce - Module io.inverno.mod.redis.lettuce stopped in 0ms
+2024-04-09 15:04:25,012 INFO  [main] i.i.e.a.App_redis - Module io.inverno.example.app_redis stopped in 14ms
 ```
 
 ## Going further

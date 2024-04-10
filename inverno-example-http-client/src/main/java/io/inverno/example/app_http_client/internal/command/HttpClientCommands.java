@@ -349,7 +349,7 @@ public class HttpClientCommands extends AbstractCommands {
 		public void run() {
 			this.httpClientCommands.getEndpoint().ifPresentOrElse(
 				endpoint -> {
-					endpoint.close().block();
+					endpoint.shutdown().block();
 					this.httpClientCommands.setEndpoint(null);
 					this.httpClientCommands.getTerminal().writer().println("Disconnected");
 				},

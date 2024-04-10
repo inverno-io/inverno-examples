@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "examples";
+
+package examples;
+
+service HelloService {
+
+	rpc SayHello (SingleHelloRequest) returns (SingleHelloReply) {}
+
+	rpc SayHelloToEverybody (stream SingleHelloRequest) returns (GroupHelloReply) {}
+
+	rpc SayHelloToEveryone (stream SingleHelloRequest) returns (stream SingleHelloReply) {}
+
+	rpc SayHelloToEveryoneInTheGroup (GroupHelloRequest) returns (stream SingleHelloReply) {}
+
+	rpc SayHelloToEveryoneInTheGroups (stream GroupHelloRequest) returns (stream SingleHelloReply) {}
+}
+
+message SingleHelloRequest {
+	string name = 1;
+}
+
+message SingleHelloReply {
+	string message = 1;
+}
+
+message GroupHelloRequest {
+	repeated string names = 1;
+}
+
+message GroupHelloReply {
+	string message = 1;
+	
+	repeated string names = 2;
+}

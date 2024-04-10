@@ -12,7 +12,7 @@ The application is a simple application with one `HelloService` bean and which r
 
 It defines the following users: a *vip* user: `jsmith` with password `password` and a normal user `adoe` with password `password`.
 
-## Running the example
+## Running the application
 
 User `jsmith` is a *vip* user, a specific geeting message is then displayed:
 
@@ -33,7 +33,6 @@ The application displays an error message on invalid credentials:
 ```plaintext
 $ mvn inverno:run -Dinverno.run.arguments="jsmith invalid"
 io.inverno.mod.security.authentication.InvalidCredentialsException: Invalid credentials
-	at io.inverno.mod.security.authentication.AbstractPrincipalAuthenticator.lambda$authenticate$1(AbstractPrincipalAuthenticator.java:74) ~[io.inverno.mod.security-1.5.0-SNAPSHOT.jar:?]
 ```
 
 ## Going further

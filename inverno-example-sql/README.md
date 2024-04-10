@@ -14,7 +14,7 @@ The SQL Vert.x client configuration is exposed in the module's configuration `Ap
 
 The client is also configured to use [epoll][epoll] when available (ie. on Linux platform) for better performance.
 
-## Running the example
+## Running the application
 
 The application requires a local Postgres server listening on port `5432`, it can be started using Docker as follows:
 
@@ -36,11 +36,11 @@ CREATE SEQUENCE person_id_seq;
 CREATE TABLE person(id INTEGER DEFAULT NEXTVAL('person_id_seq'), firstname VARCHAR(32), lastname VARCHAR(32), age SMALLINT);
 ```
 
-The application can then be run as follows:
+The application is started using the Inverno Maven plugin as follows:
 
 ``plaintext
 $ mvn inverno:run
-2021-04-26 10:15:53,299 INFO  [main] i.w.c.v.Application - Inverno is starting...
+2024-04-09 15:07:01,298 INFO  [main] i.i.c.v.Application - Inverno is starting...
 
 
      ╔════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -56,42 +56,37 @@ $ mvn inverno:run
      ║                      ' -- '                                                                ║
      ╠════════════════════════════════════════════════════════════════════════════════════════════╣
      ║ Java runtime        : OpenJDK Runtime Environment                                          ║
-     ║ Java version        : 17+35-2724                                                           ║
-     ║ Java home           : /home/jkuhn/Devel/jdk/jdk-17                                         ║
+     ║ Java version        : 21.0.2+13-58                                                         ║
+     ║ Java home           : /home/jkuhn/Devel/jdk/jdk-21.0.2                                     ║
      ║                                                                                            ║
      ║ Application module  : io.inverno.example.app_sql                                           ║
+     ║ Application version : 1.0.0-SNAPSHOT                                                       ║
      ║ Application class   : io.inverno.example.app_sql.Main                                      ║
      ║                                                                                            ║
      ║ Modules             :                                                                      ║
-     ║  * ...                                                                                     ║
+     ║  ...                                                                                       ║
      ╚════════════════════════════════════════════════════════════════════════════════════════════╝
 
 
-2022-01-14 15:23:26,761 INFO  [main] i.i.e.a.App_sql - Starting Module io.inverno.example.app_sql...
-2022-01-14 15:23:26,761 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
-2022-01-14 15:23:27,077 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 315ms
-2022-01-14 15:23:27,077 INFO  [main] i.i.m.s.v.Vertx - Starting Module io.inverno.mod.sql.vertx...
-2022-01-14 15:23:27,165 INFO  [main] i.i.m.s.v.Vertx - Module io.inverno.mod.sql.vertx started in 87ms
-2022-01-14 15:23:27,165 INFO  [main] i.i.e.a.App_sql - Module io.inverno.example.app_sql started in 406ms
-2022-01-14 15:23:27,168 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_sql started in 441ms
-2022-01-14 15:23:27,352 INFO  [vert.x-eventloop-thread-0] i.i.e.a.Main - Store Person{id=5, firstname=John, lastname=Smith, age=42}
-2022-01-14 15:23:27,353 INFO  [vert.x-eventloop-thread-0] i.i.e.a.Main - Store Person{id=6, firstname=Linda, lastname=Johnson, age=25}
-2022-01-14 15:23:27,358 INFO  [vert.x-eventloop-thread-0] i.i.e.a.Main - Get Person{id=5, firstname=John, lastname=Smith, age=42}
-2022-01-14 15:23:27,358 INFO  [vert.x-eventloop-thread-0] i.i.e.a.Main - Get Person{id=6, firstname=Linda, lastname=Johnson, age=25}
-2022-01-14 15:23:27,368 INFO  [vert.x-eventloop-thread-0] i.i.e.a.Main - Delete true
-2022-01-14 15:23:27,371 INFO  [vert.x-eventloop-thread-0] i.i.e.a.Main - Delete true
-2022-01-14 15:23:27,372 INFO  [main] i.i.e.a.App_sql - Stopping Module io.inverno.example.app_sql...
-2022-01-14 15:23:27,385 INFO  [main] i.i.m.b.Boot - Stopping Module io.inverno.mod.boot...
-2022-01-14 15:23:27,386 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot stopped in 1ms
-2022-01-14 15:23:27,386 INFO  [main] i.i.m.s.v.Vertx - Stopping Module io.inverno.mod.sql.vertx...
-2022-01-14 15:23:27,387 INFO  [main] i.i.m.s.v.Vertx - Module io.inverno.mod.sql.vertx stopped in 0ms
-2022-01-14 15:23:27,387 INFO  [main] i.i.e.a.App_sql - Module io.inverno.example.app_sql stopped in 15ms
-2022-01-14 15:23:28,049 INFO  [Thread-0] i.i.e.a.App_sql - Stopping Module io.inverno.example.app_sql...
-2022-01-14 15:23:28,050 INFO  [Thread-0] i.i.m.b.Boot - Stopping Module io.inverno.mod.boot...
-2022-01-14 15:23:28,050 INFO  [Thread-0] i.i.m.b.Boot - Module io.inverno.mod.boot stopped in 0ms
-2022-01-14 15:23:28,050 INFO  [Thread-0] i.i.m.s.v.Vertx - Stopping Module io.inverno.mod.sql.vertx...
-2022-01-14 15:23:28,051 INFO  [Thread-0] i.i.m.s.v.Vertx - Module io.inverno.mod.sql.vertx stopped in 0ms
-2022-01-14 15:23:28,051 INFO  [Thread-0] i.i.e.a.App_sql - Module io.inverno.example.app_sql stopped in 1ms
+2024-04-09 15:07:01,309 INFO  [main] i.i.e.a.App_sql - Starting Module io.inverno.example.app_sql...
+2024-04-09 15:07:01,310 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
+2024-04-09 15:07:01,662 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 351ms
+2024-04-09 15:07:01,662 INFO  [main] i.i.m.s.v.Vertx - Starting Module io.inverno.mod.sql.vertx...
+2024-04-09 15:07:01,755 INFO  [main] i.i.m.s.v.Vertx - Module io.inverno.mod.sql.vertx started in 92ms
+2024-04-09 15:07:01,755 INFO  [main] i.i.e.a.App_sql - Module io.inverno.example.app_sql started in 455ms
+2024-04-09 15:07:01,756 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_sql started in 489ms
+2024-04-09 15:07:02,048 INFO  [vert.x-eventloop-thread-0] i.i.e.a.Main - Store Person{id=15, firstname=John, lastname=Smith, age=42}
+2024-04-09 15:07:02,049 INFO  [vert.x-eventloop-thread-0] i.i.e.a.Main - Store Person{id=16, firstname=Linda, lastname=Johnson, age=25}
+2024-04-09 15:07:02,054 INFO  [vert.x-eventloop-thread-0] i.i.e.a.Main - Get Person{id=15, firstname=John, lastname=Smith, age=42}
+2024-04-09 15:07:02,055 INFO  [vert.x-eventloop-thread-0] i.i.e.a.Main - Get Person{id=16, firstname=Linda, lastname=Johnson, age=25}
+2024-04-09 15:07:02,060 INFO  [vert.x-eventloop-thread-0] i.i.e.a.Main - Delete true
+2024-04-09 15:07:02,060 INFO  [vert.x-eventloop-thread-0] i.i.e.a.Main - Delete true
+2024-04-09 15:07:02,061 INFO  [main] i.i.e.a.App_sql - Stopping Module io.inverno.example.app_sql...
+2024-04-09 15:07:02,070 INFO  [main] i.i.m.b.Boot - Stopping Module io.inverno.mod.boot...
+2024-04-09 15:07:02,070 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot stopped in 0ms
+2024-04-09 15:07:02,070 INFO  [main] i.i.m.s.v.Vertx - Stopping Module io.inverno.mod.sql.vertx...
+2024-04-09 15:07:02,071 INFO  [main] i.i.m.s.v.Vertx - Module io.inverno.mod.sql.vertx stopped in 0ms
+2024-04-09 15:07:02,071 INFO  [main] i.i.e.a.App_sql - Module io.inverno.example.app_sql stopped in 10ms
 ```
 
 ## Going further

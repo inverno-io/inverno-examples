@@ -23,7 +23,6 @@ import io.inverno.mod.http.server.Exchange;
 import io.inverno.mod.http.server.HttpServerConfiguration;
 import io.inverno.mod.http.server.ServerController;
 import java.net.URI;
-import java.nio.file.Path;
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.List;

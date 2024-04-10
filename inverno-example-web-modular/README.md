@@ -15,7 +15,7 @@ A sample Inverno application that shows how to create a modular Web application 
 
 It is not fundamentally different than the [Web application example](../inverno-example-web/) but it shows how Web controllers and Web router configurer are aggregated into one single Web router configurer wired to the Web server to configure the exposed routes.
 
-## Building and packaging the example
+## Building and packaging the application
 
 The project can be built and packaged as a native runtime image with the following command:
 
@@ -23,7 +23,7 @@ The project can be built and packaged as a native runtime image with the followi
 $ mvn clean install -Prelease
 ```
 
-## Running the example
+## Running the application
 
 Previous command should have installed a native application packaged to the local Maven repository, we can run the application by retrieving and extracting this package to a location of our choice:
 

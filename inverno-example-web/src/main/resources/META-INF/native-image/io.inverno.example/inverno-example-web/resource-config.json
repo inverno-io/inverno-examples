@@ -3,7 +3,7 @@
   "includes":[
     {"pattern":"\\Qconfiguration.cprops\\E"},
     {"pattern":"\\Qlogback.xml\\E"},
-    {"pattern":"\\Qkeystore.jks\\E"},
+    {"pattern":"\\Qserverkeystore.p12\\E"},
     {"pattern":"\\QMETA-INF/MANIFEST.MF\\E"}
   ]},
   "bundles":[]

@@ -20,7 +20,9 @@ The HTTP client configuration is exposed in the module's configuration `App_http
 
 The application uses [Picocli][picocli] and [Jline3][jline3] for the shell interface and it is configured to use [epoll][epoll] when available (ie. on Linux platform) for better performance.
 
-## Running the example
+The Maven build descriptor also defines a `release` profile which builds a native application image in a `zip` archive.
+
+## Running the application
 
 ```plaintext
 $ mvn inverno:run
@@ -387,6 +389,32 @@ Hello Http Example Client!
 ```
 
 In above example, `Hello Example Client` is the common name (CN) extracted from the client certificate sent to the server.
+
+## Packaging the application
+
+The application can be packaged as a native runtime image by invoking the `release` build profile:
+
+```plaintext
+$ mvn install -Prelease
+...
+[INFO] --- inverno:${VERSION_INVERNO_TOOLS}:package-app (inverno-package-app) @ inverno-example-http-client ---
+ [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ inverno-example-http-client ---
+[INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-http-client/target/inverno-example-http-client-1.0.0-SNAPSHOT.jar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-http-client/1.0.0-SNAPSHOT/inverno-example-http-client-1.0.0-SNAPSHOT.jar
+[INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-http-client/pom.xml to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-http-client/1.0.0-SNAPSHOT/inverno-example-http-client-1.0.0-SNAPSHOT.pom
+[INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-http-client/target/inverno-example-http-client-1.0.0-SNAPSHOT-application_linux_amd64.zip to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-http-client/1.0.0-SNAPSHOT/inverno-example-http-client-1.0.0-SNAPSHOT-application_linux_amd64.zip
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+```
+
+The previous command creates folder `target/inverno-example-http-client-1.0.0-SNAPSHOT-application_linux_amd64` containing the Java runtime and the application and installed the corresponding archive to the Maven repository:
+
+```plaintext
+$ ./target/inverno-example-http-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-http-client
+...
+```
 
 ## Going further
 

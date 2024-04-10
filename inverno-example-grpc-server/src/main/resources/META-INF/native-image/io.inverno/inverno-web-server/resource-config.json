@@ -1,0 +1,9 @@
+{
+  "resources":{
+  "includes":[
+    {"pattern":"^META-INF/inverno/web/server/[^/]*/openapi.yml$"},
+	{"pattern":"^inverno_favicon.svg$"},
+    {"pattern":"^META-INF/resources/webjars/.*"}
+  ]},
+  "bundles":[]
+}

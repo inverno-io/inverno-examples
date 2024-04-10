@@ -121,8 +121,43 @@
 						</executions>
 						<configuration>
 							<mainClass>io.inverno.example.app_http_client.Main</mainClass>
-							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
+							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers --gc=G1 -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
 						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>io.inverno.tool</groupId>
+						<artifactId>inverno-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>inverno-package-app</id>
+								<phase>package</phase>
+								<goals>
+									<goal>package-app</goal>
+								</goals>
+								<configuration>
+									<vm>server</vm>
+									<!-- jdk.crypto.ec: TLS, jdk.jdwp.agent: remote debug -->
+									<addModules>jdk.crypto.ec,jdk.jdwp.agent</addModules>
+									<launchers>
+										<launcher>
+											<name>example-http-client</name>
+											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.classes.epoll,io.netty.transport.epoll.linux.x86_64</vmOptions>
+											<winConsole>true</winConsole>
+										</launcher>
+									</launchers>
+									<archiveFormats>
+										<archiveFormat>zip</archiveFormat>
+									</archiveFormats>
+								</configuration>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>

@@ -52,8 +52,7 @@ The Maven build descriptor also defines three build profiles:
 - `release-image` which builds a Docker container image of the application in a `tar` archive.
 - `install-image` which installs the Docker container image of the application to a local docker daemon.
 
-
-## Running the example
+## Running the application
 
 The application is started using the Inverno Maven plugin as follows:
 
@@ -174,25 +173,22 @@ However user `jdoe` which is not a writer can not access http://127.0.0.1:8080/l
 
 The user can sign out at http://127.0.0.1:8080/ldap/logout.
 
-## Packaging the example
+## Packaging the application
 
 The application can be packaged as a native runtime image by invoking the `release` build profile:
 
 ```plaintext
 $ mvn install -Prelease
 ...
-[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:package-app (inverno-package-app) @ inverno-example-web-security ---
- [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
+[INFO] --- inverno:${VERSION_INVERNO_TOOLS}:package-app (inverno-build-app) @ inverno-example-web-security ---
+ [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] Project application archives created: zip
 [INFO] 
-[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ inverno-example-web-security ---
-[INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-security/target/inverno-example-web-security-1.0.0-SNAPSHOT.jar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-security/1.0.0-SNAPSHOT/inverno-example-web-security-1.0.0-SNAPSHOT.jar
+[INFO] --- install:3.1.1:install (default-install) @ inverno-example-web-security ---
 [INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-security/pom.xml to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-security/1.0.0-SNAPSHOT/inverno-example-web-security-1.0.0-SNAPSHOT.pom
+[INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-security/target/inverno-example-web-security-1.0.0-SNAPSHOT.jar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-security/1.0.0-SNAPSHOT/inverno-example-web-security-1.0.0-SNAPSHOT.jar
 [INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-security/target/inverno-example-web-security-1.0.0-SNAPSHOT-application_linux_amd64.zip to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-security/1.0.0-SNAPSHOT/inverno-example-web-security-1.0.0-SNAPSHOT-application_linux_amd64.zip
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  17.714 s
-[INFO] Finished at: 2022-07-08T11:36:03+02:00
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -204,23 +200,20 @@ $ ./inverno-example-web-security-1.0.0-SNAPSHOT/bin/example-web-security
 ...
 ```
 
-A portable docker image of the application can be created as a `tar` archive by invoking the `release-docker` build profile:
+A portable docker image of the application can be created as a `tar` archive by invoking the `release-image` build profile:
 
 ```plaintext
 $ mvn install -Prelease-image
 ...
-[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:package-image (inverno-package-image) @ inverno-example-web-security ---
- [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
+[INFO] --- inverno:${VERSION_INVERNO_TOOLS}:package-image (inverno-package-image) @ inverno-example-web-security ---
+ [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] Project Docker container image TAR archive created
 [INFO] 
-[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ inverno-example-web-security ---
-[INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-web-security/target/inverno-example-web-security-1.0.0-SNAPSHOT.jar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-security/1.0.0-SNAPSHOT/inverno-example-web-security-1.0.0-SNAPSHOT.jar
-[INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-web-security/pom.xml to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-security/1.0.0-SNAPSHOT/inverno-example-web-security-1.0.0-SNAPSHOT.pom
-[INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-web-security/target/inverno-example-web-security-1.0.0-SNAPSHOT-container_linux_amd64.tar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-security/1.0.0-SNAPSHOT/inverno-example-web-security-1.0.0-SNAPSHOT-container_linux_amd64.tar
+[INFO] --- install:3.1.1:install (default-install) @ inverno-example-web-security ---
+[INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-security/pom.xml to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-security/1.0.0-SNAPSHOT/inverno-example-web-security-1.0.0-SNAPSHOT.pom
+[INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-security/target/inverno-example-web-security-1.0.0-SNAPSHOT.jar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-security/1.0.0-SNAPSHOT/inverno-example-web-security-1.0.0-SNAPSHOT.jar
+[INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-security/target/inverno-example-web-security-1.0.0-SNAPSHOT-container_linux_amd64.tar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-security/1.0.0-SNAPSHOT/inverno-example-web-security-1.0.0-SNAPSHOT-container_linux_amd64.tar
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  19.606 s
-[INFO] Finished at: 2021-04-26T14:38:43+02:00
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -230,31 +223,29 @@ The previous command should create archive `target/inverno-example-web-security-
 $ docker load --input target/inverno-example-web-security-1.0.0-SNAPSHOT-container_linux_amd64.tar
 ```
 
-The application can be directly deployed to a local docker daemon by invoking the `install-docker` build profile:
+The application can be directly deployed to a local docker daemon by invoking the `install-image` build profile:
 
 ```plaintext
 $ mvn install -Pinstall-image
 ...
-[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:install-image (inverno-install-image) @ inverno-example-web-security ---
- [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
+[INFO] --- inverno:${VERSION_INVERNO_TOOLS}:install-image (inverno-install-image) @ inverno-example-web-security ---
+ [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] Project Docker container image deployed to Docker daemon
+[INFO] Project image inverno-example-web-security:1.0.0-SNAPSHOT installed to Docker
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  21.070 s
-[INFO] Finished at: 2021-04-26T14:43:42+02:00
 [INFO] ------------------------------------------------------------------------
 ```
 
 The application can then be started in docker as follows:
 
 ```plaintext
-$ docker run --rm --network host -e LANG=C.UTF-8 inverno-example-web-security:1.0.0-SNAPSHOT 
+$ docker run --rm --network host inverno-example-web-security:1.0.0-SNAPSHOT 
 ...
-2022-07-08 11:38:00,955 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
-2022-07-08 11:38:00,955 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 138ms
-2022-07-08 11:38:00,955 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web.server started in 138ms
-2022-07-08 11:38:00,956 INFO  [main] i.i.e.a.App_web_security - Module io.inverno.example.app_web_security started in 447ms
-2022-07-08 11:38:00,958 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_security started in 515ms
+2024-04-09 13:19:00,028 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
+2024-04-09 13:19:00,028 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 132ms
+2024-04-09 13:19:00,029 INFO  [main] i.i.m.w.s.Server - Module io.inverno.mod.web.server started in 132ms
+2024-04-09 13:19:00,029 INFO  [main] i.i.e.a.App_web_security - Module io.inverno.example.app_web_security started in 410ms
+2024-04-09 13:19:00,029 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_security started in 469ms
 ```
 
 ## Going further

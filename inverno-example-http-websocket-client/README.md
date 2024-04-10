@@ -14,7 +14,9 @@ The application presents a [JavaFX][javafx] UI similar to the WebSocket Web clie
 
 The client is configured to use [epoll][epoll] when available (ie. on Linux platform) for better performance.
 
-## Running the example
+The Maven build descriptor also defines a `release` profile which builds a native application image in a `zip` archive.
+
+## Running the application
 
 The application is a simple chat application that connects to the [WebSocket server example][inverno-example-http-websocket] application which should be started first.
 
@@ -57,12 +59,37 @@ $ mvn inverno:run
 2023-12-22 16:28:54,503 INFO  [main] i.i.m.h.c.Client - Module io.inverno.mod.http.client started in 10ms
 2023-12-22 16:28:54,759 INFO  [main] i.i.e.a.App_http_websocket_client - Module io.inverno.example.app_http_websocket_client started in 530ms
 2023-12-22 16:28:54,759 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_http_websocket_client started in 588ms
-
 ```
 
 You should now be able to use the JavaFX UI to connect to the WebSocket server, send and receive messages
 
 <img src="src/img/inverno_javafx_chat.png" style="display: block; margin: 2em auto;"/>
+
+## Packaging the application
+
+The application can be packaged as a native runtime image by invoking the `release` build profile:
+
+```plaintext
+$ mvn install -Prelease
+...
+[INFO] --- inverno:${VERSION_INVERNO_TOOLS}:package-app (inverno-package-app) @ inverno-example-http-websocket-client ---
+ [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
+[INFO] 
+[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ inverno-example-http-websocket-client ---
+[INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-http-websocket-client/target/inverno-example-http-websocket-client-1.0.0-SNAPSHOT.jar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-http-websocket-client/1.0.0-SNAPSHOT/inverno-example-http-websocket-client-1.0.0-SNAPSHOT.jar
+[INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-http-websocket-client/pom.xml to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-http-websocket-client/1.0.0-SNAPSHOT/inverno-example-http-websocket-client-1.0.0-SNAPSHOT.pom
+[INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-http-websocket-client/target/inverno-example-http-websocket-client-1.0.0-SNAPSHOT-application_linux_amd64.zip to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-http-websocket-client/1.0.0-SNAPSHOT/inverno-example-http-websocket-client-1.0.0-SNAPSHOT-application_linux_amd64.zip
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+```
+
+The previous command creates folder `target/inverno-example-http-websocket-client-1.0.0-SNAPSHOT-application_linux_amd64` containing the Java runtime and the application and installed the corresponding archive to the Maven repository:
+
+```plaintext
+$ ./target/inverno-example-http-websocket-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-http-websocket-client
+...
+```
 
 ## Going further
 

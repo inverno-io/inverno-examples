@@ -116,7 +116,7 @@
 						</executions>
 						<configuration>
 							<mainClass>io.inverno.example.app_web_websocket.Main</mainClass>
-							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
+							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers --gc=G1 -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
 						</configuration>
 					</plugin>
 				</plugins>
@@ -131,10 +131,10 @@
 						<artifactId>inverno-maven-plugin</artifactId>
 						<executions>
 							<execution>
-								<id>inverno-build-app</id>
+								<id>inverno-package-app</id>
 								<phase>package</phase>
 								<goals>
-									<goal>build-app</goal>
+									<goal>package-app</goal>
 								</goals>
 								<configuration>
 									<vm>server</vm>
@@ -142,13 +142,13 @@
 									<addModules>jdk.crypto.ec,jdk.jdwp.agent</addModules>
 									<launchers>
 										<launcher>
-											<name>example-web</name>
+											<name>example-web-websocket</name>
 											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.classes.epoll,io.netty.transport.epoll.linux.x86_64</vmOptions>
 										</launcher>
 									</launchers>
-									<formats>
-										<format>zip</format>
-									</formats>
+									<archiveFormats>
+										<archiveFormat>zip</archiveFormat>
+									</archiveFormats>
 								</configuration>
 							</execution>
 						</executions>
@@ -157,7 +157,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>release-docker</id>
+			<id>release-image</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -165,19 +165,19 @@
 						<artifactId>inverno-maven-plugin</artifactId>
 						<executions>
 							<execution>
-								<id>inverno-build-image-docker</id>
+								<id>inverno-release-image</id>
 								<phase>package</phase>
 								<goals>
-									<goal>build-image-tar</goal>
+									<goal>package-image</goal>
 								</goals>
 								<configuration>
 									<vm>server</vm>
 									<!-- jdk.crypto.ec: TLS, jdk.jdwp.agent: remote debug -->
 									<addModules>jdk.crypto.ec,jdk.jdwp.agent</addModules>
-									<executable>example-web</executable>
+									<executable>example-web-websocket</executable>
 									<launchers>
 										<launcher>
-											<name>example-web</name>
+											<name>example-web-websocket</name>
 											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.classes.epoll,io.netty.transport.epoll.linux.x86_64</vmOptions>
 										</launcher>
 									</launchers>
@@ -189,7 +189,7 @@
 			</build>
 		</profile>
 		<profile>
-			<id>install-docker</id>
+			<id>install-image</id>
 			<build>
 				<plugins>
 					<plugin>
@@ -197,19 +197,19 @@
 						<artifactId>inverno-maven-plugin</artifactId>
 						<executions>
 							<execution>
-								<id>inverno-build-image-docker</id>
+								<id>inverno-install-image</id>
 								<phase>install</phase>
 								<goals>
-									<goal>build-image-docker</goal>
+									<goal>install-image</goal>
 								</goals>
 								<configuration>
 									<vm>server</vm>
 									<!-- jdk.crypto.ec: TLS, jdk.jdwp.agent: remote debug -->
 									<addModules>jdk.crypto.ec,jdk.jdwp.agent</addModules>
-									<executable>example-web</executable>
+									<executable>example-web-websocket</executable>
 									<launchers>
 										<launcher>
-											<name>example-web</name>
+											<name>example-web-websocket</name>
 											<vmOptions>-Xms2G -Xmx2G -XX:+UseNUMA -XX:+UseParallelGC --add-modules io.netty.transport.unix.common,io.netty.transport.classes.epoll,io.netty.transport.epoll.linux.x86_64</vmOptions>
 										</launcher>
 									</launchers>

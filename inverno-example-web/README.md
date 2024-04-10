@@ -33,7 +33,7 @@ The Maven build descriptor also defines three build profiles:
 - `release-image` which builds a Docker container image of the application in a `tar` archive.
 - `install-image` which installs the Docker container image of the application to a local docker daemon.
 
-## Running the example
+## Running the application
 
 The application is started using the Inverno Maven plugin as follows:
 
@@ -220,14 +220,14 @@ content-length: 8
 Saluton!
 ```
 
-## Packaging the example
+## Packaging the application
 
 The application can be packaged as a native runtime image by invoking the `release` build profile:
 
 ```plaintext
 $ mvn install -Prelease
 ...
-[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:package-app (inverno-package-app) @ inverno-example-web ---
+[INFO] --- inverno:${VERSION_INVERNO_TOOLS}:package-app (inverno-package-app) @ inverno-example-web ---
  [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
 [INFO] 
 [INFO] --- maven-install-plugin:2.5.2:install (default-install) @ inverno-example-web ---
@@ -237,64 +237,55 @@ $ mvn install -Prelease
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  16.984 s
-[INFO] Finished at: 2021-04-26T14:31:36+02:00
-[INFO] ------------------------------------------------------------------------
 ```
 
-The previous command should create archive `target/inverno-example-web-1.0.0-SNAPSHOT-application_linux_amd64.zip` containing the application and the Java runtime to run it:
+The previous command creates folder `target/inverno-example-web-1.0.0-SNAPSHOT-application_linux_amd64` containing the Java runtime and the application and installed the corresponding archive to the Maven repository:
 
 ```plaintext
-$ unzip inverno-example-web-1.0.0-SNAPSHOT-application_linux_amd64.zip
-$ ./inverno-example-web-1.0.0-SNAPSHOT/bin/example-web
+$ ./target/inverno-example-web-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web
 ...
 ```
 
-A portable docker image of the application can be created as a `tar` archive by invoking the `release-docker` build profile:
+A portable docker image of the application can be created as a `tar` archive by invoking the `release-image` build profile:
 
 ```plaintext
 $ mvn install -Prelease-image
 ...
-[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:package-image (inverno-package-image) @ inverno-example-web ---
- [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
+[INFO] --- inverno:${VERSION_INVERNO_TOOLS}:package-image (inverno-package-image) @ inverno-example-web ---
+ [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] Project Docker container image TAR archive created
 [INFO] 
-[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ inverno-example-web ---
+[INFO] --- install:3.1.1:install (default-install) @ inverno-example-web ---
 [INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-web/target/inverno-example-web-1.0.0-SNAPSHOT.jar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web/1.0.0-SNAPSHOT/inverno-example-web-1.0.0-SNAPSHOT.jar
 [INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-web/pom.xml to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web/1.0.0-SNAPSHOT/inverno-example-web-1.0.0-SNAPSHOT.pom
 [INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-web/target/inverno-example-web-1.0.0-SNAPSHOT-container_linux_amd64.tar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web/1.0.0-SNAPSHOT/inverno-example-web-1.0.0-SNAPSHOT-container_linux_amd64.tar
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  19.606 s
-[INFO] Finished at: 2021-04-26T14:38:43+02:00
-[INFO] ------------------------------------------------------------------------
 ```
 
-The previous command should create archive `target/inverno-example-web-1.0.0-SNAPSHOT-container_linux_amd64.tar` docker image that can be loaded into docker as follows:
+The previous command creates archive `target/inverno-example-web-1.0.0-SNAPSHOT-container_linux_amd64.tar` docker image that can be loaded into docker as follows:
 
 ```plaintext
 $ docker load --input target/inverno-example-web-1.0.0-SNAPSHOT-container_linux_amd64.tar
 ```
 
-The application can be directly deployed to a local docker daemon by invoking the `install-docker` build profile:
+The application can be directly deployed to a local docker daemon by invoking the `install-image` build profile:
 
 ```plaintext
 $ mvn install -Pinstall-image
 ...
-[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:install-image (inverno-install-image) @ inverno-example-web ---
- [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
+[INFO] --- inverno:${VERSION_INVERNO_TOOLS}:install-image (inverno-install-image) @ inverno-example-web ---
+ [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] Project Docker container image deployed to Docker daemon
+[INFO] Project image inverno-example-web-server:1.0.0-SNAPSHOT installed to Docker
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  21.070 s
-[INFO] Finished at: 2021-04-26T14:43:42+02:00
 [INFO] ------------------------------------------------------------------------
 ```
 
 The application can then be started in docker as follows:
 
 ```plaintext
-$ docker run --rm --network host -e LANG=C.UTF-8 inverno-example-web:1.0.0-SNAPSHOT 
+$ docker run --rm --network host inverno-example-web:1.0.0-SNAPSHOT 
 ...
 2021-04-26 12:46:34,284 INFO  [main] i.w.m.h.s.i.HttpServer - HTTP Server (epoll) listening on http://0.0.0.0:8080
 2021-04-26 12:46:34,285 INFO  [main] i.w.m.h.s.Server - Module io.inverno.mod.http.server started in 88ms
@@ -314,7 +305,7 @@ You can then run the native application:
 
 ```plaintext
 > ./target/inverno-example-web
-2021-09-23 15:08:51,761 INFO  [main] i.i.c.v.Application - Inverno is starting...
+2024-04-09 11:36:24,492 INFO  [main] i.i.c.v.Application - Inverno is starting...
 
 
      ╔════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -329,27 +320,28 @@ You can then run the native application:
      ║                    ,   \/   ,                                   << n/a >>                  ║
      ║                      ' -- '                                                                ║
      ╠════════════════════════════════════════════════════════════════════════════════════════════╣
-     ║ Java runtime        :                                                                      ║
-     ║ Java version        :                                                                      ║
+     ║ Java runtime        : GraalVM Runtime Environment                                          ║
+     ║ Java version        : 21.0.2+13-LTS-jvmci-23.1-b30                                         ║
      ║ Java home           :                                                                      ║
      ╚════════════════════════════════════════════════════════════════════════════════════════════╝
 
 
-2021-09-23 15:08:51,762 INFO  [main] i.i.e.a.App_web - Starting Module io.inverno.example.app_web...
-2021-09-23 15:08:51,762 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
-2021-09-23 15:08:51,767 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 5ms
-2021-09-23 15:08:51,767 INFO  [main] i.i.m.w.Web - Starting Module io.inverno.mod.web.server...
-2021-09-23 15:08:51,767 INFO  [main] i.i.m.h.s.Server - Starting Module io.inverno.mod.http.server...
-2021-09-23 15:08:51,767 INFO  [main] i.i.m.h.b.Base - Starting Module io.inverno.mod.http.base...
-2021-09-23 15:08:51,767 INFO  [main] i.i.m.h.b.Base - Module io.inverno.mod.http.base started in 0ms
-2021-09-23 15:08:51,769 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
-2021-09-23 15:08:51,769 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 1ms
-2021-09-23 15:08:51,769 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web.server started in 1ms
-2021-09-23 15:08:51,769 INFO  [main] i.i.e.a.App_web - Module io.inverno.example.app_web started in 7ms
-2021-09-23 15:08:51,769 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web started in 7ms
+2024-04-09 11:36:24,492 INFO  [main] i.i.e.a.App_web - Starting Module io.inverno.example.app_web...
+2024-04-09 11:36:24,492 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
+2024-04-09 11:36:24,499 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 6ms
+2024-04-09 11:36:24,499 INFO  [main] i.i.m.w.s.Server - Starting Module io.inverno.mod.web.server...
+2024-04-09 11:36:24,499 INFO  [main] i.i.m.h.s.Server - Starting Module io.inverno.mod.http.server...
+2024-04-09 11:36:24,499 INFO  [main] i.i.m.h.b.Base - Starting Module io.inverno.mod.http.base...
+2024-04-09 11:36:24,499 INFO  [main] i.i.m.h.b.Base - Module io.inverno.mod.http.base started in 0ms
+2024-04-09 11:36:24,500 WARN  [main] i.i.m.w.s.i.GenericWebRouteInterceptor - Ignoring interceptor {"method":"null","path":"/hello","consume":"null","produce":"null","language":"fr-FR} on route {"method":"GET","path":"/hello","consume":"null","produce":"text/plain","language":"null}: language is missing
+2024-04-09 11:36:24,501 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (epoll) listening on http://0.0.0.0:8080
+2024-04-09 11:36:24,501 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 2ms
+2024-04-09 11:36:24,501 INFO  [main] i.i.m.w.s.Server - Module io.inverno.mod.web.server started in 2ms
+2024-04-09 11:36:24,501 INFO  [main] i.i.e.a.App_web - Module io.inverno.example.app_web started in 9ms
+2024-04-09 11:36:24,501 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web started in 9ms
 ```
 
-> If the server is started without TLS the startup time is reduced by 97.5% and goes below 10ms. However native transport is not supported in native image which has a significant impact on performances.
+> If the server is started without TLS the startup time is reduced by 97.5% and goes below 10ms.
 
 > Note that for the native image to work, [logback][logback] must be used as logging manager since log4j doesn't support native build (see https://issues.apache.org/jira/browse/LOG4J2-2649).
 

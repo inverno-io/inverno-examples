@@ -108,7 +108,7 @@
 						</executions>
 						<configuration>
 							<mainClass>io.inverno.example.app_hello.Main</mainClass>
-							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
+							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --gc=G1 -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
 						</configuration>
 					</plugin>
 				</plugins>

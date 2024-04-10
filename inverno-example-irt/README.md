@@ -13,7 +13,9 @@ It defines three template sets:
 - `Stocks.irt` which provides templates to render `Stock` objects.
 - `Events.irt` which provides templates to render `Event` objects.
 
-## Running the example
+## Running the application
+
+The application is started using the Inverno Maven plugin as follows:
 
 ```plaintext
 $ mvn inverno:run

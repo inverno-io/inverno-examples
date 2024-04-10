@@ -8,7 +8,7 @@ A sample Inverno application showing how to use the configuration module to boot
 
 The application configuration is defined in `AppConfiguration` interface, a `BootstrapConfigurationSource` is created when the application starts to resolve the parameters defining the context: the **node** and the **environment**, these are then injected into the application to load the actual configuration.
 
-## Running the example
+## Running the application
 
 The application can be run with the default configuration using the Inverno Maven plugin as follows:
 

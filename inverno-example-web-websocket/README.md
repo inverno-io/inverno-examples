@@ -20,22 +20,57 @@ The application exposes static resources under `web-root` folder at the root pat
 
 The Maven build descriptor also defines three build profiles:
 
-- `release` which builds a native application image in a `zip` archive, a docker image in a `tar` archive and installs the docker image of the application in a local docker daemon.
-- `release-docker` which builds a docker image in a `tar` archive
-- `install-docker` which installs the docker image of the application to a local docker daemon.
+- `release` which builds a native application image in a `zip` archive.
+- `release-image` which builds a Docker container image of the application in a `tar` archive.
+- `install-image` which installs the Docker container image of the application to a local docker daemon.
 
-## Running the example
+## Running the application
 
 The application is started using the Inverno Maven plugin as follows:
 
 ```plaintext
 $ mvn inverno:run
 ...
-2022-07-07 16:03:00,533 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
-2022-07-07 16:03:00,534 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 106ms
-2022-07-07 16:03:00,534 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web.server started in 106ms
-2022-07-07 16:03:00,534 INFO  [main] i.i.e.a.App_web_websocket - Module io.inverno.example.app_web_websocket started in 365ms
-2022-07-07 16:03:00,537 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_websocket started in 424ms
+2024-04-09 15:20:20,605 INFO  [main] i.i.c.v.Application - Inverno is starting...
+
+
+     ╔════════════════════════════════════════════════════════════════════════════════════════════╗
+     ║                      , ~~ ,                                                                ║
+     ║                  , '   /\   ' ,                                                            ║
+     ║                 , __   \/   __ ,      _                                                    ║
+     ║                ,  \_\_\/\/_/_/  ,    | |  ___  _    _  ___   __  ___   ___                 ║
+     ║                ,    _\_\/_/_    ,    | | / _ \\ \  / // _ \ / _|/ _ \ / _ \                ║
+     ║                ,   __\_/\_\__   ,    | || | | |\ \/ /|  __/| | | | | | |_| |               ║
+     ║                 , /_/ /\/\ \_\ ,     |_||_| |_| \__/  \___||_| |_| |_|\___/                ║
+     ║                  ,     /\     ,                                                            ║
+     ║                    ,   \/   ,                                  -- ${VERSION_INVERNO_CORE} --                 ║
+     ║                      ' -- '                                                                ║
+     ╠════════════════════════════════════════════════════════════════════════════════════════════╣
+     ║ Java runtime        : OpenJDK Runtime Environment                                          ║
+     ║ Java version        : 21.0.2+13-58                                                         ║
+     ║ Java home           : /home/jkuhn/Devel/jdk/jdk-21.0.2                                     ║
+     ║                                                                                            ║
+     ║ Application module  : io.inverno.example.app_web_websocket                                 ║
+     ║ Application version : 1.0.0-SNAPSHOT                                                       ║
+     ║ Application class   : io.inverno.example.app_web_websocket.Main                            ║
+     ║                                                                                            ║
+     ║ Modules             :                                                                      ║
+     ║  ...                                                                                       ║
+     ╚════════════════════════════════════════════════════════════════════════════════════════════╝
+
+
+2024-04-09 15:20:20,620 INFO  [main] i.i.e.a.App_web_websocket - Starting Module io.inverno.example.app_web_websocket...
+2024-04-09 15:20:20,620 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
+2024-04-09 15:20:20,905 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 284ms
+2024-04-09 15:20:20,905 INFO  [main] i.i.m.w.s.Server - Starting Module io.inverno.mod.web.server...
+2024-04-09 15:20:20,905 INFO  [main] i.i.m.h.s.Server - Starting Module io.inverno.mod.http.server...
+2024-04-09 15:20:20,905 INFO  [main] i.i.m.h.b.Base - Starting Module io.inverno.mod.http.base...
+2024-04-09 15:20:20,909 INFO  [main] i.i.m.h.b.Base - Module io.inverno.mod.http.base started in 4ms
+2024-04-09 15:20:20,990 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (epoll) listening on http://0.0.0.0:8080
+2024-04-09 15:20:20,990 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 85ms
+2024-04-09 15:20:20,991 INFO  [main] i.i.m.w.s.Server - Module io.inverno.mod.web.server started in 85ms
+2024-04-09 15:20:20,991 INFO  [main] i.i.e.a.App_web_websocket - Module io.inverno.example.app_web_websocket started in 382ms
+2024-04-09 15:20:20,991 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_websocket started in 465ms
 ```
 
 TLS can be enabled by activating the `https` configuration:
@@ -43,66 +78,57 @@ TLS can be enabled by activating the `https` configuration:
 ```plaintext
 $ mvn inverno:run -Dinverno.run.arguments="--profile=\\\"https\\\""
 ...
-2022-07-07 16:08:49,862 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on https://0.0.0.0:8443
-2022-07-07 16:08:49,862 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 422ms
-2022-07-07 16:08:49,862 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web.server started in 422ms
-2022-07-07 16:08:49,862 INFO  [main] i.i.e.a.App_web_websocket - Module io.inverno.example.app_web_websocket started in 657ms
-2022-07-07 16:08:49,866 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_websocket started in 716ms
+2024-04-09 15:23:30,025 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (epoll) listening on https://0.0.0.0:8443
+2024-04-09 15:23:30,025 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 402ms
+2024-04-09 15:23:30,025 INFO  [main] i.i.m.w.s.Server - Module io.inverno.mod.web.server started in 403ms
+2024-04-09 15:23:30,025 INFO  [main] i.i.e.a.App_web_websocket - Module io.inverno.example.app_web_websocket started in 757ms
+2024-04-09 15:23:30,026 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_websocket started in 824ms
 ```
 
 The application is accessible at the following location: http://127.0.0.1:8080, it shows a simplistic chat application backed by a WebSocket:
 
 <img src="src/img/inverno_web_chat.png" style="display: block; margin: 2em auto;"/>
 
-## Packaging the example
+## Packaging the application
 
 The application can be packaged as a native runtime image by invoking the `release` build profile:
 
 ```plaintext
 $ mvn install -Prelease
 ...
-[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:build-app (inverno-build-app) @ inverno-example-web ---
-[INFO] Building application image: /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-websocket/target/maven-inverno/application_linux_amd64/inverno-example-web-socket-1.0.0-SNAPSHOT...
- [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
+[INFO] --- inverno:${VERSION_INVERNO_TOOLS}:package-app (inverno-package-app) @ inverno-example-web-socket ---
+ [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] Project application archives created: zip
 [INFO] 
-[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ inverno-example-web-socket ---
-[INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-websocket/target/inverno-example-web-socket-1.0.0-SNAPSHOT.jar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-socket/1.0.0-SNAPSHOT/inverno-example-web-socket-1.0.0-SNAPSHOT.jar
+[INFO] --- install:3.1.1:install (default-install) @ inverno-example-web-socket ---
 [INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-websocket/pom.xml to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-socket/1.0.0-SNAPSHOT/inverno-example-web-socket-1.0.0-SNAPSHOT.pom
+[INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-websocket/target/inverno-example-web-socket-1.0.0-SNAPSHOT.jar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-socket/1.0.0-SNAPSHOT/inverno-example-web-socket-1.0.0-SNAPSHOT.jar
 [INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-websocket/target/inverno-example-web-socket-1.0.0-SNAPSHOT-application_linux_amd64.zip to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-socket/1.0.0-SNAPSHOT/inverno-example-web-socket-1.0.0-SNAPSHOT-application_linux_amd64.zip
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  19.864 s
-[INFO] Finished at: 2022-07-07T16:16:18+02:00
-[INFO] ------------------------------------------------------------------------
 ```
 
-The previous command should create archive `target/inverno-example-web-1.0.0-SNAPSHOT-application_linux_amd64.zip` containing the application and the Java runtime to run it:
+The previous command creates folder `target/inverno-example-web-socket-1.0.0-SNAPSHOT-application_linux_amd64` containing the Java runtime and the application and installed the corresponding archive to the Maven repository:
 
 ```plaintext
-$ unzip inverno-example-web-websocket-1.0.0-SNAPSHOT-application_linux_amd64.zip
-$ ./inverno-example-web-websocket-1.0.0-SNAPSHOT/bin/example-web
+$ ./target/inverno-example-web-socket-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web-websocket
 ...
 ```
 
-A portable docker image of the application can be created as a `tar` archive by invoking the `release-docker` build profile:
+A portable docker image of the application can be created as a `tar` archive by invoking the `release-image` build profile:
 
 ```plaintext
-$ mvn install -Prelease-docker
+$ mvn install -Prelease-image
 ...
-[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:build-image-tar (inverno-build-image-docker) @ inverno-example-web ---
-[INFO] Building project container image...
- [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
+[INFO] --- inverno:${VERSION_INVERNO_TOOLS}:package-image (inverno-release-image) @ inverno-example-web-socket ---
+ [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] Project Docker container image TAR archive created
 [INFO] 
-[INFO] --- maven-install-plugin:2.5.2:install (default-install) @ inverno-example-web ---
-[INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-web-websocket/target/inverno-example-web-websocket-1.0.0-SNAPSHOT.jar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-websocket/1.0.0-SNAPSHOT/inverno-example-web-websocket-1.0.0-SNAPSHOT.jar
-[INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-web-websocket/pom.xml to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-websocket/1.0.0-SNAPSHOT/inverno-example-web-websocket-1.0.0-SNAPSHOT.pom
-[INFO] Installing /home/jkuhn/Devel/git/frmk/inverno/inverno-examples/inverno-example-web-websocket/target/inverno-example-web-websocket-1.0.0-SNAPSHOT-container_linux_amd64.tar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-websocket/1.0.0-SNAPSHOT/inverno-example-web-websocket-1.0.0-SNAPSHOT-container_linux_amd64.tar
+[INFO] --- install:3.1.1:install (default-install) @ inverno-example-web-socket ---
+[INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-websocket/pom.xml to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-socket/1.0.0-SNAPSHOT/inverno-example-web-socket-1.0.0-SNAPSHOT.pom
+[INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-websocket/target/inverno-example-web-socket-1.0.0-SNAPSHOT.jar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-socket/1.0.0-SNAPSHOT/inverno-example-web-socket-1.0.0-SNAPSHOT.jar
+[INFO] Installing /home/jkuhn/Devel/git/winter/inverno-examples/inverno-example-web-websocket/target/inverno-example-web-socket-1.0.0-SNAPSHOT-container_linux_amd64.tar to /home/jkuhn/.m2/repository/io/inverno/example/inverno-example-web-socket/1.0.0-SNAPSHOT/inverno-example-web-socket-1.0.0-SNAPSHOT-container_linux_amd64.tar
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  19.606 s
-[INFO] Finished at: 2021-04-26T14:38:43+02:00
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -112,32 +138,29 @@ The previous command should create archive `target/inverno-example-web-websocket
 $ docker load --input target/inverno-example-web-websocket-1.0.0-SNAPSHOT-container_linux_amd64.tar
 ```
 
-The application can be directly deployed to a local docker daemon by invoking the `install-docker` build profile:
+The application can be directly deployed to a local docker daemon by invoking the `install-image` build profile:
 
 ```plaintext
-$ mvn install -Pinstall-docker
+$ mvn install -Pinstall-image
 ...
-[INFO] --- inverno-maven-plugin:${VERSION_INVERNO_TOOLS}:build-image-docker (inverno-build-image-docker) @ inverno-example-web ---
-[INFO] Building project container image...
- [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] 
+[INFO] --- inverno:${VERSION_INVERNO_TOOLS}:install-image (inverno-install-image) @ inverno-example-web-socket ---
+ [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] Project Docker container image deployed to Docker daemon
+[INFO] Project image inverno-example-web-socket:1.0.0-SNAPSHOT installed to Docker
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  21.070 s
-[INFO] Finished at: 2021-04-26T14:43:42+02:00
 [INFO] ------------------------------------------------------------------------
 ```
 
 The application can then be started in docker as follows:
 
 ```plaintext
-$ docker run --rm --network host -e LANG=C.UTF-8 inverno-example-web-websocket:1.0.0-SNAPSHOT 
+$ docker run --rm --network host inverno-example-web-websocket:1.0.0-SNAPSHOT 
 ...
-2022-07-08 11:38:59,273 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
-2022-07-08 11:38:59,274 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 108ms
-2022-07-08 11:38:59,274 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web.server started in 108ms
-2022-07-08 11:38:59,274 INFO  [main] i.i.e.a.App_web_websocket - Module io.inverno.example.app_web_websocket started in 323ms
-2022-07-08 11:38:59,276 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_websocket started in 381ms
+2024-04-09 13:36:37,217 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (epoll) listening on http://0.0.0.0:8080
+2024-04-09 13:36:37,218 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 93ms
+2024-04-09 13:36:37,218 INFO  [main] i.i.m.w.s.Server - Module io.inverno.mod.web.server started in 93ms
+2024-04-09 13:36:37,218 INFO  [main] i.i.e.a.App_web_websocket - Module io.inverno.example.app_web_websocket started in 327ms
+2024-04-09 13:36:37,219 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_websocket started in 385ms
 ```
 
 ## Building a native image
@@ -152,7 +175,7 @@ You can then run the native application:
 
 ```plaintext
 > ./target/inverno-example-web-socket
-2022-07-07 16:14:03,258 INFO  [main] i.i.c.v.Application - Inverno is starting...
+2024-04-09 15:42:25,113 INFO  [main] i.i.c.v.Application - Inverno is starting...
 
 
      ╔════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -167,29 +190,25 @@ You can then run the native application:
      ║                    ,   \/   ,                                   << n/a >>                  ║
      ║                      ' -- '                                                                ║
      ╠════════════════════════════════════════════════════════════════════════════════════════════╣
-     ║ Java runtime        :                                                                      ║
-     ║ Java version        :                                                                      ║
+     ║ Java runtime        : GraalVM Runtime Environment                                          ║
+     ║ Java version        : 21.0.2+13-LTS-jvmci-23.1-b30                                         ║
      ║ Java home           :                                                                      ║
      ╚════════════════════════════════════════════════════════════════════════════════════════════╝
 
 
-2022-07-07 16:14:03,258 INFO  [main] i.i.e.a.App_web_websocket - Starting Module io.inverno.example.app_web_websocket...
-2022-07-07 16:14:03,258 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
-2022-07-07 16:14:03,262 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 3ms
-2022-07-07 16:14:03,262 INFO  [main] i.i.m.w.Web - Starting Module io.inverno.mod.web.server...
-2022-07-07 16:14:03,262 INFO  [main] i.i.m.h.s.Server - Starting Module io.inverno.mod.http.server...
-2022-07-07 16:14:03,262 INFO  [main] i.i.m.h.b.Base - Starting Module io.inverno.mod.http.base...
-2022-07-07 16:14:03,262 INFO  [main] i.i.m.h.b.Base - Module io.inverno.mod.http.base started in 0ms
-2022-07-07 16:14:03,263 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on http://0.0.0.0:8080
-2022-07-07 16:14:03,263 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 1ms
-2022-07-07 16:14:03,263 INFO  [main] i.i.m.w.Web - Module io.inverno.mod.web.server started in 1ms
-2022-07-07 16:14:03,263 INFO  [main] i.i.e.a.App_web_websocket - Module io.inverno.example.app_web_websocket started in 5ms
-2022-07-07 16:14:03,263 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_websocket started in 5ms
+2024-04-09 15:42:25,113 INFO  [main] i.i.e.a.App_web_websocket - Starting Module io.inverno.example.app_web_websocket...
+2024-04-09 15:42:25,114 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
+2024-04-09 15:42:25,119 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 5ms
+2024-04-09 15:42:25,119 INFO  [main] i.i.m.w.s.Server - Starting Module io.inverno.mod.web.server...
+2024-04-09 15:42:25,119 INFO  [main] i.i.m.h.s.Server - Starting Module io.inverno.mod.http.server...
+2024-04-09 15:42:25,119 INFO  [main] i.i.m.h.b.Base - Starting Module io.inverno.mod.http.base...
+2024-04-09 15:42:25,119 INFO  [main] i.i.m.h.b.Base - Module io.inverno.mod.http.base started in 0ms
+2024-04-09 15:42:25,122 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (epoll) listening on http://0.0.0.0:8080
+2024-04-09 15:42:25,122 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 2ms
+2024-04-09 15:42:25,122 INFO  [main] i.i.m.w.s.Server - Module io.inverno.mod.web.server started in 2ms
+2024-04-09 15:42:25,122 INFO  [main] i.i.e.a.App_web_websocket - Module io.inverno.example.app_web_websocket started in 8ms
+2024-04-09 15:42:25,122 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_web_websocket started in 8ms
 ```
-
-> This application uses Jackson annotation for JSON serialization/deserialization which seems to require further configuration for it to work properly.
-
-> If the server is started without TLS the startup time is drastically reduced and goes below 10ms. However native transport is not supported in native image which has a significant impact on performances.
 
 > Note that for the native image to work, [logback][logback] must be used as logging manager since log4j doesn't support native build (see https://issues.apache.org/jira/browse/LOG4J2-2649).
 

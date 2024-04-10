@@ -13,11 +13,15 @@ The HTTP server configuration is exposed in the module's configuration `App_http
 
 The server is configured to use [epoll][epoll] when available (ie. on Linux platform) for better performance and to request TLS client authentication.
 
-## Running the example
+## Running the application
+
+The application is started using the Inverno Maven plugin as follows:
 
 ```plaintext
 $ mvn inverno:run
-2021-04-26 10:15:53,299 INFO  [main] i.w.c.v.Application - Inverno is starting...
+...
+ [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] Running project io.inverno.example.app_http@1.0.0-SNAPSHOT...
+2024-04-09 14:37:06,413 INFO  [main] i.i.c.v.Application - Inverno is starting...
 
 
      ╔════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -33,26 +37,28 @@ $ mvn inverno:run
      ║                      ' -- '                                                                ║
      ╠════════════════════════════════════════════════════════════════════════════════════════════╣
      ║ Java runtime        : OpenJDK Runtime Environment                                          ║
-     ║ Java version        : 11.0.11+9-post-Debian-1deb10u1                                       ║
-     ║ Java home           : /usr/lib/jvm/java-11-openjdk-amd64                                   ║
+     ║ Java version        : 21.0.2+13-58                                                         ║
+     ║ Java home           : /home/jkuhn/Devel/jdk/jdk-21.0.2                                     ║
      ║                                                                                            ║
      ║ Application module  : io.inverno.example.app_http                                          ║
+     ║ Application version : 1.0.0-SNAPSHOT                                                       ║
      ║ Application class   : io.inverno.example.app_http.Main                                     ║
      ║                                                                                            ║
      ║ Modules             :                                                                      ║
-     ║  * ...                                                                                     ║
+     ║  ...                                                                                       ║
      ╚════════════════════════════════════════════════════════════════════════════════════════════╝
 
 
-2021-04-26 10:15:53,303 INFO  [main] i.w.e.a.App_http - Starting Module io.inverno.example.app_http...
-2021-04-26 10:15:53,304 INFO  [main] i.w.m.b.Boot - Starting Module io.inverno.mod.boot...
-2021-04-26 10:15:53,504 INFO  [main] i.w.m.b.Boot - Module io.inverno.mod.boot started in 200ms
-2021-04-26 10:15:53,504 INFO  [main] i.w.m.h.s.Server - Starting Module io.inverno.mod.http.server...
-2021-04-26 10:15:53,504 INFO  [main] i.w.m.h.b.Base - Starting Module io.inverno.mod.http.base...
-2021-04-26 10:15:53,508 INFO  [main] i.w.m.h.b.Base - Module io.inverno.mod.http.base started in 4ms
-2021-04-26 10:15:53,915 INFO  [main] i.w.m.h.s.i.HttpServer - HTTP Server (epoll) listening on https://0.0.0.0:8443
-2021-04-26 10:15:53,916 INFO  [main] i.w.m.h.s.Server - Module io.inverno.mod.http.server started in 411ms
-2021-04-26 10:15:53,916 INFO  [main] i.w.e.a.App_http - Module io.inverno.example.app_http started in 613ms
+2024-04-09 14:37:06,422 INFO  [main] i.i.e.a.App_http - Starting Module io.inverno.example.app_http...
+2024-04-09 14:37:06,423 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
+2024-04-09 14:37:06,635 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 212ms
+2024-04-09 14:37:06,636 INFO  [main] i.i.m.h.s.Server - Starting Module io.inverno.mod.http.server...
+2024-04-09 14:37:06,636 INFO  [main] i.i.m.h.b.Base - Starting Module io.inverno.mod.http.base...
+2024-04-09 14:37:06,640 INFO  [main] i.i.m.h.b.Base - Module io.inverno.mod.http.base started in 4ms
+2024-04-09 14:37:06,963 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (epoll) listening on https://0.0.0.0:8443
+2024-04-09 14:37:06,963 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 327ms
+2024-04-09 14:37:06,963 INFO  [main] i.i.e.a.App_http - Module io.inverno.example.app_http started in 548ms
+2024-04-09 14:37:06,964 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_http started in 594ms
 ```
 
 We can test the application using `curl`:
@@ -90,8 +96,8 @@ Using [GraalVM][graalvm], you can also build a native image of the application w
 You can then run the native application:
 
 ```plaintext
-> ./target/inverno-example-http
-2021-09-23 15:03:31,989 INFO  [main] i.i.c.v.Application - Inverno is starting...
+$ ./target/inverno-example-http 
+2024-04-09 14:46:35,350 INFO  [main] i.i.c.v.Application - Inverno is starting...
 
 
      ╔════════════════════════════════════════════════════════════════════════════════════════════╗
@@ -106,25 +112,25 @@ You can then run the native application:
      ║                    ,   \/   ,                                   << n/a >>                  ║
      ║                      ' -- '                                                                ║
      ╠════════════════════════════════════════════════════════════════════════════════════════════╣
-     ║ Java runtime        :                                                                      ║
-     ║ Java version        :                                                                      ║
+     ║ Java runtime        : GraalVM Runtime Environment                                          ║
+     ║ Java version        : 21.0.2+13-LTS-jvmci-23.1-b30                                         ║
      ║ Java home           :                                                                      ║
      ╚════════════════════════════════════════════════════════════════════════════════════════════╝
 
 
-2021-09-23 15:03:31,989 INFO  [main] i.i.e.a.App_http - Starting Module io.inverno.example.app_http...
-2021-09-23 15:03:31,989 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
-2021-09-23 15:03:31,993 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 3ms
-2021-09-23 15:03:31,993 INFO  [main] i.i.m.h.s.Server - Starting Module io.inverno.mod.http.server...
-2021-09-23 15:03:31,993 INFO  [main] i.i.m.h.b.Base - Starting Module io.inverno.mod.http.base...
-2021-09-23 15:03:31,993 INFO  [main] i.i.m.h.b.Base - Module io.inverno.mod.http.base started in 0ms
-2021-09-23 15:03:32,164 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (nio) listening on https://0.0.0.0:8443
-2021-09-23 15:03:32,164 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 171ms
-2021-09-23 15:03:32,164 INFO  [main] i.i.e.a.App_http - Module io.inverno.example.app_http started in 175ms
-2021-09-23 15:03:32,164 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_http started in 175ms
+2024-04-09 14:46:35,351 INFO  [main] i.i.e.a.App_http - Starting Module io.inverno.example.app_http...
+2024-04-09 14:46:35,351 INFO  [main] i.i.m.b.Boot - Starting Module io.inverno.mod.boot...
+2024-04-09 14:46:35,356 INFO  [main] i.i.m.b.Boot - Module io.inverno.mod.boot started in 5ms
+2024-04-09 14:46:35,356 INFO  [main] i.i.m.h.s.Server - Starting Module io.inverno.mod.http.server...
+2024-04-09 14:46:35,356 INFO  [main] i.i.m.h.b.Base - Starting Module io.inverno.mod.http.base...
+2024-04-09 14:46:35,356 INFO  [main] i.i.m.h.b.Base - Module io.inverno.mod.http.base started in 0ms
+2024-04-09 14:46:35,402 INFO  [main] i.i.m.h.s.i.HttpServer - HTTP Server (epoll) listening on https://0.0.0.0:8443
+2024-04-09 14:46:35,402 INFO  [main] i.i.m.h.s.Server - Module io.inverno.mod.http.server started in 45ms
+2024-04-09 14:46:35,402 INFO  [main] i.i.e.a.App_http - Module io.inverno.example.app_http started in 51ms
+2024-04-09 14:46:35,402 INFO  [main] i.i.c.v.Application - Application io.inverno.example.app_http started in 51ms
 ```
 
-> Note that although the startup time has been reduced by 70%, native transport is not supported in native image which has a significant impact on performances.
+> Note that for the native image to work, [logback][logback] must be used as logging manager since log4j doesn't support native build (see https://issues.apache.org/jira/browse/LOG4J2-2649).
 
 ## Going further
 
