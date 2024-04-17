@@ -1,7 +1,0 @@
-<?xml version="1.0" ?>
-<jpackage-state version="21.0.2" platform="linux">
-  <app-version>1.0.0-SNAPSHOT</app-version>
-  <main-launcher>example-grpc-client</main-launcher>
-  <main-class>io.inverno.example.app_grpc_client.Main</main-class>
-  <signed>false</signed>
-  <app-store>false</app-store></jpackage-state>
