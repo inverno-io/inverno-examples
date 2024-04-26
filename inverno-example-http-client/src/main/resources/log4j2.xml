@@ -11,8 +11,6 @@
         </Console>
     </Appenders>
     <Loggers>
-        <!--<Logger name="io.inverno.mod.http.client.internal.PooledEndpoint" level="debug" />-->
-
         <Root level="info">
             <AppenderRef ref="LogToConsole"/>
         </Root>

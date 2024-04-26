@@ -1,10 +1,8 @@
 io.inverno.example.web_modular.app.appConfiguration.web {
 	http_server {
-		h2c_enabled = true
+		h2_enabled = true
 		
 		[ profile = "https" ] {
-			h2c_enabled = false
-			h2_enabled = true
 			server_port = 8443
 			tls_enabled = true
 			tls_key_store = "module:/serverkeystore.p12"

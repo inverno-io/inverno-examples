@@ -11,9 +11,6 @@
         </Console>
     </Appenders>
     <Loggers>
-        <!-- Disable HTTP server access and error logs -->
-<!--        <Logger name="io.inverno.mod.http.server.Exchange" additivity="false" level="off" />-->
-
         <Root level="info">
             <AppenderRef ref="LogToConsole"/>
         </Root>

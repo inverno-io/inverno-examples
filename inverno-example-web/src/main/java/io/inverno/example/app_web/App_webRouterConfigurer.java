@@ -10,9 +10,10 @@ import io.inverno.mod.base.resource.ResourceService;
 import io.inverno.mod.http.base.Method;
 import io.inverno.mod.http.base.Status;
 import io.inverno.mod.http.base.ExchangeContext;
+import io.inverno.mod.http.server.HttpAccessLogsInterceptor;
 import io.inverno.mod.web.server.ContinueInterceptor;
-import io.inverno.mod.web.server.ErrorWebRoutable;
-import io.inverno.mod.web.server.ErrorWebRoutesConfigurer;
+import io.inverno.mod.web.server.ErrorWebRouter;
+import io.inverno.mod.web.server.ErrorWebRouterConfigurer;
 import io.inverno.mod.web.server.OpenApiRoutesConfigurer;
 import io.inverno.mod.web.server.StaticHandler;
 import io.inverno.mod.web.server.WebInterceptable;
@@ -37,7 +38,7 @@ import reactor.core.publisher.Mono;
 	@WebRoute( path = { "/hello" }, method = { Method.GET }, produces = { MediaTypes.TEXT_PLAIN }, language = {"fr-FR"} ),
 	@WebRoute( path = { "/custom_exception" } )
 })
-public class App_webRouterConfigurer implements WebInterceptorsConfigurer<InterceptorContext>, WebRoutesConfigurer<InterceptorContext>, ErrorWebRoutesConfigurer<ExchangeContext> {
+public class App_webRouterConfigurer implements WebInterceptorsConfigurer<InterceptorContext>, WebRoutesConfigurer<InterceptorContext>, ErrorWebRouterConfigurer<ExchangeContext> {
 
 	private Logger logger = LogManager.getLogger(this.getClass());
 	
@@ -52,6 +53,8 @@ public class App_webRouterConfigurer implements WebInterceptorsConfigurer<Interc
 	@Override
 	public void configure(WebInterceptable<InterceptorContext, ?> interceptors) {
 		interceptors
+			.intercept()
+				.interceptor(new HttpAccessLogsInterceptor<>())
 			.intercept()
 				.path("/continue")
 				.interceptor(new ContinueInterceptor<>())
@@ -125,8 +128,11 @@ public class App_webRouterConfigurer implements WebInterceptorsConfigurer<Interc
 	}
 
 	@Override
-	public void configure(ErrorWebRoutable<ExchangeContext, ?> errorRoutes) {
-		errorRoutes
+	public void configure(ErrorWebRouter<ExchangeContext> errorRouter) {
+		errorRouter
+			.intercept()
+				.interceptor(new HttpAccessLogsInterceptor<>())
+			.applyInterceptors()
 			.route()
 				.error(SomeCustomException.class)
 				.handler(errorExchange -> errorExchange

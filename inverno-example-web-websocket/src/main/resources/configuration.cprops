@@ -1,10 +1,8 @@
 io.inverno.example.app_web_websocket.app_web_websocketConfiguration.web {
 	http_server {
-		h2c_enabled = true
+		h2_enabled = true
 		
 		[ profile = "https" ] {
-			h2c_enabled = false
-			h2_enabled = true
 			server_port = 8443
 			tls_enabled = true
 			tls_key_store = "module://io.inverno.example.app_web_websocket/serverkeystore.p12"
