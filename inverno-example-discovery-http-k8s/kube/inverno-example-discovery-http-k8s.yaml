@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-discovery-http-k8s
+  labels:
+    app: example-discovery-http-k8s
+    service: example-discovery-http-k8s
+spec:
+  ports:
+    - name: http
+      port: 8080
+      appProtocol: http
+  selector:
+    app: example-discovery-http-k8s
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-discovery-http-k8s
+  labels:
+    app: example-discovery-http-k8s
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: example-discovery-http-k8s
+  template:
+    metadata:
+      labels:
+        app: example-discovery-http-k8s
+    spec:
+      containers:
+        - name: example-discovery-http-k8s
+          image: inverno-example-discovery-http-k8s:1.0.0-SNAPSHOT
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+---

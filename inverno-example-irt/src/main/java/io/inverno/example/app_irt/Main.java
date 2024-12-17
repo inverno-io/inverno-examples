@@ -38,9 +38,11 @@ import org.apache.logging.log4j.Logger;
 import reactor.core.publisher.Flux;
 
 /**
+ * <p>
+ * Demonstrates how to use the Inverno Reactive Template module for data rendering.
+ * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
- *
  */
 public class Main {
 	

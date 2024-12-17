@@ -34,7 +34,6 @@ import reactor.core.publisher.Flux;
  * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
- *
  */
 public class Main {
 	
@@ -48,7 +47,7 @@ public class Main {
 	 * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
 	 */
 	@Bean
-	public static interface App_sqlConfigurationSource extends Supplier<ConfigurationSource<?, ?, ?>> {}
+	public static interface App_sqlConfigurationSource extends Supplier<ConfigurationSource> {}
 	
 	public static void main(String[] args) throws IOException {
 		App_sql app_sql = Application.run(new App_sql.Builder().setApp_sqlConfigurationSource(new BootstrapConfigurationSource(Main.class.getModule(), args)));

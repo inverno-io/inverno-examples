@@ -1,0 +1,4 @@
+io.inverno.example.app_discovery_http_testserver.appConfiguration.http_server {
+    h2_enabled = true
+    server_port = 8080
+}

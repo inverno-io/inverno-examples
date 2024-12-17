@@ -15,19 +15,15 @@
  */
 package io.inverno.example.app_grpc_client;
 
-import java.io.IOException;
-import java.util.function.Supplier;
-
 import examples.GreeterGrpcClient;
 import examples.GroupHelloRequest;
-import examples.HelloServiceGrpcClient;
 import examples.HelloRequest;
+import examples.HelloServiceGrpcClient;
 import examples.SingleHelloRequest;
-import io.inverno.core.annotation.Bean;
 import io.inverno.core.v1.Application;
-import io.inverno.mod.configuration.ConfigurationSource;
 import io.inverno.mod.configuration.source.BootstrapConfigurationSource;
 import io.inverno.mod.http.base.ExchangeContext;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
@@ -36,7 +32,7 @@ import reactor.core.publisher.Flux;
 
 /**
  * <p>
- * 
+ * Demonstrates how to generate gRPC client stubs and use it to invoke gRPC services.
  * </p>
  * 
  * @author <a href="jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
@@ -45,23 +41,20 @@ public class Main {
 
 	private static final Logger LOGGER = LogManager.getLogger(Main.class);
 	
-	@Bean
-	public static interface App_grpc_clientConfigurationSource extends Supplier<ConfigurationSource<?, ?, ?>> {}
-
 	public static void main(String[] args) throws IOException {
 		BootstrapConfigurationSource bootstrapConfigurationSource = new BootstrapConfigurationSource(Main.class.getModule(), args);
 				
 		App_grpc_client app = Application.run(new App_grpc_client.Builder()
-			.setApp_grpc_clientConfigurationSource(bootstrapConfigurationSource)
+			.setAppConfigurationSource(bootstrapConfigurationSource)
 		);
 		
 		InetSocketAddress socketAddress = bootstrapConfigurationSource.get("target")
 			.execute().single()
-			.map(result -> result.getResult().flatMap(property -> property.asInetSocketAddress()).orElse(new InetSocketAddress("localhost", 8080)))
+			.map(result -> result.asInetSocketAddress(new InetSocketAddress("127.0.0.1", 8080)))
 			.block();
 		
 		try {
-			try(GreeterGrpcClient.Stub<ExchangeContext> stub = app.greeterGrpcClient().createStub(socketAddress)) {
+			try(GreeterGrpcClient.HttpClientStub<ExchangeContext> stub = app.httpGreeterGrpcClient().createStub(socketAddress)) {
 				LOGGER.info("Calling {}", GreeterGrpcClient.SERVICE_NAME.methodPath("SayHello"));
 				stub
 					.sayHello(HelloRequest.newBuilder()
@@ -71,70 +64,68 @@ public class Main {
 					.doOnNext(reply -> LOGGER.info("Received: {}", reply.getMessage()))
 					.block();
 			}
-		
-			try(HelloServiceGrpcClient.Stub<ExchangeContext> stub = app.helloServiceGrpcClient().createStub(socketAddress)) {
-				LOGGER.info("Calling {}", HelloServiceGrpcClient.SERVICE_NAME.methodPath("SayHello"));
-				stub.sayHello(SingleHelloRequest.newBuilder()
+
+			LOGGER.info("Calling {}", HelloServiceGrpcClient.SERVICE_NAME.methodPath("SayHello"));
+			app.webHelloServiceGrpcClient().sayHello(SingleHelloRequest.newBuilder()
+					.setName("Bob")
+					.build()
+				)
+				.doOnNext(reply -> LOGGER.info("Received: {}", reply.getMessage()))
+				.block();
+
+			LOGGER.info("Calling {}", HelloServiceGrpcClient.SERVICE_NAME.methodPath("SayHelloToEverybody"));
+			app.webHelloServiceGrpcClient().sayHelloToEverybody(Flux.just(
+					SingleHelloRequest.newBuilder()
 						.setName("Bob")
+						.build(),
+					SingleHelloRequest.newBuilder()
+						.setName("Alice")
+						.build(),
+					SingleHelloRequest.newBuilder()
+						.setName("John")
 						.build()
-					)
-					.doOnNext(reply -> LOGGER.info("Received: {}", reply.getMessage()))
-					.block();
-				
-				LOGGER.info("Calling {}", HelloServiceGrpcClient.SERVICE_NAME.methodPath("SayHelloToEverybody"));
-				stub.sayHelloToEverybody(Flux.just(
-						SingleHelloRequest.newBuilder()
-							.setName("Bob")
-							.build(),
-						SingleHelloRequest.newBuilder()
-							.setName("Alice")
-							.build(),
-						SingleHelloRequest.newBuilder()
-							.setName("John")
-							.build()
-					))
-					.doOnNext(reply -> LOGGER.info("Received: {}", reply.getMessage() + reply.getNamesList().stream().collect(Collectors.joining(", ")) ))
-					.block();
-				
-				LOGGER.info("Calling {}", HelloServiceGrpcClient.SERVICE_NAME.methodPath("SayHelloToEveryone"));
-				Flux.from(stub.sayHelloToEveryone(Flux.just(
-						SingleHelloRequest.newBuilder()
-							.setName("Bob")
-							.build(),
-						SingleHelloRequest.newBuilder()
-							.setName("Alice")
-							.build(),
-						SingleHelloRequest.newBuilder()
-							.setName("John")
-							.build()
-					)))
-					.doOnNext(reply -> LOGGER.info("Received: {}", reply.getMessage()))
-					.blockLast();
-				
-				LOGGER.info("Calling {}", HelloServiceGrpcClient.SERVICE_NAME.methodPath("SayHelloToEveryoneInTheGroup"));
-				Flux.from(stub.sayHelloToEveryoneInTheGroup(GroupHelloRequest.newBuilder()
+				))
+				.doOnNext(reply -> LOGGER.info("Received: {}", reply.getMessage() + reply.getNamesList().stream().collect(Collectors.joining(", ")) ))
+				.block();
+
+			LOGGER.info("Calling {}", HelloServiceGrpcClient.SERVICE_NAME.methodPath("SayHelloToEveryone"));
+			Flux.from(app.webHelloServiceGrpcClient().sayHelloToEveryone(Flux.just(
+					SingleHelloRequest.newBuilder()
+						.setName("Bob")
+						.build(),
+					SingleHelloRequest.newBuilder()
+						.setName("Alice")
+						.build(),
+					SingleHelloRequest.newBuilder()
+						.setName("John")
+						.build()
+				)))
+				.doOnNext(reply -> LOGGER.info("Received: {}", reply.getMessage()))
+				.blockLast();
+
+			LOGGER.info("Calling {}", HelloServiceGrpcClient.SERVICE_NAME.methodPath("SayHelloToEveryoneInTheGroup"));
+			Flux.from(app.webHelloServiceGrpcClient().sayHelloToEveryoneInTheGroup(GroupHelloRequest.newBuilder()
+					.addNames("Bob")
+					.addNames("Alice")
+					.addNames("John")
+					.build()
+				))
+				.doOnNext(reply -> LOGGER.info("Received: {}", reply.getMessage()))
+				.blockLast();
+
+			LOGGER.info("Calling {}", HelloServiceGrpcClient.SERVICE_NAME.methodPath("SayHelloToEveryoneInTheGroups"));
+			Flux.from(app.webHelloServiceGrpcClient().sayHelloToEveryoneInTheGroups(Flux.just(
+					GroupHelloRequest.newBuilder()
 						.addNames("Bob")
 						.addNames("Alice")
+						.build(),
+					GroupHelloRequest.newBuilder()
 						.addNames("John")
+						.addNames("Bill")
 						.build()
-					))
-					.doOnNext(reply -> LOGGER.info("Received: {}", reply.getMessage()))
-					.blockLast();
-				
-				LOGGER.info("Calling {}", HelloServiceGrpcClient.SERVICE_NAME.methodPath("SayHelloToEveryoneInTheGroups"));
-				Flux.from(stub.sayHelloToEveryoneInTheGroups(Flux.just(
-						GroupHelloRequest.newBuilder()
-							.addNames("Bob")
-							.addNames("Alice")
-							.build(),
-						GroupHelloRequest.newBuilder()
-							.addNames("John")
-							.addNames("Bill")
-							.build()
-					)))
-					.doOnNext(reply -> LOGGER.info("Received: {}", reply.getMessage()))
-					.blockLast();
-			}
+				)))
+				.doOnNext(reply -> LOGGER.info("Received: {}", reply.getMessage()))
+				.blockLast();
 		}
 		finally {
 			app.stop();

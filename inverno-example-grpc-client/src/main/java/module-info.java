@@ -24,8 +24,12 @@
 @io.inverno.core.annotation.Module
 module io.inverno.example.app_grpc_client {
 	requires io.inverno.mod.boot;
+	requires io.inverno.mod.configuration;
 	requires io.inverno.mod.grpc.client;
 	requires io.inverno.mod.http.client;
+
+	requires io.inverno.mod.discovery.http;
+	requires io.inverno.mod.web.client;
 	
 	requires org.apache.logging.log4j;
 }

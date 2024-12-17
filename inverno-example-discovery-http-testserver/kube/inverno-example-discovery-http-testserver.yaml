@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-discovery-http-testserver
+  labels:
+    app: example-discovery-http-testserver
+    service: example-discovery-http-testserver
+spec:
+  ports:
+    - name: http
+      port: 8080
+      appProtocol: http
+  selector:
+    app: example-discovery-http-testserver
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-discovery-http-testserver
+  labels:
+    app: example-discovery-http-testserver
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example-discovery-http-testserver
+  template:
+    metadata:
+      labels:
+        app: example-discovery-http-testserver
+    spec:
+      containers:
+        - name: example-discovery-http-testserver
+          image: inverno-example-http-discovery-testserver:1.0.0-SNAPSHOT
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+---

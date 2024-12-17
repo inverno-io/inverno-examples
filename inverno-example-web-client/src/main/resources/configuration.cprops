@@ -1,0 +1,119 @@
+io.inverno.mod.discovery.http.meta.service.book = "http://127.0.0.1:8080/book?test=param"
+
+io.inverno.mod.discovery.http.meta.service.singleDestinationWithConfig = """[{"uri":"http://127.0.0.1:8080","configuration":{"user_agent":"Discovery example client"}}]"""
+io.inverno.mod.discovery.http.meta.service.multiDestinationRoutingPath = """
+{
+    "routes": [
+        {
+            "path": [
+                {"path":"/service1/**"}
+            ],
+            "destinations":[
+                {"uri":"http://127.0.0.1:8081"}
+            ]
+        },
+        {
+            "path": [
+                {"path":"/service2/**"}
+            ],
+            "destinations":[
+                {"uri":"http://127.0.0.1:8082"}
+            ]
+        },
+        {
+            "destinations":[
+                {"uri":"http://127.0.0.1:8080"}
+            ]
+        }
+    ]
+}
+"""
+io.inverno.mod.discovery.http.meta.service.multiDestinationRoutingAuthority = """
+{
+    "routes": [
+        {
+            "authority": [{"value":"service-1"}],
+            "destinations":[
+                {"uri":"http://127.0.0.1:8081"}
+            ]
+        },
+        {
+            "authority": [{"value":"service-2"}],
+            "destinations":[
+                {"uri":"http://127.0.0.1:8082"}
+            ]
+        },
+        {
+            "destinations":[
+                {"uri":"http://127.0.0.1:8080"}
+            ]
+        }
+    ]
+}
+"""
+io.inverno.mod.discovery.http.meta.service.multiDestinationRewritePath = """
+{
+    "routes": [
+        {
+            "path": [
+                {"path":"/v1/**"}
+            ],
+            "transformRequest": {
+                "translatePath":{
+                    "/{version}/{path:**}":"/{path:**}"
+                }
+            },
+            "destinations":[
+                {"uri":"http://127.0.0.1:8081"}
+            ]
+        },
+        {
+            "path": [
+                {"path":"/v2/**"}
+            ],
+            "transformRequest": {
+                "translatePath":{
+                    "/{version}/{path:**}":"/{path:**}"
+                }
+            },
+            "destinations":[
+                {"uri":"http://127.0.0.1:8082"}
+            ]
+        },
+        {
+            "destinations":[
+                {"uri":"http://127.0.0.1:8080"}
+            ]
+        }
+    ]
+}
+"""
+io.inverno.mod.discovery.http.meta.service.multiDestinationSetHeaders = """
+{
+    "routes": [
+        {
+            "loadBalancer": {
+                "strategy": "ROUND_ROBIN"
+            },
+            "transformRequest": {
+                "setHeaders":{"route-header":"abc"}
+            },
+            "destinations":[
+                {"uri":"http://127.0.0.1:8080"},
+                {
+                    "uri":"http://127.0.0.1:8081",
+                    "transformResponse": {
+                        "setHeaders":{"destination-header":"service-1"}
+                    }
+                },
+                {
+                    "uri":"http://127.0.0.1:8082",
+                    "transformResponse": {
+                        "setHeaders":{"destination-header":"service-2"}
+                    }
+                }
+            ]
+        }
+    ]
+}
+"""

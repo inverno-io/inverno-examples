@@ -1,5 +1,4 @@
-io.inverno.example.app_grpc_server.app_grpc_serverConfiguration {
-
+io.inverno.example.app_grpc_server.appConfiguration {
 	web_server.http_server {
 		h2_enabled = true
 	}

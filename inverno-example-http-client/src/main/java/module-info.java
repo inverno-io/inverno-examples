@@ -15,19 +15,22 @@
  */
 
 /**
+ * <p>
+ * Inverno example application module demonstrating HTTP client module.
+ * </p>
  *
  * @author <a href="jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  */
 @io.inverno.core.annotation.Module
 module io.inverno.example.app_http_client {
 	requires io.inverno.mod.boot;
+	requires io.inverno.mod.configuration;
 	requires io.inverno.mod.http.client;
-	
+
+	requires info.picocli;
 	requires java.logging;
 	requires org.apache.logging.log4j;
-
 	requires org.jline;
-	requires info.picocli;
 
 	opens io.inverno.example.app_http_client to info.picocli;
 	opens io.inverno.example.app_http_client.internal.command to info.picocli;

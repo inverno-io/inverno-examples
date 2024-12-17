@@ -1,26 +1,27 @@
-[inverno-example-grpc-client]: ../inverno-example-grpc-client
+[inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
+[inverno-dist-root]: https://github.com/inverno-io/inverno-dist
+[inverno-tool-maven-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-maven-plugin
+[inverno-javadoc]: https://inverno.io/docs/release/api/index.html
+
+[inverno-tool-grpc-protoc-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-grpc-protoc-plugin
 
 [inverno-mod-grpc-server]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-grpc-server/
 [inverno-mod-http-server]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-http-server/
 [inverno-mod-web-server]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-web-server/
-[inverno-dist-root]: https://github.com/inverno-io/inverno-dist
-[inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
-[inverno-tool-maven-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-maven-plugin
-[inverno-tool-grpc-protoc-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-grpc-protoc-plugin
-[inverno-javadoc]: https://inverno.io/docs/release/api/index.html
+
+[inverno-example-grpc-client]: ../inverno-example-grpc-client
 
 [epoll]: https://en.wikipedia.org/wiki/Epoll
-[grpc-helloworld-example]: https://github.com/grpc/grpc-java/blob/master/examples/src/main/proto/helloworld.proto
-[grpc-java-helloworld-example]: https://github.com/grpc/grpc-java/tree/master/examples/src/main/java/io/grpc/examples/helloworld
-
 [graalvm]: https://www.graalvm.org/
 [logback]: https://logback.qos.ch/
+[grpc-helloworld-example]: https://github.com/grpc/grpc-java/blob/master/examples/src/main/proto/helloworld.proto
+[grpc-java-helloworld-example]: https://github.com/grpc/grpc-java/tree/master/examples/src/main/java/io/grpc/examples/helloworld
 
 # Inverno gRPC server example
 
 A sample Inverno application showing how to expose gRPC service methods in the [Inverno Web server][inverno-mod-web-server];
 
-The Web server configuration is exposed in the module's configuration `App_grpc_serverConfiguration`. The configuration in `src/main/resources/configuration.cprops` sets the HTTP server to accept plain HTTP/2 connections. The HTTP server is also configured to use [epoll][epoll] when available (ie. on Linux platform) for better performance.
+The Web server configuration is exposed in the module's configuration `AppConfiguration`. The configuration in `src/main/resources/configuration.cprops` sets the HTTP server to accept plain HTTP/2 connections. The HTTP server is also configured to use [epoll][epoll] when available (i.e. on Linux platform) for better performance.
 
 The application implements and exposes the `Greeter` and `HelloService` services which are respectively defined in `helloworld/helloworld.proto` and `examples/hello.proto` under `src/main/proto`. The message and routes configurer stub classes are generated at build time when the Protocol buffer Maven plugin is invoked with the [Inverno gRPC protoc plugin][inverno-tool-grpc-protoc-plugin].
 
@@ -217,7 +218,7 @@ Using [GraalVM][graalvm], you can also build a native image of the application w
 You can then run the native application:
 
 ```plaintext
-> ./target/inverno-example-grpc-server
+> ./target/example-grpc-server
 2024-04-09 13:01:54,616 INFO  [main] i.i.c.v.Application - Inverno is starting...
 
 
@@ -264,8 +265,8 @@ You can then run the native application:
 - [gRPC server module documentation][inverno-mod-grpc-server]
 - [HTTP server module documentation][inverno-mod-http-server]
 - [Web server module documentation][inverno-mod-web-server]
+- [Inverno gRPC protoc plugin documentation][inverno-tool-grpc-protoc-plugin]
 - [Inverno distribution documentation][inverno-dist-root]
 - [Inverno Maven plugin documentation][inverno-tool-maven-plugin]
-- [Inverno gRPC protoc plugin documentation][inverno-tool-grpc-protoc-plugin]
 - [Inverno core documentation][inverno-core-root-doc]
 - [API documentation][inverno-javadoc]

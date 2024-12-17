@@ -1,3 +1,18 @@
+/*
+ * Copyright 2022 Jeremy Kuhn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.inverno.example.app_http_client.internal.command;
 
 import io.inverno.mod.base.resource.FileResource;
@@ -5,9 +20,7 @@ import io.inverno.mod.http.base.ExchangeContext;
 import io.inverno.mod.http.base.Method;
 import io.inverno.mod.http.base.header.Headers;
 import io.inverno.mod.http.client.Exchange;
-import io.inverno.mod.http.client.InterceptableExchange;
 import io.inverno.mod.http.client.Request;
-
 import java.io.File;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +29,13 @@ import picocli.CommandLine.ArgGroup;
 import picocli.CommandLine.Option;
 import reactor.core.publisher.Flux;
 
+/**
+ * <p>
+ *
+ * </p>
+ *
+ * @author <a href="jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
+ */
 public abstract class AbstractBodyHttpCommand extends AbstractHttpCommand {
 
 	@Option(
@@ -102,35 +122,35 @@ public abstract class AbstractBodyHttpCommand extends AbstractHttpCommand {
 		
 		if(this.body != null) {
 			if(this.body.data != null) {
-				this.configureData(exchange.request(), this.body.data);
+				configureData(exchange.request(), this.body.data);
 			}
 			else if(this.body.urlEncodedParams != null && !this.body.urlEncodedParams.isEmpty()) {
-				this.configureUrlEncoded(exchange.request(), this.body.urlEncodedParams);
+				configureUrlEncoded(exchange.request(), this.body.urlEncodedParams);
 			}
 			else if(this.body.multipartParams != null && !this.body.multipartParams.isEmpty()) {
-				this.configureMultipart(exchange.request(), this.body.multipartParams);
+				configureMultipart(exchange.request(), this.body.multipartParams);
 			}
 		}
 	}
 
-	private void configureData(Request request, String data) {
+	private static void configureData(Request request, String data) {
 		if(data.startsWith("@")) {
-			request.body().get().resource().value(new FileResource(new File(data.substring(1))));
+			request.body().resource().value(new FileResource(new File(data.substring(1))));
 		}
 		else {
-			request.body().get().string().value(data);
+			request.body().string().value(data);
 		}
 	}
 
-	private void configureUrlEncoded(Request request, List<URlEncodedParameter> urlEncodedParams) {
-		request.body().get().urlEncoded()
+	private static void configureUrlEncoded(Request request, List<URlEncodedParameter> urlEncodedParams) {
+		request.body().urlEncoded()
 			.from((factory, data) -> data.stream(Flux.fromStream(urlEncodedParams.stream()
 				.map(param -> factory.create(param.name, param.value))
 			)));
 	}
 
-	private void configureMultipart(Request request, List<MultipartParameter> multipartParams) {
-		request.body().get().multipart()
+	private static void configureMultipart(Request request, List<MultipartParameter> multipartParams) {
+		request.body().multipart()
 			.from((factory, data) -> data.stream(Flux.fromStream(multipartParams.stream()
 				.map(param -> {
 					if(param.data.startsWith("@")) {

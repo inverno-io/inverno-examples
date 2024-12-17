@@ -15,25 +15,23 @@
  */
 package io.inverno.example.app_config;
 
+import io.inverno.core.annotation.Bean;
+import io.inverno.core.v1.Application;
+import io.inverno.mod.configuration.ConfigurationKey.Parameter;
+import io.inverno.mod.configuration.ConfigurationSource;
+import io.inverno.mod.configuration.source.BootstrapConfigurationSource;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import io.inverno.core.annotation.Bean;
-import io.inverno.core.v1.Application;
-import io.inverno.mod.configuration.ConfigurationKey.Parameter;
-import io.inverno.mod.configuration.ConfigurationSource;
-import io.inverno.mod.configuration.source.BootstrapConfigurationSource;
-
 /**
  * <p>
- * Uses the configuration module to bootstrap the application.
+ * Demonstrates how to use the configuration module to bootstrap an application.
  * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
@@ -45,26 +43,24 @@ public class Main {
 	
 	/**
 	 * <p>
-	 * Socket bean used to inject the configuration source used to load the module's
-	 * configuration.
+	 * Socket bean used to inject the configuration source used to load the module's configuration.
 	 * </p>
 	 * 
 	 * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
 	 */
 	@Bean
-	public static interface AppConfigurationSource extends Supplier<ConfigurationSource<?, ?, ?>> {}
+	public interface AppConfigurationSource extends Supplier<ConfigurationSource> {}
 	
 	/**
 	 * <p>
-	 * Socket bean used to inject the parameters defining the context for which the
-	 * module's configuration must be loaded.
+	 * Socket bean used to inject the parameters defining the context for which the module's configuration must be loaded.
 	 * </p>
 	 * 
 	 * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
 	 *
 	 */
 	@Bean
-	public static interface AppConfigurationParameters extends Supplier<List<Parameter>> {}
+	public interface AppConfigurationParameters extends Supplier<List<Parameter>> {}
 	
 	public static void main(String[] args) throws IOException {
 		// Creates the bootstrap configuration source

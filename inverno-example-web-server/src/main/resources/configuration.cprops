@@ -1,0 +1,13 @@
+io.inverno.example.app_web_server.appConfiguration.web {
+	http_server {
+		h2_enabled = true
+		
+		[ profile = "https" ] {
+			server_port = 8443
+			tls_enabled = true
+			tls_key_store = "module://io.inverno.example.app_web_server/serverkeystore.p12"
+			tls_key_store_type = "pkcs12"
+			tls_key_store_password = "password"
+		}
+	}
+}

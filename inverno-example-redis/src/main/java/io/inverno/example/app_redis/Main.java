@@ -34,14 +34,13 @@ import reactor.core.publisher.Flux;
  * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
- *
  */
 public class Main {
 	
 	private static final Logger LOGGER = LogManager.getLogger(Main.class);
 	
 	@Bean
-	public static interface App_redisConfigurationSource extends Supplier<ConfigurationSource<?, ?, ?>> {}
+	public static interface App_redisConfigurationSource extends Supplier<ConfigurationSource> {}
 	
 	public static void main(String[] args) throws IOException {
 		App_redis app_redis = Application.run(new App_redis.Builder().setApp_redisConfigurationSource(new BootstrapConfigurationSource(Main.class.getModule(), args)));

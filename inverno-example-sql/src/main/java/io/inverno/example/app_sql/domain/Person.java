@@ -16,9 +16,11 @@
 package io.inverno.example.app_sql.domain;
 
 /**
+ * <p>
+ * Represents a person.
+ * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
- *
  */
 public class Person {
 	

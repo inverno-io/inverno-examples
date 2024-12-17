@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>io.inverno.dist</groupId>
 		<artifactId>inverno-parent</artifactId>
-		<version>1.11.0</version>
+		<version>1.12.0-SNAPSHOT</version>
 	</parent>
 	<groupId>io.inverno</groupId>
 	<artifactId>inverno-examples-root</artifactId>
@@ -30,7 +30,71 @@
 	
 	<name>inverno-examples-root</name>
 	<description>The Inverno framework examples are a collection of applications demonstrating the Inverno framework capabilities</description>
+
+	<properties>
+		<version.picocli>4.7.6</version.picocli>
+		<version.jna>5.15.0</version.jna>
+		<version.jline>3.26.3</version.jline>
+		<version.javafx>21.0.4</version.javafx>
+	</properties>
 			
+	<modules>
+		<module>inverno-example-configuration</module>
+		<module>inverno-example-discovery-http</module>
+		<module>inverno-example-discovery-http-k8s</module>
+		<module>inverno-example-discovery-http-testserver</module>
+		<module>inverno-example-grpc-client</module>
+		<module>inverno-example-grpc-server</module>
+		<module>inverno-example-hello</module>
+		<module>inverno-example-hello-security</module>
+		<module>inverno-example-http-client</module>
+		<module>inverno-example-http-client-websocket</module>
+		<module>inverno-example-http-server</module>
+		<module>inverno-example-http-server-websocket</module>
+		<module>inverno-example-irt</module>
+		<module>inverno-example-redis</module>
+		<module>inverno-example-sql</module>
+		<module>inverno-example-web-client</module>
+		<module>inverno-example-web-client-websocket</module>
+		<module>inverno-example-web-server</module>
+		<module>inverno-example-web-server-modular</module>
+		<module>inverno-example-web-server-security</module>
+		<module>inverno-example-web-server-websocket</module>
+	</modules>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>info.picocli</groupId>
+				<artifactId>picocli</artifactId>
+				<version>${version.picocli}</version>
+			</dependency>
+			<dependency>
+				<groupId>info.picocli</groupId>
+				<artifactId>picocli-codegen</artifactId>
+				<version>${version.picocli}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>net.java.dev.jna</groupId>
+				<artifactId>jna</artifactId>
+				<version>${version.jna}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jline</groupId>
+				<artifactId>jline</artifactId>
+				<version>${version.jline}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.openjfx</groupId>
+				<artifactId>javafx-controls</artifactId>
+				<version>${version.javafx}</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -54,23 +118,4 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-
-	<modules>
-		<module>inverno-example-configuration</module>
-		<module>inverno-example-hello</module>
-		<module>inverno-example-hello-security</module>
-		<module>inverno-example-grpc-client</module>
-		<module>inverno-example-grpc-server</module>
-		<module>inverno-example-http</module>
-		<module>inverno-example-http-client</module>
-		<module>inverno-example-http-websocket</module>
-		<module>inverno-example-http-websocket-client</module>
-		<module>inverno-example-irt</module>
-		<module>inverno-example-redis</module>
-		<module>inverno-example-sql</module>
-		<module>inverno-example-web</module>
-		<module>inverno-example-web-modular</module>
-		<module>inverno-example-web-security</module>
-		<module>inverno-example-web-websocket</module>
-	</modules>
 </project>

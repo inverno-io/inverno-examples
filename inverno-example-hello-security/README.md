@@ -1,8 +1,12 @@
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
-[inverno-mod-security]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-security/
+[inverno-dist-root]: https://github.com/inverno-io/inverno-dist
+[inverno-tool-maven-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-maven-plugin
 [inverno-javadoc]: https://inverno.io/docs/release/api/index.html
 
+[inverno-mod-security]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-security/
+
 [graalvm]: https://www.graalvm.org/
+[logback]: https://logback.qos.ch/
 
 # Inverno hello security example
 
@@ -35,8 +39,27 @@ $ mvn inverno:run -Dinverno.run.arguments="jsmith invalid"
 io.inverno.mod.security.authentication.InvalidCredentialsException: Invalid credentials
 ```
 
+## Building a native image
+
+Using [GraalVM][graalvm], you can also build a native image of the application with the following command:
+
+```plaintext
+$ mvn clean package -Pnative
+```
+
+You can then run the native application:
+
+```plaintext
+$ ./target/example-hello-security jsmith password
+Hello my dear friend John!
+```
+
+> Note that for the native image to work, [logback][logback] must be used as logging manager since log4j doesn't support native build (see https://issues.apache.org/jira/browse/LOG4J2-2649).
+
 ## Going further
 
 - [Inverno security module documentation][inverno-mod-security]
+- [Inverno distribution documentation][inverno-dist-root]
+- [Inverno Maven plugin documentation][inverno-tool-maven-plugin]
 - [Inverno core documentation][inverno-core-root-doc]
 - [API documentation][inverno-javadoc]

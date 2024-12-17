@@ -20,16 +20,17 @@
  * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
- *
  */
 @io.inverno.core.annotation.Module
 module io.inverno.example.app_redis {
 	requires io.inverno.mod.boot;
     requires io.inverno.mod.configuration;
 	requires io.inverno.mod.redis.lettuce;
-	
+
+	requires com.fasterxml.jackson.databind;
 	requires org.apache.logging.log4j;
 	
 	exports io.inverno.example.app_redis;
+
 	opens io.inverno.example.app_redis.domain to com.fasterxml.jackson.databind;
 }

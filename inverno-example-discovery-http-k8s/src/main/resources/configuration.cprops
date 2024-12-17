@@ -1,0 +1,1 @@
+io.inverno.example.app_discovery_http_k8s.appConfiguration.web_client.http_client.pool_max_size=1

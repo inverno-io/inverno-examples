@@ -1,0 +1,11 @@
+[
+{
+	"name":"io.inverno.example.app_discovery_http_testserver.TestServerResponse",
+	"allDeclaredConstructors" : true,
+	"allPublicConstructors" : true,
+	"allDeclaredMethods" : true,
+	"allPublicMethods" : true,
+	"allPublicFields" : true, 
+	"allDeclaredFields" : true
+}
+]

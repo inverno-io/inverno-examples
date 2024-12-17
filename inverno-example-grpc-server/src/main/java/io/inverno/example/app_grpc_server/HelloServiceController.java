@@ -29,7 +29,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * <p>
- * {@code HelloService} implementation.
+ * Implementation of gRPC {@code HelloService} service specified in {@code src/main/proto/examples/hello.proto}.
  * </p>
  * 
  * @author <a href="jeremy.kuhn@inverno.io">Jeremy Kuhn</a>

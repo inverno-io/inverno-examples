@@ -1,4 +1,6 @@
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
+[inverno-dist-root]: https://github.com/inverno-io/inverno-dist
+[inverno-tool-maven-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-maven-plugin
 [inverno-javadoc]: https://inverno.io/docs/release/api/index.html
 
 [graalvm]: https://www.graalvm.org/
@@ -28,7 +30,7 @@ Using [GraalVM][graalvm], you can also build a native image of the application w
 You can then run the native application:
 
 ```plaintext
-> ./target/inverno-example-hello John
+$ ./target/example-hello John
 Hello John, how are you today?
 ```
 
@@ -36,5 +38,7 @@ Hello John, how are you today?
 
 ## Going further
 
+- [Inverno distribution documentation][inverno-dist-root]
+- [Inverno Maven plugin documentation][inverno-tool-maven-plugin]
 - [Inverno core documentation][inverno-core-root-doc]
 - [API documentation][inverno-javadoc]

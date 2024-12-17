@@ -21,15 +21,12 @@ import io.inverno.mod.configuration.Configuration;
  * <p>
  * Interface defining a nested configuration.
  * </p>
- * 
- * <p>
- * The {@code generatedBean} attribute is set to tell the compiler to only
- * generate a configuration loader which is required by an enclosing
- * configuration.
- * </p>
- * 
- * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  *
+ * <p>
+ * The {@code generatedBean} attribute is set to tell the compiler to only generate a configuration loader which is required by an enclosing configuration.
+ * </p>
+ *
+ * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  */
 @Configuration(generateBean = false)
 public interface SubConfiguration {

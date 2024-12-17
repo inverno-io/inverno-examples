@@ -1,6 +1,9 @@
-[inverno-mod-irt]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-irt/
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
+[inverno-dist-root]: https://github.com/inverno-io/inverno-dist
+[inverno-tool-maven-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-maven-plugin
 [inverno-javadoc]: https://inverno.io/docs/release/api/index.html
+
+[inverno-mod-irt]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-irt/
 
 # Inverno Reactive Template example
 
@@ -30,5 +33,7 @@ Templates are rendered in files in `target/` directory: `simple.txt`, `items.htm
 ## Going further
 
 - [Reactive template module documentation][Inverno-mod-irt]
+- [Inverno distribution documentation][inverno-dist-root]
+- [Inverno Maven plugin documentation][inverno-tool-maven-plugin]
 - [Inverno core documentation][inverno-core-root-doc]
 - [API documentation][inverno-javadoc]

@@ -26,5 +26,6 @@
 module io.inverno.example.app_config {
     requires io.inverno.core;
     requires io.inverno.mod.configuration;
+
 	requires org.apache.logging.log4j;
 }

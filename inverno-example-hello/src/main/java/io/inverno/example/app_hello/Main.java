@@ -15,9 +15,8 @@
  */
 package io.inverno.example.app_hello;
 
-import java.util.function.Supplier;
-
 import io.inverno.core.annotation.Bean;
+import java.util.function.Supplier;
 
 /**
  * <p>

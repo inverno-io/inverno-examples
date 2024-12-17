@@ -1,10 +1,16 @@
-[inverno-mod-http-client]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-http-client/
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
+[inverno-dist-root]: https://github.com/inverno-io/inverno-dist
+[inverno-tool-maven-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-maven-plugin
 [inverno-javadoc]: https://inverno.io/docs/release/api/index.html
-[inverno-example-http]: https://github.com/inverno-io/inverno-examples/blob/master/inverno-example-http/
-[inverno-example-web]: https://github.com/inverno-io/inverno-examples/blob/master/inverno-example-web/
+
+[inverno-mod-http-client]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-http-client/
+
+[inverno-example-http-server]: ../inverno-example-http-server
+[inverno-example-web-server]: ../inverno-example-web-server
 
 [epoll]: https://en.wikipedia.org/wiki/Epoll
+[graalvm]: https://www.graalvm.org/
+[logback]: https://logback.qos.ch/
 [picocli]: https://picocli.info/
 [jline3]: https://github.com/jline/jline3
 [sni]: https://en.wikipedia.org/wiki/Server_Name_Indication
@@ -16,13 +22,15 @@ A sample application showing how to use the HTTP client module to create efficie
 
 The application is an HTTP shell that allows to connect to an HTTP server using HTTP/1.x or HTTP/2 with or without TLS and send HTTP requests.
 
-The HTTP client configuration is exposed in the module's configuration `App_http_clientConfiguration`, a base configuration can be specified from the command line or in a `configuration.cprops` file. This configuration can be overridden at runtime from the HTTP shell using the `config` command.
+The HTTP client configuration is exposed in the module's configuration `AppConfiguration`, a base configuration can be specified from the command line or in a `configuration.cprops` file. This configuration can be overridden at runtime from the HTTP shell using the `config` command.
 
-The application uses [Picocli][picocli] and [Jline3][jline3] for the shell interface and it is configured to use [epoll][epoll] when available (ie. on Linux platform) for better performance.
+The application uses [Picocli][picocli] and [Jline3][jline3] for the shell interface, and it is configured to use [epoll][epoll] when available (i.e. on Linux platform) for better performance.
 
 The Maven build descriptor also defines a `release` profile which builds a native application image in a `zip` archive.
 
 ## Running the application
+
+The application is started using the Inverno Maven plugin as follows:
 
 ```plaintext
 $ mvn inverno:run
@@ -269,7 +277,7 @@ The Http protocol version can be specified in the configuration or when opening 
 
 > Note that the `open` command actually creates an endpoint and not the actual connection whose lifecycle is managed by the endpoint.
 
-For instance, if you try to connect to the [Inverno Web server example][inverno-example-web] application which supports H2C, the first HTTP request should contain H2C upgrade headers. If the upgrade succeeds, subsequent request will be directly sent using HTTP/2.0:
+For instance, if you try to connect to the [Inverno Web server example][inverno-example-web-server] application which supports H2C, the first HTTP request should contain H2C upgrade headers. If the upgrade succeeds, subsequent request will be directly sent using HTTP/2.0:
 
 ```
 > open localhost 8080
@@ -345,20 +353,20 @@ example.org:443> get /
 ...
 ```
 
-> Some web sites (e.g. google.com) requires the client to send [Server Name Indication][sni] to identify the site the client is trying to connect to over TLS. This is disabled by default and can be enabled in the configuration
+> Some websites (e.g. google.com) requires the client to send [Server Name Indication][sni] to identify the site the client is trying to connect to over TLS. This is disabled by default and can be enabled in the configuration
 > 
 > ```plaintext
 > > config set tls_send_sni true
 > ```
 
-The HTTP client can also be configured with a keystore and a truststore to enable Mutual TLS authentication ([mTLS][mTLS]), the example application provides client keystore and trustore under `src/main/resources` matching [HTTP server example][inverno-example-http] certificate, they can be specified on the command line:
+The HTTP client can also be configured with a keystore and a truststore to enable Mutual TLS authentication ([mTLS][mTLS]), the example application provides client keystore and trustore under `src/main/resources` matching [HTTP server example][inverno-example-http-server] certificate, they can be specified on the command line:
 
 ```plaintext
 $ mvn clean inverno:run -Dinverno.run.arguments='--io.inverno.example.app_http_client.app_http_clientConfiguration.http_client.tls_key_store=\"module:/clientkeystore.p12\" --io.inverno.example.app_http_client.app_http_clientConfiguration.http_client.tls_key_store_type=\"PKCS12\" --io.inverno.example.app_http_client.app_http_clientConfiguration.http_client.tls_key_store_password=\"password\" --io.inverno.example.app_http_client.app_http_clientConfiguration.http_client.tls_trust_store=\"module:/clienttruststore.p12\" --io.inverno.example.app_http_client.app_http_clientConfiguration.http_client.tls_trust_store_type=\"PKCS12\" --io.inverno.example.app_http_client.app_http_clientConfiguration.http_client.tls_trust_store_password=\"password\"'
 ...
 ```
 
-When connecting to [HTTP server example][inverno-example-http], the client should now trust the server certificate and send authentication to the server:
+When connecting to [HTTP server example][inverno-example-http-server], the client should now trust the server certificate and send authentication to the server:
 
 ```plaintext
 > open -s 127.0.0.1 8443
@@ -416,9 +424,57 @@ $ ./target/inverno-example-http-client-1.0.0-SNAPSHOT-application_linux_amd64/bi
 ...
 ```
 
+## Building a native image
+
+Using [GraalVM][graalvm], you can also build a native image of the application with the following command:
+
+```plaintext
+$ mvn clean package -Pnative
+```
+
+You can then run the native application:
+
+```plaintext
+$ ./target/example-http-client
+> help
+  System:
+    exit        exit from app/script
+    help        command help
+  Builtins:
+    colors      view 256-color table and ANSI-styles
+    highlighter manage nanorc theme system
+    history     list history of commands
+    keymap      manipulate keymaps
+    less        file pager
+    nano        edit files
+    setopt      set options
+    setvar      set lineReader variable value
+    ttop        display and update sorted information about threads
+    unsetopt    unset options
+    widget      manipulate widgets
+  Shell commands:
+    clear       Clear screen
+  Client commands:
+    close       Close the Http endpoint
+    config      Manage Http Client configuration properties
+    open        Connect to an Http endpoint
+  Http commands:
+    delete      Send a DELETE HTTP request
+    get         Send a GET HTTP request
+    head        Send a HEAD HTTP request
+    patch       Send a PATCH HTTP request
+    post        Send a POST HTTP request
+    put         Send a PUT HTTP request
+> 
+```
+
+> Note that for the native image to work, [logback][logback] must be used as logging manager since log4j doesn't support native build (see https://issues.apache.org/jira/browse/LOG4J2-2649).
+
 ## Going further
 
 - [HTTP client module documentation][inverno-mod-http-client]
+- [Inverno distribution documentation][inverno-dist-root]
+- [Inverno Maven plugin documentation][inverno-tool-maven-plugin]
 - [Inverno core documentation][inverno-core-root-doc]
 - [API documentation][inverno-javadoc]
 

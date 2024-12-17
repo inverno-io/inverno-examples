@@ -1,0 +1,235 @@
+[
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.AbstractBodyHttpCommand",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"fields" : [
+			{ "name" : "body" },
+			{ "name" : "contentType" }
+		]
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.AbstractBodyHttpCommand$Body",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"fields" : [
+			{ "name" : "data" },
+			{ "name" : "multipartParams" },
+			{ "name" : "urlEncodedParams" }
+		]
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.AbstractBodyHttpCommand$MultipartParameter",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"fields" : [
+			{ "name" : "data" },
+			{ "name" : "filename" },
+			{ "name" : "headers" },
+			{ "name" : "name" },
+			{ "name" : "type" }
+		]
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.AbstractBodyHttpCommand$URlEncodedParameter",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"fields" : [
+			{ "name" : "name" },
+			{ "name" : "value" }
+		]
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.AbstractCommands",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.AbstractHttpCommand",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"fields" : [
+			{ "name" : "accept" },
+			{ "name" : "acceptEncoding" },
+			{ "name" : "acceptLanguage" },
+			{ "name" : "headers" },
+			{ "name" : "httpCommands" },
+			{ "name" : "path" }
+		]
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.HttpClientCommands",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.HttpClientCommands$CloseCommand",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"fields" : [
+			{ "name" : "httpClientCommands" }
+		]
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.HttpClientCommands$ConfigurationCommand",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"fields" : [
+			{ "name" : "httpClientCommands" }
+		],
+		"methods" : [
+			{ "name" : "get", "parameterTypes" : ["java.lang.String"] },
+			{ "name" : "list", "parameterTypes" : [] },
+			{ "name" : "set", "parameterTypes" : ["java.lang.String", "java.lang.String"] }
+		]
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.HttpClientCommands$OpenCommand",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"fields" : [
+			{ "name" : "host" },
+			{ "name" : "httpClientCommands" },
+			{ "name" : "httpVersions" },
+			{ "name" : "port" },
+			{ "name" : "tls_enabled" },
+			{ "name" : "tls_trust_all" }
+		]
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.HttpCommands",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.HttpCommands$DeleteCommand",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.HttpCommands$GetCommand",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.HttpCommands$HeadCommand",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.HttpCommands$PatchCommand",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.HttpCommands$PostCommand",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.HttpCommands$PutCommand",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.ShellCommands",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "io.inverno.example.app_http_client.internal.command.ShellCommands$ClearCommand",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"fields" : [
+			{ "name" : "shellCommands" }
+		]
+	},
+	{
+		"name" : "io.inverno.mod.http.base.HttpVersion",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "java.lang.Integer",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "java.util.Collections$UnmodifiableRandomAccessList",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "java.util.Optional",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true
+	},
+	{
+		"name" : "picocli.CommandLine$AutoHelpMixin",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"fields" : [
+			{ "name" : "helpRequested" },
+			{ "name" : "versionRequested" }
+		]
+	},
+	{
+		"name" : "picocli.CommandLine$HelpCommand",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"fields" : [
+			{ "name" : "commands" },
+			{ "name" : "helpRequested" }
+		]
+	}
+]

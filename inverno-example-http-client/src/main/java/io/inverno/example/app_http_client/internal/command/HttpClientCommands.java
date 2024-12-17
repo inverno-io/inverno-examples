@@ -1,22 +1,22 @@
+/*
+ * Copyright 2022 Jeremy Kuhn
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package io.inverno.example.app_http_client.internal.command;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.security.cert.CertificateParsingException;
-import java.security.cert.X509Certificate;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Properties;
-import java.util.Set;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
-
-import org.jline.utils.AttributedStringBuilder;
-import org.jline.utils.AttributedStyle;
-import org.jline.utils.Colors;
-
-import io.inverno.example.app_http_client.App_http_clientConfigurationLoader;
+import io.inverno.example.app_http_client.AppConfiguration;
+import io.inverno.example.app_http_client.AppConfigurationLoader;
 import io.inverno.mod.base.Charsets;
 import io.inverno.mod.configuration.ConfigurationSource;
 import io.inverno.mod.configuration.source.CompositeConfigurationSource;
@@ -29,8 +29,22 @@ import io.inverno.mod.http.client.Endpoint;
 import io.inverno.mod.http.client.HttpClient;
 import io.inverno.mod.http.client.HttpClientConfiguration;
 import io.inverno.mod.http.client.HttpClientConfigurationLoader;
-import io.inverno.mod.http.client.InterceptableRequest;
-import io.inverno.mod.http.client.InterceptableResponse;
+import io.inverno.mod.http.client.InterceptedRequest;
+import io.inverno.mod.http.client.InterceptedResponse;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.security.cert.CertificateParsingException;
+import java.security.cert.X509Certificate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.Properties;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import org.jline.utils.AttributedStringBuilder;
+import org.jline.utils.AttributedStyle;
+import org.jline.utils.Colors;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -39,6 +53,13 @@ import picocli.CommandLine.ParentCommand;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+/**
+ * <p>
+ *
+ * </p>
+ *
+ * @author <a href="jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
+ */
 @Command(
 	name = "", 
 	description = {
@@ -52,27 +73,41 @@ import reactor.core.publisher.Mono;
 )
 public class HttpClientCommands extends AbstractCommands {
 	
-	private static final String HTTP_CLIENT_CONFIGURATION_PREFIX = "io.inverno.example.app_http_client.app_http_clientConfiguration.http_client.";
+	private static final String HTTP_CLIENT_CONFIGURATION_PREFIX;
+
+	static {
+		String appConfigurationBeanSimpleName = AppConfiguration.class.getSimpleName();
+		appConfigurationBeanSimpleName = Character.toLowerCase(appConfigurationBeanSimpleName.charAt(0)) + appConfigurationBeanSimpleName.substring(1);
+		HTTP_CLIENT_CONFIGURATION_PREFIX = AppConfiguration.class.getPackageName() + "." + appConfigurationBeanSimpleName + ".http_client.";
+	}
 	
 	private final HttpClient httpClient;
 
-	private ConfigurationSource<?, ?, ?> configurationSource;
+	private final ConfigurationSource configurationSource;
 	
-	private final App_http_clientConfigurationLoader configurationLoader;
+	private final AppConfigurationLoader configurationLoader;
 
 	private final Properties configurationProperties;
 	
 	private Endpoint<ExchangeContext> endpoint;
-	
-	public HttpClientCommands(HttpClient httpClient, ConfigurationSource<?, ?, ?> configurationSource) {
+
+	// For picocli-codegen
+	public HttpClientCommands() {
+		this.httpClient = null;
+		this.configurationProperties = null;
+		this.configurationSource = null;
+		this.configurationLoader = null;
+	}
+
+	public HttpClientCommands(HttpClient httpClient, ConfigurationSource configurationSource) {
 		this.httpClient = httpClient;
 		this.configurationProperties = new Properties();
 		this.configurationSource = new CompositeConfigurationSource(List.of(new PropertiesConfigurationSource(this.configurationProperties), configurationSource));
-		this.configurationLoader = new App_http_clientConfigurationLoader();
+		this.configurationLoader = new AppConfigurationLoader();
 		this.configurationLoader.withSource(this.configurationSource);
 	}
 	
-	protected ConfigurationSource<?, ?, ?> getConfigurationSource() {
+	protected ConfigurationSource getConfigurationSource() {
 		return this.configurationSource;
 	}
 	
@@ -236,11 +271,12 @@ public class HttpClientCommands extends AbstractCommands {
 						}))
 						.interceptor(exchange -> {
 							final StringBuilder requestBodyBuilder = new StringBuilder();
-							exchange.request().body().ifPresent(body -> body
-								.transform(data -> Flux.from(data)
+							if(exchange.request().getMethod().isBodyAllowed()) {
+								exchange.request().body().transform(data -> Flux.from(data)
 									.doOnNext(buf -> requestBodyBuilder.append(buf.toString(Charsets.UTF_8)))
-								));
-							
+								);
+							}
+
 							final StringBuilder responseBodyBuilder = new StringBuilder();
 							exchange.response().body()
 								.transform(data -> Flux.from(data)
@@ -270,7 +306,7 @@ public class HttpClientCommands extends AbstractCommands {
 			);
 		}
 		
-		private void logRequest(InterceptableRequest request, HttpVersion protocol, String body) {
+		private void logRequest(InterceptedRequest request, HttpVersion protocol, String body) {
 			request.getRemoteCertificates().ifPresent(certificates -> {
 				X509Certificate certificate = (X509Certificate)certificates[0];
 				StringBuilder serverCert = new StringBuilder();
@@ -301,7 +337,7 @@ public class HttpClientCommands extends AbstractCommands {
 		  
 			this.httpClientCommands.getTerminal().writer().println(new AttributedStringBuilder()
 				.style(AttributedStyle.BOLD.foreground(AttributedStyle.BLUE))
-				.append(String.format("> %s %s %s", request.getMethod().name(), request.getPathAbsolute(), protocol.getCode()))
+				.append(String.format("> %s %s %s", request.getMethod().name(), request.getPath(), protocol.getCode()))
 				.toAnsi()
 			);
 			
@@ -310,12 +346,12 @@ public class HttpClientCommands extends AbstractCommands {
 			this.httpClientCommands.getTerminal().writer().println(body);
 		}
 		
-		private void logResponse(InterceptableResponse response, HttpVersion protocol, String body) {
+		private void logResponse(InterceptedResponse response, HttpVersion protocol, String body) {
 			int color;
 			switch(response.headers().getStatus().getCategory()) {
 				case INFORMATIONAL: color = AttributedStyle.CYAN;
 					break;
-				case SUCCESSUL: color = AttributedStyle.GREEN;
+				case SUCCESSFUL: color = AttributedStyle.GREEN;
 					break;
 				case REDIRECTION: color = AttributedStyle.YELLOW;
 					break;

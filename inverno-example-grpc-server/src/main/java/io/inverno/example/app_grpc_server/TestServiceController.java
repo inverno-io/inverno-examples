@@ -16,12 +16,9 @@
 package io.inverno.example.app_grpc_server;
 
 import com.google.protobuf.ByteString;
-
 import io.grpc.testing.integration.EmptyProtos;
 import io.grpc.testing.integration.Messages;
 import io.grpc.testing.integration.TestServiceGrpcRoutesConfigurer;
-import io.inverno.core.annotation.Bean;
-import io.inverno.core.annotation.Bean.Visibility;
 import io.inverno.mod.grpc.base.GrpcException;
 import io.inverno.mod.grpc.server.GrpcExchange;
 import io.inverno.mod.grpc.server.GrpcServer;

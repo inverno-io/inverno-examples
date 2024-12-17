@@ -38,6 +38,10 @@
 		</dependency>
 		<dependency>
 			<groupId>io.inverno.mod</groupId>
+			<artifactId>inverno-configuration</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.inverno.mod</groupId>
 			<artifactId>inverno-grpc-client</artifactId>
 		</dependency>
 		<dependency>
@@ -46,8 +50,12 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
+			<groupId>io.inverno.mod</groupId>
+			<artifactId>inverno-discovery-http</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.inverno.mod</groupId>
+			<artifactId>inverno-web-client</artifactId>
 		</dependency>
 
 		<dependency>
@@ -58,6 +66,11 @@
 			<groupId>io.netty</groupId>
 			<artifactId>netty-transport-native-epoll</artifactId>
 			<classifier>linux-x86_64</classifier>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
 		</dependency>
 	</dependencies>
 	
@@ -153,6 +166,7 @@
 						</executions>
 						<configuration>
 							<mainClass>io.inverno.example.app_grpc_client.Main</mainClass>
+							<imageName>example-grpc-client</imageName>
 							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers --gc=G1 -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
 						</configuration>
 					</plugin>

@@ -1,6 +1,9 @@
-[inverno-mod-configuration]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-configuration/
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
+[inverno-dist-root]: https://github.com/inverno-io/inverno-dist
+[inverno-tool-maven-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-maven-plugin
 [inverno-javadoc]: https://inverno.io/docs/release/api/index.html
+
+[inverno-mod-configuration]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-configuration/
 
 # Inverno configuration example
 
@@ -46,30 +49,30 @@ Parameterized configurations for a particular context are defined in `src/main/r
 
 ```plaintext
 io.inverno.example.app_config.appConfiguration {
-	[ environment = "test" ] {
-		message = "Test message"
-		integer = 123
-		uri = "http://test"
-	}
-	
-	[ environment = "production" ] {
-		message = "Production message"
-		date = "2021-01-01"
-		[ node = "node-1" ] {
-			integer = 1
-			uri = "https://node-1.production"
-			sub_configuration {
-				param = "Parameter for node-1 in production"
-			}
-		}
-		[ node = "node-2" ] {
-			integer = 2
-			uri = "https://node-2.production"
-			sub_configuration {
-				param = "Parameter for node-2 in production"
-			}
-		}
-	}
+    [ environment = "test" ] {
+        message = "Test message"
+        integer = 123
+        uri = "http://test"
+    }
+    
+    [ environment = "production" ] {
+        message = "Production message"
+        date = "2021-01-01"
+        [ node = "node-1" ] {
+            integer = 1
+            uri = "https://node-1.production"
+            sub_configuration {
+                param = "Parameter for node-1 in production"
+            }
+        }
+        [ node = "node-2" ] {
+            integer = 2
+            uri = "https://node-2.production"
+            sub_configuration {
+                param = "Parameter for node-2 in production"
+            }
+        }
+    }
 }
 ```
 
@@ -150,5 +153,7 @@ $ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-1"
 ## Going further
 
 - [Configuration module documentation][Inverno-mod-configuration]
+- [Inverno distribution documentation][inverno-dist-root]
+- [Inverno Maven plugin documentation][inverno-tool-maven-plugin]
 - [Inverno core documentation][inverno-core-root-doc]
 - [API documentation][inverno-javadoc]

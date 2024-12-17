@@ -1,0 +1,3 @@
+io.inverno.example.app_web_client_websocket.appConfiguration.web.http_client.tls_trust_all = true
+io.inverno.mod.discovery.http.meta.service.chat = "ws://127.0.0.1:8080/ws"
+

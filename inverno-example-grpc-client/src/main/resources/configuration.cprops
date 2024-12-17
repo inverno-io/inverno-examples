@@ -1,6 +1,11 @@
-io.inverno.example.app_grpc_client.app_grpc_clientConfiguration {
-
+io.inverno.example.app_grpc_client.appConfiguration {
 	http_client {
 		http_protocol_versions = "HTTP_2_0"
+	}
+
+	web_client {
+		http_client {
+			http_protocol_versions = "HTTP_2_0"
+		}
 	}
 }

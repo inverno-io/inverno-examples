@@ -1,0 +1,119 @@
+[
+	{
+		"name":"io.inverno.mod.discovery.http.meta.HttpMetaServiceDescriptor",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"allPublicFields" : true,
+		"allDeclaredFields" : true
+	},
+	{
+		"name":"io.inverno.mod.discovery.http.meta.HttpMetaServiceDescriptor$HttpClientConfigurationMetadata",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"allPublicFields" : true,
+		"allDeclaredFields" : true
+	},
+	{
+		"name":"io.inverno.mod.discovery.http.meta.HttpMetaServiceDescriptor$LoadBalancerMetadata",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"allPublicFields" : true,
+		"allDeclaredFields" : true
+	},
+	{
+		"name":"io.inverno.mod.discovery.http.meta.HttpMetaServiceDescriptor$LeastRequestLoadBalancerMetadata",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"allPublicFields" : true,
+		"allDeclaredFields" : true
+	},
+	{
+		"name":"io.inverno.mod.discovery.http.meta.HttpMetaServiceDescriptor$MinLoadFactorLoadBalancerMetadata",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"allPublicFields" : true,
+		"allDeclaredFields" : true
+	},
+	{
+		"name":"io.inverno.mod.discovery.http.meta.HttpMetaServiceDescriptor$RouteMetadata",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"allPublicFields" : true,
+		"allDeclaredFields" : true
+	},
+	{
+		"name":"io.inverno.mod.discovery.http.meta.HttpMetaServiceDescriptor$PathMatcher",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"allPublicFields" : true,
+		"allDeclaredFields" : true
+	},
+	{
+		"name":"io.inverno.mod.discovery.http.meta.HttpMetaServiceDescriptor$ValueMatcher",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"allPublicFields" : true,
+		"allDeclaredFields" : true
+	},
+	{
+		"name":"io.inverno.mod.discovery.http.meta.HttpMetaServiceDescriptor$StaticValueMatcher",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"allPublicFields" : true,
+		"allDeclaredFields" : true
+	},
+	{
+		"name":"io.inverno.mod.discovery.http.meta.HttpMetaServiceDescriptor$RegexValueMatcher",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"allPublicFields" : true,
+		"allDeclaredFields" : true
+	},
+	{
+		"name":"io.inverno.mod.discovery.http.meta.HttpMetaServiceDescriptor$DestinationMetadata",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"allPublicFields" : true,
+		"allDeclaredFields" : true
+	},
+	{
+		"name":"io.inverno.mod.discovery.http.meta.HttpMetaServiceDescriptor$RequestTransformationMetadata",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"allPublicFields" : true,
+		"allDeclaredFields" : true
+	},
+	{
+		"name":"io.inverno.mod.discovery.http.meta.HttpMetaServiceDescriptor$ResponseTransformationMetadata",
+		"allDeclaredConstructors" : true,
+		"allPublicConstructors" : true,
+		"allDeclaredMethods" : true,
+		"allPublicMethods" : true,
+		"allPublicFields" : true,
+		"allDeclaredFields" : true
+	}
+]

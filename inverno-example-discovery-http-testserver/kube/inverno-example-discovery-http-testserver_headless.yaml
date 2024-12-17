@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: example-discovery-http-testserver-headless
+  labels:
+    app: example-discovery-http-testserver-headless
+    service: example-discovery-http-testserver-headless
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+    - name: http
+      port: 8080
+      appProtocol: http
+  selector:
+    app: example-discovery-http-testserver-headless
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: example-discovery-http-testserver-headless
+  labels:
+    app: example-discovery-http-testserver-headless
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: example-discovery-http-testserver-headless
+  template:
+    metadata:
+      labels:
+        app: example-discovery-http-testserver-headless
+    spec:
+      containers:
+        - name: example-discovery-http-testserver-headless
+          image: inverno-example-http-discovery-testserver:1.0.0-SNAPSHOT
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+---

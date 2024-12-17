@@ -1,6 +1,9 @@
-[inverno-mod-redis]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-redis/
 [inverno-core-root-doc]: https://github.com/inverno-io/inverno-core/blob/master/doc/reference-guide.md
+[inverno-dist-root]: https://github.com/inverno-io/inverno-dist
+[inverno-tool-maven-plugin]: https://github.com/inverno-io/inverno-tools/blob/master/inverno-maven-plugin
 [inverno-javadoc]: https://inverno.io/docs/release/api/index.html
+
+[inverno-mod-redis]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-redis/
 
 [epoll]: https://en.wikipedia.org/wiki/Epoll
 [lettuce]: https://lettuce.io
@@ -10,9 +13,9 @@
 
 A sample application showing how to use the Redis client API and the Redis [Lettuce][lettuce] module to query a [Redis][redis] datastore. It basically creates a couple of entries, gets them and finally deletes them from the datastore.
 
-The Redis lettuce client configuration is exposed in the module's configuration `App_redisConfiguration`.
+The Redis lettuce client configuration is exposed in the module's configuration `AppConfiguration`.
 
-The client is also configured to use [epoll][epoll] when available (ie. on Linux platform) for better performance.
+The client is also configured to use [epoll][epoll] when available (i.e. on Linux platform) for better performance.
 
 ## Running the application
 
@@ -26,7 +29,7 @@ The application is started using the Inverno Maven plugin as follows:
 
 ```plaintext
 $ mvn inverno:run
- [═══════════════════════════════════════════════ 100 % ══════════════════════════════════════════════] Running project io.inverno.example.app_redis@1.0.0-SNAPSHOT...
+...
 2024-04-09 15:04:24,099 INFO  [main] i.i.c.v.Application - Inverno is starting...
 
 
@@ -79,5 +82,7 @@ $ mvn inverno:run
 ## Going further
 
 - [Redis Client API module][inverno-mod-redis]
+- [Inverno distribution documentation][inverno-dist-root]
+- [Inverno Maven plugin documentation][inverno-tool-maven-plugin]
 - [Inverno core documentation][inverno-core-root-doc]
 - [API documentation][inverno-javadoc]

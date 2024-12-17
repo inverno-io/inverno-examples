@@ -24,13 +24,16 @@ import java.util.function.Supplier;
 import org.jline.utils.OSUtils;
 
 /**
+ * <p>
+ * Demonstrates how to use the HTTP client module to send request to an HTTP server.
+ * </p>
  *
  * @author <a href="jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  */
 public class Main {
 	
 	@Bean(name = "configurationSource")
-	public static interface AppConfigurationSource extends Supplier<ConfigurationSource<?, ?, ?>> {}
+	public static interface AppConfigurationSource extends Supplier<ConfigurationSource> {}
 
 	public static void main(String[] args) throws Exception {
 		OSUtils.TEST_COMMAND = "test";

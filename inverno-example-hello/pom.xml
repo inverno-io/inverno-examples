@@ -36,6 +36,7 @@
 			<groupId>io.inverno</groupId>
 			<artifactId>inverno-core</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
@@ -108,6 +109,7 @@
 						</executions>
 						<configuration>
 							<mainClass>io.inverno.example.app_hello.Main</mainClass>
+							<imageName>example-hello</imageName>
 							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --gc=G1 -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
 						</configuration>
 					</plugin>

@@ -15,28 +15,22 @@
  */
 package io.inverno.example.app_grpc_server;
 
-import io.inverno.core.annotation.Bean;
 import io.inverno.core.v1.Application;
-import io.inverno.mod.configuration.ConfigurationSource;
 import io.inverno.mod.configuration.source.BootstrapConfigurationSource;
 import java.io.IOException;
-import java.util.function.Supplier;
 
 /**
  * <p>
- * 
+ * Demonstrates how to generate gRPC server controller and expose gRPC services in a Web server.
  * </p>
  * 
  * @author <a href="jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  */
 public class Main {
-	
-	@Bean
-	public static interface App_grpc_serverConfigurationSource extends Supplier<ConfigurationSource<?, ?, ?>> {}
 
 	public static void main(String[] args) throws IOException {
 		Application.run(new App_grpc_server.Builder()
-			.setApp_grpc_serverConfigurationSource(new BootstrapConfigurationSource(Main.class.getModule(), args))
+			.setAppConfigurationSource(new BootstrapConfigurationSource(Main.class.getModule(), args))
 		);
 	}
 }

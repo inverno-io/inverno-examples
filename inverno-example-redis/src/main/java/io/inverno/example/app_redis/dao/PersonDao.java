@@ -29,7 +29,6 @@ import reactor.core.publisher.Mono;
  * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
- *
  */
 @Bean
 public class PersonDao {

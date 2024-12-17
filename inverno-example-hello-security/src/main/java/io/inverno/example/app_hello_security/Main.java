@@ -40,7 +40,6 @@ import org.apache.logging.log4j.Logger;
  * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
- *
  */
 public class Main {
 	

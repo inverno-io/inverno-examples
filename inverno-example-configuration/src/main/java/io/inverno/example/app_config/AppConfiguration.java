@@ -15,11 +15,10 @@
  */
 package io.inverno.example.app_config;
 
+import io.inverno.mod.configuration.Configuration;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.Set;
-
-import io.inverno.mod.configuration.Configuration;
 
 /**
  * <p>
@@ -27,8 +26,7 @@ import io.inverno.mod.configuration.Configuration;
  * </p>
  * 
  * <p>
- * This interface is processed by the compiler to generate a configuration
- * loader.
+ * This interface is processed by the compiler to generate a configuration loader.
  * </p>
  * 
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>

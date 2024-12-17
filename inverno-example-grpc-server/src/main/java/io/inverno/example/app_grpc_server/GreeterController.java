@@ -26,7 +26,11 @@ import reactor.core.publisher.Mono;
 
 /**
  * <p>
- * Implementation of gRPC <a href="https://github.com/grpc/grpc-java/blob/master/examples/src/main/proto/helloworld.proto">helloworld example</a>.
+ * Implementation of gRPC {@code Greeter} service specified in {@code src/main/proto/helloworld/helloworld.proto}.
+ * </p>
+ *
+ * <p>
+ * This is the official gRPC <a href="https://github.com/grpc/grpc-java/blob/master/examples/src/main/proto/helloworld.proto">helloworld example</a>.
  * </p>
  * 
  * @author <a href="jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
