@@ -25,7 +25,7 @@ The application requires a local Postgres server listening on port `5432`, it ca
 $ docker run -d --network inverno-network --name inverno-postgres -e POSTGRES_PASSWORD=password -p5432:5432 postgres
 ```
 
-The following command can also be used to connect a Postgres client to the database in order to setup schemas:
+The following command can also be used to connect a Postgres client to the database in order to set up schemas:
 
 ```plaintext
 $ docker run -it --rm --network inverno-network postgres psql -h inverno-postgres -U postgres

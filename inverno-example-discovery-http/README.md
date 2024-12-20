@@ -32,7 +32,7 @@ It demonstrates several features such as:
 
 The HTTP client configuration is exposed in the module's configuration `AppConfiguration`.
 
-The client is configured to use [epoll][epoll] when available (ie. on Linux platform) for better performance.
+The client is configured to use [epoll][epoll] when available (i.e. on Linux platform) for better performance.
 
 ## Running the application
 

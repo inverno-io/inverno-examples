@@ -8,8 +8,8 @@
 [inverno-mod-discovery-http-meta]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-mod-discovery-http-meta/
 [inverno-mod-http-client]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-http-client/
 [inverno-mod-web-client]: https://github.com/inverno-io/inverno-mods/blob/master/inverno-web-client/
-[inverno-examples-http-client-websocket]: ../inverno-examples-http-client-websocket
-[inverno-examples-web-server-websocket]: ../inverno-examples-web-server-websocket
+[inverno-examples-http-client-websocket]: ../inverno-example-http-client-websocket
+[inverno-examples-web-server-websocket]: ../inverno-example-web-server-websocket
 
 [epoll]: https://en.wikipedia.org/wiki/Epoll
 
@@ -80,7 +80,7 @@ $ mvn inverno:run -Dinverno.run.arguments="--io.inverno.example.app_web_client_w
 
 You should now be able to use the JavaFX UI to connect to the WebSocket server, send and receive messages
 
-<img src="src/img/inverno_javafx_declarative_chat.png" style="display: block; margin: 2em auto;"/>
+<img src="src/img/inverno_javafx_declarative_chat.png" style="display: block; margin: 2em auto;" alt="Inverno JavaFX declarative chat"/>
 
 When started with the `PROGRAMMATIC` mode, the WebSocket URI can be specified in the UI:
 
@@ -89,11 +89,11 @@ $ mvn inverno:run -Dinverno.run.arguments="--io.inverno.example.app_web_client_w
 ...
 ```
 
-<img src="src/img/inverno_javafx_programmatic_chat.png" style="display: block; margin: 2em auto;"/>
+<img src="src/img/inverno_javafx_programmatic_chat.png" style="display: block; margin: 2em auto;" alt="Inverno JavaFX programmatic chat"/>
 
 Assuming the [Web server WebSocket sample application][inverno-examples-web-server-websocket] has been started, you can exchange messages:
 
-<img src="src/img/inverno_javafx_chatting.png" style="display: block; margin: 2em auto;"/>
+<img src="src/img/inverno_javafx_chatting.png" style="display: block; margin: 2em auto;" alt="Inverno JavaFX chatting"/>
 
 ## Packaging the application
 

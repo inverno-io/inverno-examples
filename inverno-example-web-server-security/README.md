@@ -167,7 +167,7 @@ Since user `jsmith` is both a reader and a writer, he can access http://127.0.0.
 
 <img src="src/img/ldap_write.png" alt="Inverno LDAP write role" style="display: block; margin: 2em auto;"/>
 
-However user `jdoe` which is not a writer can not access http://127.0.0.1:8080/ldap/write:
+However, user `jdoe` which is not a writer can not access http://127.0.0.1:8080/ldap/write:
 
 <img src="src/img/ldap_write_403.png" alt="Inverno LDAP forbidden" style="display: block; margin: 2em auto;"/>
 

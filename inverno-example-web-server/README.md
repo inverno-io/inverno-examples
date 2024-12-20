@@ -15,9 +15,9 @@
 
 # Inverno Web server example
 
-A sample Inverno application showing how to use the Web server module to create efficient and performant HTTP/1.x and HTTP/2 servers with Web enabled features like request routing, content negociation, automatic payload conversion, static content, WebJars, automatic Open API specifications in SwaggerUI...
+A sample Inverno application showing how to use the Web server module to create efficient and performant HTTP/1.x and HTTP/2 servers with Web enabled features like request routing, content negotiation, automatic payload conversion, static content, WebJars, automatic Open API specifications in SwaggerUI...
 
-The Web server configuration is exposed in the module's configuration `App_webConfiguration`. The configuration in `src/main/resources/configuration.cprops` defines the `https` profile which can be activated to start the server with TLS support. The HTTP server is configured to use [epoll][epoll] when available (ie. on Linux platform) for better performance.
+The Web server configuration is exposed in the module's configuration `App_webConfiguration`. The configuration in `src/main/resources/configuration.cprops` defines the `https` profile which can be activated to start the server with TLS support. The HTTP server is configured to use [epoll][epoll] when available (i.e. on Linux platform) for better performance.
 
 The application defines the `BookResource` Web controller which exposes basic CRUD operations on books as REST resource. The `BookResourceImpl` implementation also demonstrates how to create a server-sent events endpoint or upload files in a `multipart/form-data` request.
 
@@ -101,7 +101,7 @@ transfer-encoding: chunked
 []
 ```
 
-A book stored in a file (eg. `src/test/resources/book.json`) can be uploaded as follows:
+A book stored in a file (e.g. `src/test/resources/book.json`) can be uploaded as follows:
 
 ```plaintext
 $ curl -iv -Fbook="@src/test/resources/book.json;type=application/json"  http://localhost:8080/book/upload

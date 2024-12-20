@@ -15,7 +15,7 @@ A sample application showing how to use the HTTP server module to create a WebSo
 
 The HTTP server configuration is exposed in the module's configuration `AppConfiguration`.
 
-The server is also configured to use [epoll][epoll] when available (ie. on Linux platform) for better performance.
+The server is also configured to use [epoll][epoll] when available (i.e. on Linux platform) for better performance.
 
 ## Running the application
 

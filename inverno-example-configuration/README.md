@@ -152,7 +152,7 @@ $ mvn inverno:run -Dinverno.exec.vmOptions="-Dnode=node-1"
 
 ## Going further
 
-- [Configuration module documentation][Inverno-mod-configuration]
+- [Configuration module documentation][inverno-mod-configuration]
 - [Inverno distribution documentation][inverno-dist-root]
 - [Inverno Maven plugin documentation][inverno-tool-maven-plugin]
 - [Inverno core documentation][inverno-core-root-doc]

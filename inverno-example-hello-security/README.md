@@ -12,7 +12,7 @@
 
 A sample inverno application showing how to use the Inverno security module to secure a simple standalone application.
 
-The application is a simple application with one `HelloService` bean and which requires an authentication to run. The `HelloService` bean exposes a simple `sayHello()` operation which display a greeting message to an strongly identified user. The greeting message also depends on the priviledges (i.e. its roles) granted to the authenticated user.
+The application is a simple application with one `HelloService` bean and which requires an authentication to run. The `HelloService` bean exposes a simple `sayHello()` operation which display a greeting message to a strongly identified user. The greeting message also depends on the privileges (i.e. its roles) granted to the authenticated user.
 
 It defines the following users: a *vip* user: `jsmith` with password `password` and a normal user `adoe` with password `password`.
 

@@ -32,7 +32,7 @@ Templates are rendered in files in `target/` directory: `simple.txt`, `items.htm
 
 ## Going further
 
-- [Reactive template module documentation][Inverno-mod-irt]
+- [Reactive template module documentation][inverno-mod-irt]
 - [Inverno distribution documentation][inverno-dist-root]
 - [Inverno Maven plugin documentation][inverno-tool-maven-plugin]
 - [Inverno core documentation][inverno-core-root-doc]

@@ -178,7 +178,7 @@ public class WebSocketApplication extends Application {
 			
 			URI wsURI = URI.create(this.wsURLTextField.getText());
 			this.webClient.exchange(wsURI)
-				.flatMap(exchange -> exchange.webSocket("json"))                            // Make sure to subscribe to the WebSocket exchange publisher to establish the WebSocket connection
+				.flatMap(exchange -> exchange.webSocket("json"))                     // Make sure to subscribe to the WebSocket exchange publisher to establish the WebSocket connection
 				.flatMapMany(webSocketExchange -> {
 					this.wsExchange = webSocketExchange;
 					this.onConnected();                                                        // The WebSocket connection is established

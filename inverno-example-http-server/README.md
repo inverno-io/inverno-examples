@@ -7,6 +7,7 @@
 
 [epoll]: https://en.wikipedia.org/wiki/Epoll
 [graalvm]: https://www.graalvm.org/
+[logback]: https://logback.qos.ch/
 
 # Inverno HTTP server example
 
@@ -85,7 +86,7 @@ Hello Http Example Client!
 
 In this example, `Http Example Client` is the common name (CN) extracted from the client certificate received by the server.
 
-> The `src/main/resources` folder contains both server and client keystores (`server-keystore.jks` and `client-keystore.jks` respectively) whose certificates have been added to client and server truststores (`client-truststore.jks` and `server-truststore.jks` respectively). The server is configured to request client authentication (`tls_client_auth=true`) and to trust client certificates contained in the server trutstore.
+> The `src/main/resources` folder contains both server and client keystores (`server-keystore.jks` and `client-keystore.jks` respectively) whose certificates have been added to client and server truststores (`client-truststore.jks` and `server-truststore.jks` respectively). The server is configured to request client authentication (`tls_client_auth=true`) and to trust client certificates contained in the server truststore.
 
 ## Building a native image
 
