@@ -110,7 +110,15 @@
 						<configuration>
 							<mainClass>io.inverno.example.app_hello.Main</mainClass>
 							<imageName>example-hello</imageName>
-							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --gc=G1 -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
+							<buildArgs>
+								<buildArg>--verbose</buildArg>
+								<buildArg>--no-server</buildArg>
+								<buildArg>--no-fallback</buildArg>
+								<buildArg>--allow-incomplete-classpath</buildArg>
+								<buildArg>--gc=G1</buildArg>
+								<buildArg>-H:+ReportExceptionStackTraces</buildArg>
+								<buildArg>-H:+PrintClassInitialization</buildArg>
+							</buildArgs>
 						</configuration>
 					</plugin>
 				</plugins>

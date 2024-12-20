@@ -110,7 +110,18 @@
 						<configuration>
 							<mainClass>io.inverno.example.app_http_server_websocket.Main</mainClass>
 							<imageName>example-http-server-websocket</imageName>
-							<buildArgs>--verbose --no-server --no-fallback --allow-incomplete-classpath --enable-http --enable-https --install-exit-handlers --gc=G1 -H:+ReportExceptionStackTraces -H:+PrintClassInitialization</buildArgs>
+							<buildArgs>
+								<buildArg>--verbose</buildArg>
+								<buildArg>--no-server</buildArg>
+								<buildArg>--no-fallback</buildArg>
+								<buildArg>--allow-incomplete-classpath</buildArg>
+								<buildArg>--enable-http</buildArg>
+								<buildArg>--enable-https</buildArg>
+								<buildArg>--install-exit-handlers</buildArg>
+								<buildArg>--gc=G1</buildArg>
+								<buildArg>-H:+ReportExceptionStackTraces</buildArg>
+								<buildArg>-H:+PrintClassInitialization</buildArg>
+							</buildArgs>
 						</configuration>
 					</plugin>
 				</plugins>
