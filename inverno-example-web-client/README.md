@@ -53,16 +53,16 @@ Commands:
 But it is more convenient to run it with the native launcher generated when packaging the application (see [Packaging the application](#packaging-the-application)). As described above, it exposes 5 commands to create, update, list, get or delete book resources exposed in the [Web server example application][inverno-examples-web-server] as illustrated below:
 
 ```plaintext
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-book-client create --isbn="978-0132143011" --title="Distributed Systems: Concepts and Design" --author="George Coulouris, Jean Dollimore, Tim Kindberg, Gordon Blair" --pages=1080
+$ ./example-book-client create --isbn="978-0132143011" --title="Distributed Systems: Concepts and Design" --author="George Coulouris, Jean Dollimore, Tim Kindberg, Gordon Blair" --pages=1080
 1 book created
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-book-client list
+$ ./example-book-client list
 1 book(s)
  * Book{isbn='978-0132143011', title='Distributed Systems: Concepts and Design', author='George Coulouris, Jean Dollimore, Tim Kindberg, Gordon Blair', pages=1080}
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-book-client update --isbn=978-0132143011 --title="Distributed Systems Concepts and Design" --author="George Coulouris & Jean Dollimore & Tim Kindberg & Gordon Blair" --pages=1234
+$ ./example-book-client update --isbn=978-0132143011 --title="Distributed Systems Concepts and Design" --author="George Coulouris & Jean Dollimore & Tim Kindberg & Gordon Blair" --pages=1234
 1 book updated
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-book-client get 978-0132143011
+$ ./example-book-client get 978-0132143011
 Book{isbn='978-0132143011', title='Distributed Systems Concepts and Design', author='George Coulouris & Jean Dollimore & Tim Kindberg & Gordon Blair', pages=1234}
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-book-client delete 978-0132143011
+$ ./example-book-client delete 978-0132143011
 1 book deleted
 ```
 
@@ -71,9 +71,9 @@ $ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin
 The universal Web client application can be started using the Inverno Maven plugin as follows:
 
 ```plaintext
-$ mvn inverno:run -Dinverno.exec.mainClass="io.inverno.example.app_web_client.book.Main" -Dinverno.run.arguments="-h"
+$ mvn inverno:run -Dinverno.exec.mainClass="io.inverno.example.app_web_client.Main" -Dinverno.run.arguments="-h"
 ...
-Usage: example-web-client [-hV] [-a=<accept>] [-ae=<acceptEncoding>]                                 ] Running project...
+Usage: example-web-client [-hV] [-a=<accept>] [-ae=<acceptEncoding>]
                           [-al=<acceptLanguage>] [-auth=<authority>]
                           [-ct=<contentType>] [-m=<method>]
                           [-H=<String=String>]... [-d=<data> | [-pn=<name>
@@ -127,7 +127,7 @@ But it is more convenient to run it with the native launcher generated when pack
 It is for instance possible to consume the book resource as in previous example:
 
 ```plaintext
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web-client -m POST -ct 'application/json' -d '{"isbn":"978-0132143011","title":"Distributed Systems: Concepts and Design","author":"George Coulouris, Jean Dollimore, Tim Kindberg, Gordon Blair","pages":1080}' http://127.0.0.1:8080/book
+$ ./example-web-client -m POST -ct 'application/json' -d '{"isbn":"978-0132143011","title":"Distributed Systems: Concepts and Design","author":"George Coulouris, Jean Dollimore, Tim Kindberg, Gordon Blair","pages":1080}' http://127.0.0.1:8080/book
 > POST /book h2
 > content-type: application/json
 > user-agent: Inverno/1.12.0-SNAPSHOT
@@ -145,7 +145,7 @@ $ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin
 < content-length: 0
 
 
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web-client http://127.0.0.1:8080/book
+$ ./example-web-client http://127.0.0.1:8080/book
 > GET /book h2
 > user-agent: Inverno/1.12.0-SNAPSHOT
 > host: 127.0.0.1:8080
@@ -160,7 +160,7 @@ $ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin
 < content-type: application/json
 
 [{"isbn":"978-0132143011","title":"Distributed Systems: Concepts and Design","author":"George Coulouris, Jean Dollimore, Tim Kindberg, Gordon Blair","pages":1080}]
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web-client -m PUT -ct 'application/json' -d '{"isbn":"978-0132143011","title":"Distributed Systems - Concepts and Design","author":"George Coulouris & Jean Dollimore & Tim Kindberg & Gordon Blair","pages":1234}' http://127.0.0.1:8080/book/978-0132143011
+$ ./example-web-client -m PUT -ct 'application/json' -d '{"isbn":"978-0132143011","title":"Distributed Systems - Concepts and Design","author":"George Coulouris & Jean Dollimore & Tim Kindberg & Gordon Blair","pages":1234}' http://127.0.0.1:8080/book/978-0132143011
 > PUT /book/978-0132143011 h2
 > content-type: application/json
 > user-agent: Inverno/1.12.0-SNAPSHOT
@@ -177,7 +177,7 @@ $ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin
 < content-length: 0
 
 
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web-client http://127.0.0.1:8080/book/978-0132143011
+$ ./example-web-client http://127.0.0.1:8080/book/978-0132143011
 > GET /book/978-0132143011 h2
 > user-agent: Inverno/1.12.0-SNAPSHOT
 > host: 127.0.0.1:8080
@@ -193,7 +193,7 @@ $ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin
 < content-length: 165
 
 {"isbn":"978-0132143011","title":"Distributed Systems - Concepts and Design","author":"George Coulouris & Jean Dollimore & Tim Kindberg & Gordon Blair","pages":1234}
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web-client -m DELETE http://127.0.0.1:8080/book/978-0132143011
+$ ./example-web-client -m DELETE http://127.0.0.1:8080/book/978-0132143011
 > DELETE /book/978-0132143011 h2
 > user-agent: Inverno/1.12.0-SNAPSHOT
 > host: 127.0.0.1:8080
@@ -215,7 +215,7 @@ The [Web client module][inverno-mod-web-client] embeds a composite HTTP discover
 The application can then connect to servers whose Inet Socket Address is resolved with DNS:
 
 ```plaintext
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web-client -a application/json https://timeapi.io/api/time/current/zone?timeZone=Europe/Paris
+$ ./example-web-client -a application/json https://timeapi.io/api/time/current/zone?timeZone=Europe/Paris
 * Server certificate:
    subject: CN=timeapi.io
    start date: Tue Aug 13 02:00:00 CEST 2024
@@ -243,7 +243,7 @@ $ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin
 The client can also resolve configuration URIs as the ones used in [Discovery HTTP example application][inverno-examples-discovery-http] and defined in `src/main/resources/configuration.cprops`. Assuming we have started three [test server instances][inverno-examples-discovery-http-testserver] we can run the following:
 
 ```plaintext
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web-client conf://singleDestinationWithConfig/path/to/resource
+$ ./example-web-client conf://singleDestinationWithConfig/path/to/resource
 > GET /path/to/resource h2
 > user-agent: Discovery example client
 > host: 127.0.0.1:8080
@@ -259,7 +259,7 @@ $ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin
 < content-length: 358
 
 {"localAddress":"/127.0.0.1:8080","remoteAddress":"/127.0.0.1:53124","method":"GET","path":"/path/to/resource","authority":"127.0.0.1:8080","headers":{"content-length":"0","upgrade":"h2c",":method":"GET",":scheme":"http","connection":"upgrade,http2-settings",":path":"/path/to/resource",":authority":"127.0.0.1:8080","user-agent":"Discovery example client"}}
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web-client conf://multiDestinationRoutingPath/path/to/resource
+$ ./example-web-client conf://multiDestinationRoutingPath/path/to/resource
 > GET /path/to/resource h2
 > user-agent: Inverno/1.12.0-SNAPSHOT
 > host: 127.0.0.1:8080
@@ -275,7 +275,7 @@ $ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin
 < content-length: 357
 
 {"localAddress":"/127.0.0.1:8080","remoteAddress":"/127.0.0.1:42572","method":"GET","path":"/path/to/resource","authority":"127.0.0.1:8080","headers":{"content-length":"0","upgrade":"h2c",":method":"GET",":scheme":"http","connection":"upgrade,http2-settings",":path":"/path/to/resource",":authority":"127.0.0.1:8080","user-agent":"Inverno/1.12.0-SNAPSHOT"}}
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web-client --authority=service-2 conf://multiDestinationRoutingAuthority/path/to/resource
+$ ./example-web-client --authority=service-2 conf://multiDestinationRoutingAuthority/path/to/resource
 > GET /path/to/resource h2
 > user-agent: Inverno/1.12.0-SNAPSHOT
 > host: service-2
@@ -291,7 +291,7 @@ $ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin
 < content-length: 347
 
 {"localAddress":"/127.0.0.1:8082","remoteAddress":"/127.0.0.1:55948","method":"GET","path":"/path/to/resource","authority":"service-2","headers":{"content-length":"0","upgrade":"h2c",":method":"GET",":scheme":"http","connection":"upgrade,http2-settings",":path":"/path/to/resource",":authority":"service-2","user-agent":"Inverno/1.12.0-SNAPSHOT"}}
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web-client conf://multiDestinationRewritePath/path/to/resource
+$ ./example-web-client conf://multiDestinationRewritePath/path/to/resource
 > GET /path/to/resource h2
 > user-agent: Inverno/1.12.0-SNAPSHOT
 > host: 127.0.0.1:8080
@@ -307,7 +307,7 @@ $ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin
 < content-length: 357
 
 {"localAddress":"/127.0.0.1:8080","remoteAddress":"/127.0.0.1:54398","method":"GET","path":"/path/to/resource","authority":"127.0.0.1:8080","headers":{"content-length":"0","upgrade":"h2c",":method":"GET",":scheme":"http","connection":"upgrade,http2-settings",":path":"/path/to/resource",":authority":"127.0.0.1:8080","user-agent":"Inverno/1.12.0-SNAPSHOT"}}
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web-client conf://multiDestinationRewritePath/v1/path/to/resource
+$ ./example-web-client conf://multiDestinationRewritePath/v1/path/to/resource
 > GET /path/to/resource h2
 > user-agent: Inverno/1.12.0-SNAPSHOT
 > host: 127.0.0.1:8081
@@ -323,7 +323,7 @@ $ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin
 < content-length: 357
 
 {"localAddress":"/127.0.0.1:8081","remoteAddress":"/127.0.0.1:38722","method":"GET","path":"/path/to/resource","authority":"127.0.0.1:8081","headers":{"content-length":"0","upgrade":"h2c",":method":"GET",":scheme":"http","connection":"upgrade,http2-settings",":path":"/path/to/resource",":authority":"127.0.0.1:8081","user-agent":"Inverno/1.12.0-SNAPSHOT"}}
-$ ./target/inverno-example-web-client-1.0.0-SNAPSHOT-application_linux_amd64/bin/example-web-client conf://multiDestinationSetHeaders/path/to/resource
+$ ./example-web-client conf://multiDestinationSetHeaders/path/to/resource
 > GET /path/to/resource h2
 > route-header: abc
 > user-agent: Inverno/1.12.0-SNAPSHOT

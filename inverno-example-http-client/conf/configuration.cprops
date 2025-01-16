@@ -1,4 +1,4 @@
-io.inverno.example.app_http_client.app_http_clientConfiguration {
+io.inverno.example.app_http_client.appConfiguration {
 	http_client {
 		tls_enabled = true
 		tls_trust_all = false

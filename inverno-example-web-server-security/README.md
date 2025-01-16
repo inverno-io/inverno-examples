@@ -68,7 +68,7 @@ $ mvn inverno:run
 
 ### Basic authentication
 
-HTTP Basic authentication is shown at http://127.0.0.1:8080/basic/hello :
+HTTP Basic authentication is shown at http://127.0.0.1:8080/basic/hello:
 
 <img src="src/img/basic_auth.png" alt="Inverno Basic Authentication" style="display: block; margin: 2em auto;"/>
 

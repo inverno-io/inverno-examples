@@ -35,11 +35,11 @@ public class Main {
 				AppConfigurationLoader.load(configuration -> configuration
 					.http_server(server -> server
 						// TLS
-						.server_port(8443)
+						/*.server_port(8443)
 						.tls_enabled(true)
 						.tls_key_store(URI.create("module:/serverkeystore.p12"))
 						.tls_key_store_type("pkcs12") 
-						.tls_key_store_password("password")
+						.tls_key_store_password("password")*/
 						// WebSocket
 						//.ws_max_frame_size(16)
 						.ws_message_compression_enabled(true)

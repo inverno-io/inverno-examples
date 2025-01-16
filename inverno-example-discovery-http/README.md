@@ -56,7 +56,7 @@ Inverno Discovery HTTP example
 
 But it is more convenient to run it with the native launcher generated when packaging the application (see [Packaging the application](#packaging-the-application)).
 
-Assuming three [test server instances][inverno-examples-discovery-http-testserver] have been started locally on port 8080, 8081 and 8082, you can now test several use cases
+Assuming three [test server instances][inverno-examples-discovery-http-testserver] have been started locally on port 8080, 8081 and 8082, you can now test several use cases.
 
 ### DNS lookup
 
@@ -78,7 +78,7 @@ $ ./example-discovery-http http://test-service:8081/path/to/resource
 ...
 ```
 
-The DNS `DiscoveryService` bean was invoke to resolve `test-service:8081` to an inet socket address, `127.0.0.1:8081` in our case. A DNS server may return multiple IP addresses when the host name is mapped to multiple addresses, the resulting resolved service then distributes request among them using `RANDOM` (default) or `ROUND_ROBIN` load balancing strategies.
+The DNS `DiscoveryService` bean was invoked to resolve `test-service:8081` to an inet socket address, `127.0.0.1:8081` in our case. A DNS server may return multiple IP addresses when the host name is mapped to multiple addresses, the resulting resolved service then distributes requests among them using `RANDOM` (default) or `ROUND_ROBIN` load balancing strategies.
 
 > Note that port can't be resolved with a DNS lookup and must still be known to the client.
 
@@ -190,7 +190,7 @@ io.inverno.mod.discovery.http.meta.service.multiDestinationWeightedRoundRobin = 
 The `ROUND_ROBIN` strategy being more deterministic than the `RANDOM` strategy, with above configuration, sending 10 requests should result in 8 requests being sent to server port 8080, and 1 to server 8081 and server 8082 respectively.
 
 ```plaintext
-$ ./example-discovery-http conf://multiDestinationWeightedRoundRobin/path/to/resource -count 10
+$ ./example-discovery-http conf://multiDestinationWeightedRoundRobin/path/to/resource -c 10
 2024-09-13 16:51:49,876 INFO  [main] i.i.e.a.Main - --------------------------------------------------------------------------------
 2024-09-13 16:51:50,089 INFO  [inverno-io-epoll-1-6] i.i.m.h.c.i.AbstractEndpoint - HTTP/1.1 Client (epoll) connected to http://127.0.0.1:8082
 2024-09-13 16:51:50,089 INFO  [inverno-io-epoll-1-4] i.i.m.h.c.i.AbstractEndpoint - HTTP/1.1 Client (epoll) connected to http://127.0.0.1:8080
@@ -459,7 +459,7 @@ $ ./example-discovery-http conf://multiDestinationSetHeaders/path/to/resource -c
 
 ### Missing default route
 
-It is a good practice to always define a default route (i.e. a route with no criteria) but this is not obligatory.
+It is a good practice to always define a default route (i.e. a route with no criteria) but this is not mandatory.
 
 ```plaintext
 io.inverno.mod.discovery.http.meta.service.testNoDefault = """
