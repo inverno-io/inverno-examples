@@ -1,0 +1,20 @@
+[
+{
+	"name":"io.inverno.mod.security.identity.PersonIdentity",
+	"allDeclaredConstructors" : true,
+	"allPublicConstructors" : true,
+	"allDeclaredMethods" : true,
+	"allPublicMethods" : true,
+	"allPublicFields" : true, 
+	"allDeclaredFields" : true
+},
+{
+	"name":"io.inverno.mod.security.internal.authentication.user.GenericUserAuthentication",
+	"allDeclaredConstructors" : true,
+	"allPublicConstructors" : true,
+	"allDeclaredMethods" : true,
+	"allPublicMethods" : true,
+	"allPublicFields" : true,
+	"allDeclaredFields" : true
+}
+]

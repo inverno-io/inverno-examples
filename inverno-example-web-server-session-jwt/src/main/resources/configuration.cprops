@@ -1,0 +1,4 @@
+io.inverno.example.app_web_server_session_jwt.appConfiguration {
+    useRedisSessionStore = false
+    useJWE = false
+}

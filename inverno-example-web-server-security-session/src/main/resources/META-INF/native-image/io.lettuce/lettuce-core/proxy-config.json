@@ -1,0 +1,3 @@
+[
+	["io.lettuce.core.api.reactive.RedisReactiveCommands","io.lettuce.core.cluster.api.reactive.RedisClusterReactiveCommands"]
+]

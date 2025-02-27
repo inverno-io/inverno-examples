@@ -21,15 +21,18 @@ import io.inverno.mod.http.base.UnauthorizedException;
 import io.inverno.mod.security.accesscontrol.RoleBasedAccessController;
 import io.inverno.mod.security.authentication.CredentialsResolver;
 import io.inverno.mod.security.authentication.LoginCredentials;
+import io.inverno.mod.security.authentication.PrincipalAuthentication;
 import io.inverno.mod.security.authentication.PrincipalAuthenticator;
 import io.inverno.mod.security.http.AccessControlInterceptor;
 import io.inverno.mod.security.http.SecurityInterceptor;
-import io.inverno.mod.security.http.context.InterceptingSecurityContext;
+import io.inverno.mod.security.http.context.SecurityContext;
 import io.inverno.mod.security.http.digest.DigestAuthenticationErrorInterceptor;
+import io.inverno.mod.security.http.digest.DigestCredentials;
 import io.inverno.mod.security.http.digest.DigestCredentialsExtractor;
 import io.inverno.mod.security.http.digest.DigestCredentialsMatcher;
 import io.inverno.mod.security.identity.Identity;
 import io.inverno.mod.web.server.ErrorWebRouteInterceptor;
+import io.inverno.mod.web.server.WebExchange;
 import io.inverno.mod.web.server.WebRouteInterceptor;
 import java.util.List;
 
@@ -47,7 +50,7 @@ import java.util.List;
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  */
 @Bean( visibility = Bean.Visibility.PRIVATE )
-public class DigestRouterConfigurer implements WebRouteInterceptor.Configurer<InterceptingSecurityContext<Identity, RoleBasedAccessController>>, ErrorWebRouteInterceptor.Configurer<ExchangeContext> {
+public class DigestRouterConfigurer implements WebRouteInterceptor.Configurer<SecurityContext.Intercepted<Identity, RoleBasedAccessController>>, ErrorWebRouteInterceptor.Configurer<ExchangeContext> {
 
 	private final CredentialsResolver<? extends LoginCredentials> credentialsResolver;
 	
@@ -56,13 +59,13 @@ public class DigestRouterConfigurer implements WebRouteInterceptor.Configurer<In
 	}
 	
 	@Override
-	public WebRouteInterceptor<InterceptingSecurityContext<Identity, RoleBasedAccessController>> configure(WebRouteInterceptor<InterceptingSecurityContext<Identity, RoleBasedAccessController>> interceptors) {
+	public WebRouteInterceptor<SecurityContext.Intercepted<Identity, RoleBasedAccessController>> configure(WebRouteInterceptor<SecurityContext.Intercepted<Identity, RoleBasedAccessController>> interceptors) {
 		return interceptors
 			.intercept()
 				.path("/digest/**")
 				.interceptors(List.of(
-					SecurityInterceptor.of(
-						new DigestCredentialsExtractor(),
+					SecurityInterceptor.<DigestCredentials, PrincipalAuthentication, Identity, RoleBasedAccessController, SecurityContext.Intercepted<Identity, RoleBasedAccessController>, WebExchange<SecurityContext.Intercepted<Identity, RoleBasedAccessController>>>of(
+						new DigestCredentialsExtractor<>(),
 						new PrincipalAuthenticator<>(this.credentialsResolver, new DigestCredentialsMatcher<>("secret"))
 					),
 					AccessControlInterceptor.authenticated()

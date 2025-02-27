@@ -21,7 +21,7 @@
 	<parent>
 		<groupId>io.inverno.dist</groupId>
 		<artifactId>inverno-parent</artifactId>
-		<version>1.12.1</version>
+		<version>1.13.0</version>
 	</parent>
 	<groupId>io.inverno</groupId>
 	<artifactId>inverno-examples-root</artifactId>
@@ -59,6 +59,10 @@
 		<module>inverno-example-web-server</module>
 		<module>inverno-example-web-server-modular</module>
 		<module>inverno-example-web-server-security</module>
+		<module>inverno-example-web-server-security-session</module>
+		<module>inverno-example-web-server-security-session-jwt</module>
+		<module>inverno-example-web-server-session</module>
+		<module>inverno-example-web-server-session-jwt</module>
 		<module>inverno-example-web-server-websocket</module>
 	</modules>
 

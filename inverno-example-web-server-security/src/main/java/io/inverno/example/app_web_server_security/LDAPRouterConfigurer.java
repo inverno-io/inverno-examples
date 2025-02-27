@@ -25,7 +25,6 @@ import io.inverno.mod.security.accesscontrol.GroupsRoleBasedAccessControllerReso
 import io.inverno.mod.security.accesscontrol.RoleBasedAccessController;
 import io.inverno.mod.security.http.AccessControlInterceptor;
 import io.inverno.mod.security.http.SecurityInterceptor;
-import io.inverno.mod.security.http.context.InterceptingSecurityContext;
 import io.inverno.mod.security.http.context.SecurityContext;
 import io.inverno.mod.security.http.form.FormAuthenticationErrorInterceptor;
 import io.inverno.mod.security.http.form.FormCredentialsExtractor;
@@ -53,6 +52,7 @@ import io.inverno.mod.security.ldap.authentication.LDAPAuthentication;
 import io.inverno.mod.security.ldap.authentication.LDAPAuthenticator;
 import io.inverno.mod.security.ldap.identity.LDAPIdentityResolver;
 import io.inverno.mod.web.server.ErrorWebRouteInterceptor;
+import io.inverno.mod.web.server.WebExchange;
 import io.inverno.mod.web.server.WebRouteInterceptor;
 import io.inverno.mod.web.server.WebRouter;
 import io.inverno.mod.web.server.annotation.WebRoute;
@@ -99,7 +99,7 @@ import reactor.core.publisher.Mono;
 	@WebRoute(path = { "/ldap/logout" }, method = { Method.GET })
 })
 @Bean( visibility = Bean.Visibility.PRIVATE )
-public class LDAPRouterConfigurer implements WebRouteInterceptor.Configurer<InterceptingSecurityContext<Identity, RoleBasedAccessController>>, WebRouter.Configurer<SecurityContext<Identity, RoleBasedAccessController>>, ErrorWebRouteInterceptor.Configurer<ExchangeContext> {
+public class LDAPRouterConfigurer implements WebRouteInterceptor.Configurer<SecurityContext.Intercepted<Identity, RoleBasedAccessController>>, WebRouter.Configurer<SecurityContext<Identity, RoleBasedAccessController>>, ErrorWebRouteInterceptor.Configurer<ExchangeContext> {
 
 	private final Mono<? extends OCTJWK> jwsKey;
 	private final JWSService jwsService;
@@ -116,13 +116,14 @@ public class LDAPRouterConfigurer implements WebRouteInterceptor.Configurer<Inte
 	}
 	
 	@Override
-	public WebRouteInterceptor<InterceptingSecurityContext<Identity, RoleBasedAccessController>> configure(WebRouteInterceptor<InterceptingSecurityContext<Identity, RoleBasedAccessController>> interceptors) {
+	public WebRouteInterceptor<SecurityContext.Intercepted<Identity, RoleBasedAccessController>> configure(WebRouteInterceptor<SecurityContext.Intercepted<Identity, RoleBasedAccessController>> interceptors) {
 		return interceptors
 			// Cookie Token authentication (RFC7515 - JSON Web Signature (JWS)) + LDAP authentication + LDAP identity
 			.intercept()
 				.path("/ldap/**")
 				.interceptors(List.of(SecurityInterceptor.of(
-						new BearerTokenCredentialsExtractor().or(new CookieTokenCredentialsExtractor()), 
+						new BearerTokenCredentialsExtractor<SecurityContext.Intercepted<Identity, RoleBasedAccessController>, WebExchange<SecurityContext.Intercepted<Identity, RoleBasedAccessController>>>()
+							.or(new CookieTokenCredentialsExtractor<>()),
 						new JWSAuthenticator<>(this.jwsService, LDAPAuthentication.class, this.jwsKey).failOnDenied().map(jwsAuthentication -> jwsAuthentication.getJws().getPayload()),
 						new LDAPIdentityResolver(this.ldapClient),
 						new GroupsRoleBasedAccessControllerResolver()
@@ -144,7 +145,7 @@ public class LDAPRouterConfigurer implements WebRouteInterceptor.Configurer<Inte
 				.method(Method.POST)
 				.path("/login/ldap")
 				.handler(new LoginActionHandler<>(
-					new FormCredentialsExtractor(), 
+					new FormCredentialsExtractor<>(),
 					new LDAPAuthenticator(this.ldapClient, "dc=inverno,dc=io")
 						.failOnDenied()
 						.flatMap(authentication -> this.jwsService.builder(LDAPAuthentication.class, this.jwsKey)

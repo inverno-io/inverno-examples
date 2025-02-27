@@ -27,7 +27,6 @@ import io.inverno.mod.security.authentication.user.User;
 import io.inverno.mod.security.authentication.user.UserAuthenticator;
 import io.inverno.mod.security.http.AccessControlInterceptor;
 import io.inverno.mod.security.http.SecurityInterceptor;
-import io.inverno.mod.security.http.context.InterceptingSecurityContext;
 import io.inverno.mod.security.http.context.SecurityContext;
 import io.inverno.mod.security.http.form.FormAuthenticationErrorInterceptor;
 import io.inverno.mod.security.http.form.FormCredentialsExtractor;
@@ -52,6 +51,7 @@ import io.inverno.mod.security.jose.jwt.JWTSAuthentication;
 import io.inverno.mod.security.jose.jwt.JWTSAuthenticator;
 import io.inverno.mod.security.jose.jwt.JWTService;
 import io.inverno.mod.web.server.ErrorWebRouteInterceptor;
+import io.inverno.mod.web.server.WebExchange;
 import io.inverno.mod.web.server.WebRouteInterceptor;
 import io.inverno.mod.web.server.WebRouter;
 import io.inverno.mod.web.server.annotation.WebRoute;
@@ -97,7 +97,7 @@ import reactor.core.publisher.Mono;
 	@WebRoute(path = { "/form/logout" }, method = { Method.GET })
 })
 @Bean( visibility = Bean.Visibility.PRIVATE )
-public class FormRouterConfigurer implements WebRouteInterceptor.Configurer<InterceptingSecurityContext<Identity, RoleBasedAccessController>>, WebRouter.Configurer<SecurityContext<Identity, RoleBasedAccessController>>, ErrorWebRouteInterceptor.Configurer<ExchangeContext> {
+public class FormRouterConfigurer implements WebRouteInterceptor.Configurer<SecurityContext.Intercepted<Identity, RoleBasedAccessController>>, WebRouter.Configurer<SecurityContext<Identity, RoleBasedAccessController>>, ErrorWebRouteInterceptor.Configurer<ExchangeContext> {
 
 	private final CredentialsResolver<? extends User<Identity>> credentialsResolver;
 	private final Mono<? extends OCTJWK> jwsKey;
@@ -113,16 +113,16 @@ public class FormRouterConfigurer implements WebRouteInterceptor.Configurer<Inte
 		
 		this.jwtService = jwtService;
 	}
-	
+
 	@Override
-	public WebRouteInterceptor<InterceptingSecurityContext<Identity, RoleBasedAccessController>> configure(WebRouteInterceptor<InterceptingSecurityContext<Identity, RoleBasedAccessController>> interceptors) {
+	public WebRouteInterceptor<SecurityContext.Intercepted<Identity, RoleBasedAccessController>> configure(WebRouteInterceptor<SecurityContext.Intercepted<Identity, RoleBasedAccessController>> interceptors) {
 		return interceptors
 			// Cookie Token authentication (RFC7519 - JSON Web Token (JWT)) 
 			.intercept()
 				.path("/form/**")
 				.interceptors(List.of(SecurityInterceptor.of(
-						new BearerTokenCredentialsExtractor()
-							.or(new CookieTokenCredentialsExtractor()), 
+						new BearerTokenCredentialsExtractor<SecurityContext.Intercepted<Identity, RoleBasedAccessController>, WebExchange<SecurityContext.Intercepted<Identity, RoleBasedAccessController>>>()
+							.or(new CookieTokenCredentialsExtractor<>()),
 						new JWTSAuthenticator<>(this.jwtService, this.jwsKey)
 					),
 					AccessControlInterceptor.authenticated()
@@ -141,7 +141,7 @@ public class FormRouterConfigurer implements WebRouteInterceptor.Configurer<Inte
 				.method(Method.POST)
 				.path("/login/form")
 				.handler(new LoginActionHandler<>(
-					new FormCredentialsExtractor(), 
+					new FormCredentialsExtractor<>(),
 					new UserAuthenticator<>(this.credentialsResolver, new LoginCredentialsMatcher<>())
 						.failOnDenied()
 						.flatMap(authentication -> this.jwtService.jwsBuilder(this.jwsKey)

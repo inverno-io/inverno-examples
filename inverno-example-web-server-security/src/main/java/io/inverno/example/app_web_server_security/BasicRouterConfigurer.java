@@ -18,7 +18,6 @@ package io.inverno.example.app_web_server_security;
 import io.inverno.core.annotation.Bean;
 import io.inverno.mod.http.base.ExchangeContext;
 import io.inverno.mod.http.base.UnauthorizedException;
-import io.inverno.mod.http.server.ExchangeInterceptor;
 import io.inverno.mod.security.accesscontrol.RoleBasedAccessController;
 import io.inverno.mod.security.authentication.CredentialsResolver;
 import io.inverno.mod.security.authentication.LoginCredentials;
@@ -29,7 +28,7 @@ import io.inverno.mod.security.http.AccessControlInterceptor;
 import io.inverno.mod.security.http.SecurityInterceptor;
 import io.inverno.mod.security.http.basic.BasicAuthenticationErrorInterceptor;
 import io.inverno.mod.security.http.basic.BasicCredentialsExtractor;
-import io.inverno.mod.security.http.context.InterceptingSecurityContext;
+import io.inverno.mod.security.http.context.SecurityContext;
 import io.inverno.mod.security.identity.Identity;
 import io.inverno.mod.web.server.ErrorWebRouteInterceptor;
 import io.inverno.mod.web.server.WebExchange;
@@ -50,7 +49,7 @@ import java.util.List;
  * @author <a href="mailto:jeremy.kuhn@inverno.io">Jeremy Kuhn</a>
  */
 @Bean( visibility = Bean.Visibility.PRIVATE )
-public class BasicRouterConfigurer implements WebRouteInterceptor.Configurer<InterceptingSecurityContext<Identity, RoleBasedAccessController>>, ErrorWebRouteInterceptor.Configurer<ExchangeContext> {
+public class BasicRouterConfigurer implements WebRouteInterceptor.Configurer<SecurityContext.Intercepted<Identity, RoleBasedAccessController>>, ErrorWebRouteInterceptor.Configurer<ExchangeContext> {
 
    private final CredentialsResolver<? extends LoginCredentials> credentialsResolver;
 
@@ -59,40 +58,17 @@ public class BasicRouterConfigurer implements WebRouteInterceptor.Configurer<Int
 	}
 
 	@Override
-	public WebRouteInterceptor<InterceptingSecurityContext<Identity, RoleBasedAccessController>> configure(WebRouteInterceptor<InterceptingSecurityContext<Identity, RoleBasedAccessController>> interceptors) {
-		// Interceptors can be safely composed using ExchangeInterceptor.of()
+	public WebRouteInterceptor<SecurityContext.Intercepted<Identity, RoleBasedAccessController>> configure(WebRouteInterceptor<SecurityContext.Intercepted<Identity, RoleBasedAccessController>> interceptors) {
 		return interceptors
 			.intercept()
 			.path("/basic/**")
 			.interceptors(List.of(
-				SecurityInterceptor.of(
-					new BasicCredentialsExtractor(),
+				SecurityInterceptor.<LoginCredentials, PrincipalAuthentication, Identity, RoleBasedAccessController, SecurityContext.Intercepted<Identity, RoleBasedAccessController>, WebExchange<SecurityContext.Intercepted<Identity, RoleBasedAccessController>>>of(
+					new BasicCredentialsExtractor<>(),
 					new PrincipalAuthenticator<>(this.credentialsResolver, new LoginCredentialsMatcher<>())
 				),
 				AccessControlInterceptor.authenticated()
 			));
-
-		// In order to chain multiple interceptors using compose() or andThen(), we must make sure the Exchange type is a WebExchange, since SecurityInterceptor and AccessControlInterceptor uses parameterized Exchange type, we must then be explicit:
-		/*return interceptors
-			.intercept()
-				.path("/basic/**")
-				.interceptor(
-					SecurityInterceptor.<LoginCredentials, PrincipalAuthentication, Identity, RoleBasedAccessController, InterceptingSecurityContext<Identity, RoleBasedAccessController>, WebExchange<InterceptingSecurityContext<Identity, RoleBasedAccessController>>>of(
-						new BasicCredentialsExtractor(),
-						new PrincipalAuthenticator<>(this.credentialsResolver, new LoginCredentialsMatcher<>())
-					).andThen(AccessControlInterceptor.authenticated())
-				);*/
-
-		/*interceptors
-			.intercept()
-				.path("/basic/**")
-				.interceptor(ExchangeInterceptor.of(
-					SecurityInterceptor.<LoginCredentials, PrincipalAuthentication, Identity, RoleBasedAccessController, InterceptingSecurityContext<Identity, RoleBasedAccessController>, WebExchange<InterceptingSecurityContext<Identity, RoleBasedAccessController>>>of(
-						new BasicCredentialsExtractor(),
-						new PrincipalAuthenticator<>(this.credentialsResolver, new LoginCredentialsMatcher<>())
-					),
-					AccessControlInterceptor.authenticated()
-				));*/
 	}
 
 	@Override

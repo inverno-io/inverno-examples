@@ -1,0 +1,18 @@
+[
+{
+  "name":"org.apache.logging.log4j.Logger",
+  "methods":[{"name":"debug","parameterTypes":["java.lang.String","java.lang.Object"] }]
+},
+{
+  "name":"org.apache.logging.log4j.message.DefaultFlowMessageFactory",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.apache.logging.log4j.message.ReusableMessageFactory",
+  "methods":[{"name":"<init>","parameterTypes":[] }]
+},
+{
+  "name":"org.apache.logging.log4j.util.internal.DefaultObjectInputFilter",
+  "allPublicMethods":true
+}
+]
